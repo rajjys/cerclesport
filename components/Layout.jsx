@@ -4,7 +4,10 @@ import { Header } from '.'
 const Layout = ({children}) => {
     return (
         <>
-            <Header/>
+            <div className='bg-indigo-950 py-4'>
+                <Header/>
+            </div>
+            
             {children}    
         </>
       )
