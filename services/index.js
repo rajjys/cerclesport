@@ -4,7 +4,7 @@ const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 export const getAllGames = async () => {
 
     const query = gql`query MyQuery {
-        games(orderBy: dateAndTime_ASC) {
+        games(orderBy: dateAndTime_DESC, last: 50) {
           otTeam1
           otTeam2
           place
