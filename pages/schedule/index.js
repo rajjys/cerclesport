@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react'
 import { getAllGames } from '@/services';
 import { GameCard } from '@/components';
 import toHumanReadable from '@/utils/dateFormat';
+import DateCarousel from '@/components/DateCarousel';
 
 const Games = () => {
     const [games, setGames] = useState([]);
@@ -25,9 +26,8 @@ const Games = () => {
 
     return (
       <div className=''>
-        <div className='py-4 mb-2  bg-indigo-950 flex-row'>
-          {dateKeys.map((datekey, index) => <span className='p-2 px-4 mx-2 bg-indigo-900 rounded-full'><a href={`#${datekey}`}>{datekey}</a></span>
-          )}
+        <div className='py-4 mb-2  bg-indigo-950'>
+          <DateCarousel dateKeys={dateKeys}/>
         </div>
         { 
         dateKeys.map((dateKey, index) => {
