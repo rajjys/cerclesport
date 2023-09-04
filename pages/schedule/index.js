@@ -22,11 +22,11 @@ const Games = () => {
        acc[date].push(curr);
        return acc;
     }, {});  ///games array reduced to an object of key-value pair where the key is date from dateAndTime
-    const dateKeys = Object.keys(reducedGames);///Get all the dates as key array
+    const dateKeys = Object.keys(reducedGames).reverse();///Get all the dates as key array
 
     return (
       <div className=''>
-        <div className='py-4 mb-2  bg-indigo-950'>
+        <div className='py-4 mb-2  bg-indigo-950 top-1 sticky'>
           <DateCarousel dateKeys={dateKeys}/>
         </div>
         { 
