@@ -8,17 +8,8 @@ const Standings = () => {
     getAllGames().then((data) => setGames(data));
   }, []);
   if(games.length == 0) return <p>Loading</p> ///If has not loaded yet
-  const gamesbyTeams = getGamesByTeams(games);
-  ///console.log(gamesbyTeams);
-  const gamesByTeams = addWinLossEntries(gamesbyTeams);
-  Object.keys(gamesByTeams).forEach((team) => {
-    console.log(team + "\n-----------------------------------------");
-      gamesByTeams[team].map((game) => {
-        console.log(game.team1.name + " " + game.scoreTeam1 + " - " + game.scoreTeam2 + " " + game.team2.name);
-        console.log(team + " " + game.winOrLoss);
-      })
-  })
-
+  const gamesbyTeams = getGamesByTeams(games); ///Assigning games by each team
+  const gamesByTeams = addWinLossEntries(gamesbyTeams); ///Adding winOrLoss entry depending if the team owning the game won or lost
   return (
     <div>Standings</div>
   )
@@ -27,8 +18,8 @@ function getGamesByTeams( games ){
   ///create object to hold games by team
   return games.reduce((acc, curr) => {
     const {team1, team2} = curr;
-    const team1Name = team1.name;
-    const team2Name = team2.name;
+    const team1Name = team1.shortName;
+    const team2Name = team2.shortName;
     acc[team1Name] = acc[team1Name] || [];
     acc[team2Name] = acc[team2Name] || [];
     acc[team1Name].push(curr);
@@ -37,19 +28,23 @@ function getGamesByTeams( games ){
   }, {});
 }
 function addWinLossEntries( gamesByTeams ){
-    const teams = Object.keys(gamesByTeams);
-    
-    teams.forEach((team) => {
-      ///console.log(team + "\n-----------------------------------------");
-      gamesByTeams[team].map((game, index) => {
-        let winOrLoss = parseInt(game.scoreTeam1) > parseInt(game.scoreTeam2) ? (game.team1.name === team) : (game.team2.name === team);
-        winOrLoss = winOrLoss ? 'Win' : 'Loss';
-       /// console.log(game.team1.name + " " + game.scoreTeam1 + " - " + game.scoreTeam2 + " " + game.team2.name);
-      ///console.log(team + " " + winOrLoss);
-        game['winOrLoss'] = winOrLoss;
-        return game;
+    const games = Object.fromEntries(
+      Object.entries(gamesByTeams).map(([team, gamesByTeam]) => 
+          [team, gamesByTeam.map((game) => (
+            {...game, winOrLoss : parseInt(game.scoreTeam1) > parseInt(game.scoreTeam2) ? 
+                                          (game.team1.shortName === team ? "win" : "loss") : 
+                                          (game.team2.shortName === team ? "win" : "loss")}))])
+    );
+    /* const keys = Object.keys(games);
+    ///console.log("=======================TEAMS AND GAMES===========================");
+    keys.forEach((team) => {
+      console.log("\n\n---------------" + team + "----------------\n")
+      games[team].map((game) => {
+        console.log(game.team1.name + " " + game.scoreTeam1 + " - " + game.scoreTeam2 + " " + game.team2.name);
+        console.log(team + " " + game['winOrLoss']);
       })
     });
-    return gamesByTeams;
+    console.log(games);*/
+    return games;
 }
 export default Standings
