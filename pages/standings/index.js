@@ -10,8 +10,8 @@ const Standings = () => {
   if(games.length == 0) return <p>Loading</p> ///If has not loaded yet
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
-  const gamesAndTeamStats = addTeamStats(gamesAndPoints);
-  console.log(gamesAndPoints);
+  const gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team like Wins, Losses, Last5 streak,...
+  console.log(gamesWithTeamStats);
 
   return (
     <div>Standings</div>
@@ -49,6 +49,25 @@ function addWinLossEntries( gamesByTeams ){
 }
 
 function addTeamStats( gamesAndPoints ){
-  
+  const games = Object.fromEntries(
+    Object.entries(gamesAndPoints).map(([team, gamesByTeam]) => {
+      let points = 0; ///To track total points made from each game
+      let wins = 0; ///To track wins
+      let losses = 0; ///To track losses
+      let forfeits = 0; ////To tracks forfeits
+      let last5Streak = []; ///To track the last 5 games
+      return [team, [gamesByTeam.map((game) => {
+        points += game['points'];
+        if(game.winOrLoss == 'win') wins++;
+        else if(game.winOrLoss == 'loss' && game.gameState === "Forfeited") forfeits++;
+        else losses++;
+        last5Streak.push(game.winOrLoss);
+        if(last5Streak.length > 5) last5Streak.shift(); ///Keep the length to 5
+        return game;
+      }), {points, wins, losses, forfeits, streak: last5Streak}]];
+
+    })
+  );
+  return games;
 }
 export default Standings
