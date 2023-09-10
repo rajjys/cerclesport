@@ -1,0 +1,16 @@
+import React from 'react'
+import { last5Streak } from '.'
+
+const Last5Streak = ( { last5 } ) => {
+    console.log(last5);
+  return (
+    <div className='border border-gray-400 rounded-full flex flex-row'>
+      {last5.map((result) => {
+        let bg_color = (result === "win") ? "bg-green-600" : "bg-red-700";
+        return <div className={`${bg_color} p-2 rounded-full border border-gray-300`}/>;
+      })}
+    </div>
+  )
+}
+
+export default Last5Streak
