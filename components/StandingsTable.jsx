@@ -22,7 +22,7 @@ const StandingsTable = ( { standingsArray } ) => {
             </thead>
             <tbody>
                 {standingsArray.map((teamData, index) => {
-                    return <TeamStatsRow teamData={teamData} rank={index} />
+                    return <TeamStatsRow teamData={teamData} rank={index} key={index}/>
                 })}
             </tbody>
         </table>

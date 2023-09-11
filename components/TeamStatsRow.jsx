@@ -23,15 +23,15 @@ const TeamStatsRow = ( { teamData, rank } ) => {
           </div>
         </Link>
         </td>
-      <td className='px-6 text-center'>{stats.wins + stats.losses + stats.forfeits}</td>
-      <td className='px-6 text-center'>{stats.wins}</td>
-      <td className='px-6 text-center'>{stats.losses}</td>
-      <td className='px-6 text-center'>{stats.forfeits}</td>
-      <td className='px-6 text-center font-bold'>{stats.points}</td>
-      <td className='px-6 text-center'>{stats.pointsScored}</td>
-      <td className='px-6 text-center'>{stats.pointsConceided}</td>
-      <td className='px-6 text-center'>{stats.pointsScored -  stats.pointsConceided}</td>
-      <td className='px-6 text-center'><Last5Streak last5={stats.last5Streak} /></td>
+      <td className='px-6 text-center text-black'>{stats.wins + stats.losses + stats.forfeits}</td>
+      <td className='px-6 text-center text-black'>{stats.wins}</td>
+      <td className='px-6 text-center text-black'>{stats.losses}</td>
+      <td className='px-6 text-center text-black'>{stats.forfeits}</td>
+      <td className='px-6 text-center font-bold text-black'>{stats.points}</td>
+      <td className='px-6 text-center text-black'>{stats.pointsScored}</td>
+      <td className='px-6 text-center text-black'>{stats.pointsConceided}</td>
+      <td className='px-6 text-center text-black'>{stats.pointsScored -  stats.pointsConceided}</td>
+      <td className='px-6 text-center text-black'><Last5Streak last5={stats.last5Streak} /></td>
     </tr>
   )
 }

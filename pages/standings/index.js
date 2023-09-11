@@ -101,17 +101,17 @@ function addTeamStats( gamesAndPoints ){
 function sortGamesByStats(gamesWithTeamStats){
   ////return an array of objects with index being the rank
   return Object.entries(gamesWithTeamStats).sort((teamA, teamB) => {
-    let index = teamB[1][1].points - teamA[1][1].points;
-    if (index == 0){ ///if points equal check who has more wins
-      index = teamB[1][1].wins - teamA[1][1].wins;
-        if(index == 0){ /// if same wins, check points differentials
-          index = (teamB[1][1].pointsScored - teamB[1][1].pointsConceided) - 
+    let rank = teamB[1][1].points - teamA[1][1].points;
+    if (rank == 0){ ///if points equal check who has more wins
+      rank = teamB[1][1].wins - teamA[1][1].wins;
+        if(rank == 0){ /// if same wins, check points differentials
+          rank = (teamB[1][1].pointsScored - teamB[1][1].pointsConceided) - 
                   (teamA[1][1].pointsScored - teamA[1][1].pointsConceided);
                   ///This should give something, but first we need to check
                   ///team record facing each other
         }
       }
-    return index;
+    return rank;
   });
 }
 export default Standings

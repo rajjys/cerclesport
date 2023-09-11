@@ -25,14 +25,14 @@ const responsive = {
 
 const DateCarousel = ({ dateKeys }) => {
   return (
-    <div className='gd-carousel-wrapper mx-8 px-4'>
+    <div className='gd-carousel-wrapper mx-10 px-4'>
         <Carousel
             responsive={responsive}
             infinite={false}
             removeArrowOnDeviceType={["tablet", "mobile"]}
             className="gd-carousel">
                 {dateKeys.map((datekey, index) => 
-                        <span className='p-4 bg-indigo-900 rounded-full dateSelector'>
+                        <span className='p-4 bg-indigo-900 rounded-full text-white dateSelector' key={index}>
                             <a href={`#${datekey}`}>{datekey}</a>
                         </span>)}
         </Carousel>
