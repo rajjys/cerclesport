@@ -66,7 +66,14 @@ function addTeamStats( gamesAndPoints ){
       let last5Streak = []; ///To track the last 5 games
       let pointsScored = 0;
       let pointsConceided = 0;
-      let logoLink = "";
+      let teamSlug = "";
+      let teamLogo = "";
+      team === gamesByTeam[0].team1.name ? 
+                    (teamLogo = gamesByTeam[0].team1.photo.url,
+                      teamSlug = gamesByTeam[0].team1.slug):
+                    (teamLogo = gamesByTeam[0].team2.photo.url,
+                      teamSlug = gamesByTeam[0].team2.slug);
+      
       
       return [team, [gamesByTeam.map((game) => {
         points += game['points'];
@@ -86,7 +93,7 @@ function addTeamStats( gamesAndPoints ){
                 (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2);
         }
           return game;
-      }), {points, wins, losses, forfeits, last5Streak, pointsScored, pointsConceided}]];
+      }), {points, wins, losses, forfeits, last5Streak, pointsScored, pointsConceided, teamLogo, teamSlug}]];
     })
   );
   return games;
