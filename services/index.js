@@ -46,3 +46,17 @@ export const getAllGames = async () => {
       ////console.log(result['games']);
       return result['games'];
 }
+export const getGamesByTeam = async ( team ) => {
+
+  const query = gql``;
+  const result = await request(graphqlAPI, query);
+      ////console.log(result['games']);
+      return result['games'];
+}
+export const getTeamProfile = async ( team ) => {
+
+  const query = gql``;
+  const result = await request(graphqlAPI, query);
+      ////console.log(result['games']);
+      return result;
+}

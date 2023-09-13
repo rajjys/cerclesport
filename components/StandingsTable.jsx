@@ -6,7 +6,7 @@ const StandingsTable = ( { standingsArray } ) => {
     <div className='my-4'>
         <table>
             <thead>
-                <tr className='text-gray-500 text-sm'>
+                <tr className='text-gray-500 text-sm border-b border-gray-300'>
                     <th></th>
                     <th></th>
                     <th>MJ</th>
