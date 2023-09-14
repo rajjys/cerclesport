@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import { getGamesByTeam } from '@/services';
 
@@ -8,9 +8,9 @@ const Team = () => {
     const [games, setGames] = useState([]);///Team games
     const [profile, setProfile] = useState(); ///Team profile
   useEffect(() => {
-    let team = slug;
-    getGamesByTeam(team).then((data) => setGames(data));
-    getTeamProfile(team).then((data) => setProfile(data));
+    ///let team = slug;
+    ///getGamesByTeam(team).then((data) => setGames(data));
+    ///getTeamProfile(team).then((data) => setProfile(data));
   }, []);
   if(games.length == 0 || profile.length == 0) return <p>Chargement...</p>
   return (
