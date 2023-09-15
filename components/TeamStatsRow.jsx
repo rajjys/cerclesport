@@ -19,7 +19,7 @@ const TeamStatsRow = ( { teamData, rank } ) => {
                     className='align-middle rounded-full'
                     src={stats.teamLogo}
                   />
-            <span className='pl-2'>{teamData[0]}</span>
+            <span className='pl-2' style={{overflow: 'hidden', whiteSpace: 'nowrap'}}>{teamData[0]}</span>
           </div>
         </Link>
         </td>

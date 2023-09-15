@@ -13,7 +13,6 @@ const Standings = () => {
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
   const gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team like Wins, Losses, Last5 streak,...
   const sortedGames = sortGamesByStats(gamesWithTeamStats); ///Returns the equivalent array, sorted by points, wins or points scored difference
-  ///console.log(sortedGames);
   return (
     <div>
       <div className='text-center font-bold text-xl py-4 text-indigo-900'>
