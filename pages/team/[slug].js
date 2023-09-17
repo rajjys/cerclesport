@@ -8,13 +8,15 @@ import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';
 
 const Team = () => {
     let router = useRouter()
-    const { slug } = router.query;
     const [games, setGames] = useState([]);///Team games
     const [profile, setProfile] = useState(); ///Team profile
   useEffect(() => {
-    getTeamProfile(slug).then((data) => setProfile(data));
-    getGamesByTeam(slug).then((data) => setGames(data))
-  }, []);
+    if (router.isReady){
+      const { slug } = router.query;
+      getTeamProfile(slug).then((data) => setProfile(data));
+      getGamesByTeam(slug).then((data) => setGames(data))
+    }  
+  }, [router.isReady]);
   if(games.length == 0 || profile == undefined) return <p>Chargement...</p>
 
   const reducedGames = games.reduce((acc, curr) => {
