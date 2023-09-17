@@ -1,7 +1,6 @@
 import React from 'react'
-import { last5Streak } from '.'
 
-const Last5Streak = ( { last5 } ) => {
+const Last5Streak = ({ last5 }) => {
   return (
     <div className='border border-gray-400 rounded-full flex'>
       {last5.map((result, index) => {

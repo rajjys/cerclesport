@@ -44,7 +44,7 @@ const Team = () => {
                   unoptimized
                   width="120"
                   height="120"
-                  className='align-middle inline'
+                  className='align-middle inline rounded rounded-full'
                   src={profile.photo.url}
                 />
             <div className='text-white px-4'>
@@ -53,17 +53,24 @@ const Team = () => {
                 <span className='text-gray-400 font-medium'>{`(${profile.shortName})`}</span>
               </div>
               <div className='flex text-lg'>
-                <span className='px-2'>Points: {stats.points}</span>
-                <span className='px-2'>Joues: {stats.wins + stats.losses + stats.forfeits}</span>
-                <span className='px-2'>Victoires: {stats.wins}</span>
-                <span className='px-2'>Defaites: {stats.losses}</span>
-                <span className='px-2'>Forfaits: {stats.forfeits}</span>
-                <span className='px-2'>PPM: {(stats.pointsScored/(stats.wins + stats.losses + stats.forfeits)).toFixed(1)}</span>
+                <span className='px-2'>Points: <span className='font-bold'>{stats.points}</span></span>
+                <span className='ml-6'>R:<span className='px-2 font-bold'>{stats.wins}-{stats.losses}-{stats.forfeits}</span></span>
               </div>
-            </div>
-        
+            </div>   
         </div>
-        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES</span>
+        <div className='border-b border-gray-300 pb-6 mb-6 mx-2'>
+        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>STATISTIQUES {profile.name}</span>
+          <table className='text-left text-lg mx-auto'>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Matchs Joues</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.wins}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Victoires</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.losses}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Defaites</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.losses}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Forfaits</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.forfeits}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Points Marques</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.pointsScored}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Points Encaisses</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.pointsConceided}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Points Par Match</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{(stats.pointsScored/(stats.wins + stats.losses + stats.forfeits)).toFixed(1)}</td></tr>
+          </table>
+        </div>
+        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES {profile.name}</span>
           { 
             dateKeys.map((dateKey, index) => {
                 return <div key={index} id={dateKey}>
@@ -75,9 +82,8 @@ const Team = () => {
                       </div>
             })
               }
-      </div>
-        
-      </div>
+      </div>   
+    </div>
   )
 }
 function getTeamStats( games ){

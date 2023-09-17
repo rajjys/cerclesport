@@ -46,8 +46,6 @@ export function getGamesByTeams( games ){
                         teamSlug = gamesByTeam[0].team1.slug):
                       (teamLogo = gamesByTeam[0].team2.photo.url,
                         teamSlug = gamesByTeam[0].team2.slug);
-        
-        
         return [team, [gamesByTeam.map((game) => {
           points += game['points'];
           if(game.winOrLoss === 'win') wins++;
@@ -66,7 +64,7 @@ export function getGamesByTeams( games ){
                   (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2);
           }
             return game;
-        }), {points, wins, losses, forfeits, last5Streak, pointsScored, pointsConceided, teamLogo, teamSlug}]];
+        }), {points, wins, losses, forfeits, last5Streak: [...last5Streak].reverse(), pointsScored, pointsConceided, teamLogo, teamSlug}]];
       })
     );
     return games;
