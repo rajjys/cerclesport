@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "autoprefixer": "10.4.15",
     "graphql": "^16.8.0",
     "graphql-request": "^6.1.0",
