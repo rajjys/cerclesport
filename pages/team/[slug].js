@@ -50,7 +50,7 @@ const Team = () => {
             <div className='text-white px-4'>
               <div className='text-3xl my-2'>
                 <span className='font-bold'>{profile.name}</span>
-                <span className='text-gray-400 font-medium'>{`(${profile.shortName})`}</span>
+                <span className='text-gray-400 font-medium'>{` (${profile.shortName})`}</span>
               </div>
               <div className='flex text-lg'>
                 <span className='px-2'>Points: <span className='font-bold'>{stats.points}</span></span>
@@ -61,8 +61,8 @@ const Team = () => {
         <div className='border-b border-gray-300 pb-6 mb-6 mx-2'>
         <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>STATISTIQUES {profile.name}</span>
           <table className='text-left text-lg mx-auto'>
-            <tr className='border-b border-gray-300'><td className='pr-24'>Matchs Joues</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.wins}</td></tr>
-            <tr className='border-b border-gray-300'><td className='pr-24'>Victoires</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.losses}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Matchs Joues</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.wins + stats.losses + stats.forfeits}</td></tr>
+            <tr className='border-b border-gray-300'><td className='pr-24'>Victoires</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.wins}</td></tr>
             <tr className='border-b border-gray-300'><td className='pr-24'>Defaites</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.losses}</td></tr>
             <tr className='border-b border-gray-300'><td className='pr-24'>Forfaits</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.forfeits}</td></tr>
             <tr className='border-b border-gray-300'><td className='pr-24'>Points Marques</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.pointsScored}</td></tr>

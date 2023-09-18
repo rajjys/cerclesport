@@ -1,45 +1,49 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Link from 'next/link'
 
 const Header = () => {
-  return (
-    <div className='container mx-auto px-0  mb-2'>
-        <div className='flex justify-between  w-full inline-block'>
-            <div className='md:float-left block'>
-                <Link href='/'>
-                    <span className='p-2 font-bold text-4xl text-white'>
-                        Cercle Sportif
-                    </span>
-                </Link>
+    const navRef = useRef(null);
+    function toggleMenu() {
+        console.log("clicked");
+        navRef.current.classList.toggle('hidden');
+        navRef.current.classList.toggle('w-full');
+        navRef.current.classList.toggle('h-screen');
+}
+  return ( 
+    <div className="w-full h-16 bg-indigo-600 drop-shadow-lg">
+        <div className="container px-4 md:px-0 h-full mx-auto flex justify-between items-center">
+            <a className="text-yellow-400 text-xl font-bold italic" href="https://www.kindacode.com">KINDA<span
+                    className="text-white">CODE</span>
+            </a>
+            <ul ref={navRef} className="hidden fixed top-0 right-0 px-10 py-16 bg-gray-800 z-50
+                md:relative md:flex md:p-0 md:bg-transparent md:flex-row md:space-x-6">
+                <li className="md:hidden z-90 fixed top-4 right-6">
+                    <a href="" className="text-right text-white text-4xl" onClick={toggleMenu}>&times;</a>
+                </li>
+                <li>
+                    <a className="text-white opacity-70 hover:opacity-100 duration-300" href="#">Home</a>
+                </li>
+                <li>
+                    <a className="text-white opacity-70 hover:opacity-100 duration-300" href="#">Something</a>
+                </li>
+                <li>
+                    <a className="text-white opacity-70 hover:opacity-100 duration-300" href="#">Forums</a>
+                </li>
+                <li>
+                    <a className="text-white opacity-70 hover:opacity-100 duration-300" href="#">About</a>
+                </li>
+                <li>
+                    <a className="text-white opacity-70 hover:opacity-100 duration-300" href="#">Contact</a>
+                </li>
+            </ul>
+            <div className="flex items-center md:hidden">
+                <button className="text-white text-4xl font-bold opacity-70 hover:opacity-100 duration-300"
+                    onClick={toggleMenu}>
+                    &#9776;
+                </button>
             </div>
-            <div className='flex flex-col lg:block lg:float-left '>
-                        <Link href="/schedule/">
-                            <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>
-                                Matchs
-                            </span>
-                        </Link>
-                        <Link href="/standings/">
-                            <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>
-                                Classement
-                            </span>
-                        </Link>
-                        <Link href="/statistics/">
-                            <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>
-                                Statistiques
-                            </span>
-                        </Link>
-                        <Link  href="/videos/">
-                            <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>
-                                Videos
-                            </span>
-                        </Link>
-                        <Link  href="/about/">
-                            <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>
-                                Contacts
-                            </span>
-                        </Link>
-            </div>
-        </div>
+
+    </div>
     </div>
   )
 }
