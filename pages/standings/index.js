@@ -13,17 +13,18 @@ const Standings = () => {
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
   const gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team like Wins, Losses, Last5 streak,...
-  const sortedGames = sortTeamsByStats(gamesWithTeamStats); ///Returns the equivalent array, sorted by points, wins or points scored difference
+  const sortedGames = sortTeamsByStats(gamesWithTeamStats); ///Returns the equivalent array, sorted by points, wins or points scored difference 
   return (
-    <div>
+    <div className='px-4 flex flex-col'>
       <div className='text-center font-bold text-xl py-4 text-indigo-900'>
         EUBAGO 2022-2023 CLASSEMENT SAISON REGULIERE 
       </div>
-      <div className='grid place-items-center'>
-        <StandingsTable standingsArray={sortedGames}/>
+      <div className='overflow-auto'>
+          <StandingsTable standingsArray={sortedGames}/>
       </div>
     </div>
   )
+ 
 }
 
 export default Standings

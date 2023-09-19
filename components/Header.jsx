@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import { Navbar,MobileNav,Typography,Button,IconButton} from "@material-tailwind/react";
 import Link from "next/link";
  
 const Header = () => {
-  const [openNav, setOpenNav] = React.useState(false);
+  const [openNav, setOpenNav] = useState(false);
  
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
