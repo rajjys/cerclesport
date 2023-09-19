@@ -86,7 +86,4 @@ const Team = () => {
     </div>
   )
 }
-function getTeamStats( games ){
-
-}
 export default Team
