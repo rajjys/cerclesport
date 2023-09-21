@@ -41,7 +41,7 @@ const Header = () => {
   );
  
   return (
-    <Navbar className="w-full py-2 lg:px-8 lg:py-4 bg-indigo-950">
+    <Navbar className="w-full py-2 px-4 lg:px-8 lg:py-4 bg-indigo-950">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -50,12 +50,12 @@ const Header = () => {
           Cercle Sport
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
-          <span>Buy Now</span>
+        <Button variant="gradient" size="sm" className="hidden lg:inline-block mb-2 px-6 border rounded-full border-yellow-300 bg-indigo-900 w-auto">
+          <span>Login</span>
         </Button>
         <IconButton
           variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+          className="h-6 w-6 text-inherit lg:hover:bg-transparent lg:focus:bg-transparent lg:active:bg-transparent lg:hidden"
           ripple={false}
           onClick={() => setOpenNav(!openNav)}
         >
@@ -94,8 +94,8 @@ const Header = () => {
       <MobileNav open={openNav}>
         <div className="container mx-auto ">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Buy Now</span>
+          <Button variant="gradient" size="sm" fullWidth className="mb-2 ml-2 px-6 border rounded-full border-yellow-300 bg-indigo-900 inline-block w-auto">
+            <span>Login</span>
           </Button>
         </div>
       </MobileNav>

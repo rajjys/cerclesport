@@ -1,4 +1,4 @@
-///import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import { getGamesByTeam, getTeamProfile } from '@/services';
 import Image from 'next/image';
@@ -59,8 +59,8 @@ const Team = () => {
             </div>   
         </div>
         <div className='border-b border-gray-300 pb-6 mb-6 mx-2'>
-        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>STATISTIQUES {profile.name}</span>
-          <table className='text-left text-lg mx-auto'>
+        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>STATISTIQUES: <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 rounded-full'>{profile.name}</span></span>
+          <table className='text-left text-lg text-black mx-auto'>
             <tr className='border-b border-gray-300'><td className='pr-24'>Matchs Joues</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.wins + stats.losses + stats.forfeits}</td></tr>
             <tr className='border-b border-gray-300'><td className='pr-24'>Victoires</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.wins}</td></tr>
             <tr className='border-b border-gray-300'><td className='pr-24'>Defaites</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.losses}</td></tr>
@@ -70,7 +70,7 @@ const Team = () => {
             <tr className='border-b border-gray-300'><td className='pr-24'>Points Par Match</td><td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{(stats.pointsScored/(stats.wins + stats.losses + stats.forfeits)).toFixed(1)}</td></tr>
           </table>
         </div>
-        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES {profile.name}</span>
+        <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES: <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 rounded-full'>{profile.name}</span></span>
           { 
             dateKeys.map((dateKey, index) => {
                 return <div key={index} id={dateKey}>

@@ -19,8 +19,19 @@ const Standings = () => {
       <div className='text-center font-bold text-xl py-4 text-indigo-900'>
         EUBAGO 2022-2023 CLASSEMENT SAISON REGULIERE 
       </div>
-      <div className='grid content-center overflow-auto'>
+      <div className='grid place-items-center overflow-auto mb-4'>
           <StandingsTable standingsArray={sortedGames}/>
+      </div>
+      <div className='text-xs text-black flex flex-wrap justify-between mb-4 pb-4 border-b border-gray-300'>
+        <span className='px-2 whitespace-nowrap'><b>MJ</b>: Matchs Joués</span>
+        <span className='px-2 whitespace-nowrap'><b>V</b>: Victoires</span>
+        <span className='px-2 whitespace-nowrap'><b>D</b>: Defaites</span>
+        <span className='px-2 whitespace-nowrap'><b>F</b>: Forfaits</span>
+        <span className='px-2 whitespace-nowrap'><b>PTS</b>: Points</span>
+        <span className='px-2 whitespace-nowrap'><b>POUR</b>: Points marqués</span>
+        <span className='px-2 whitespace-nowrap'><b>CONTRE</b>: Points Encaissés</span>
+        <span className='px-2 whitespace-nowrap'><b>DIFF</b>: difference des points</span>
+        <span className='px-2 whitespace-nowrap'><b>LAST5</b>: 5 derniers matchs</span>
       </div>
     </div>
   )

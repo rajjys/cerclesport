@@ -26,7 +26,7 @@ const Games = () => {
 
     return (
       <div className=''>
-        <div className='py-4 mb-2  bg-indigo-950 top-1 sticky'>
+        <div className='py-4 mb-2  bg-indigo-950 top-12 sticky'>
           <DateCarousel dateKeys={dateKeys}/>
         </div>
         { 
