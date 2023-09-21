@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+///import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
 import { getGamesByTeam, getTeamProfile } from '@/services';
 import Image from 'next/image';

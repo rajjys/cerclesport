@@ -7,28 +7,35 @@ const Header = () => {
  
   useEffect(() => {
     window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false),
-    );
+        "resize",
+        () => window.innerWidth >= 960 && setOpenNav(false),
+      );
+      return window.removeEventListener(
+        "resize",
+        () => window.innerWidth >= 960 && setOpenNav(false),
+      );
   }, []);
- 
+  const handleClick = () => {
+    if(openNav)
+    setOpenNav(false);
+  };
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-black">
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-        <Link href="/schedule/">
+        <Link href="/schedule/" onClick={handleClick}>
             <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Matchs</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-        <Link href="/standings/"><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Classement</span></Link>
+        <Link href="/standings/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Classement</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-        <Link href="/statistics/"><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Statistiques</span></Link>
+        <Link href="/statistics/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Statistiques</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-        <Link  href="/videos/"><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Videos</span></Link>
+        <Link  href="/videos/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Videos</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-        <Link  href="/about/"><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Contacts</span></Link>
+        <Link  href="/about/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Contacts</span></Link>
       </Typography>
     </ul>
   );

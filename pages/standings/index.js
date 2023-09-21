@@ -19,7 +19,7 @@ const Standings = () => {
       <div className='text-center font-bold text-xl py-4 text-indigo-900'>
         EUBAGO 2022-2023 CLASSEMENT SAISON REGULIERE 
       </div>
-      <div className='overflow-auto'>
+      <div className='grid content-center overflow-auto'>
           <StandingsTable standingsArray={sortedGames}/>
       </div>
     </div>
