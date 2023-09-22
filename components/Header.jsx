@@ -22,6 +22,9 @@ const Header = () => {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-black">
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
+        <Link href="/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Accueil</span></Link>
+      </Typography>
+      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
         <Link href="/schedule/" onClick={handleClick}>
             <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Matchs</span></Link>
       </Typography>
@@ -30,6 +33,9 @@ const Header = () => {
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
         <Link href="/statistics/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Statistiques</span></Link>
+      </Typography>
+      <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
+        <Link href="/team/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Equipes</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
         <Link  href="/videos/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Videos</span></Link>

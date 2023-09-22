@@ -105,3 +105,43 @@ export const getTeamProfile = async ( slug ) => {
   const result = await request(graphqlAPI, query, { slug });
       return result['team'];
 }
+export const getGameInfo = async ( slug ) => {
+  const query = gql`
+  query GameInfoQuery($slug:String!){
+    game(where: {slug: $slug}) {
+      dateAndTime
+      gameState
+      otTeam1
+      otTeam2
+      place
+      q1Team1
+      q1Team2
+      q2Team1
+      q2Team2
+      q3Team1
+      q3Team2
+      q4Team1
+      q4Team2
+      scoreTeam2
+      scoreTeam1
+      team1 {
+        name
+        photo {
+          url(transformation: {image: {resize: {height: 90, width: 90}}})
+        }
+        shortName
+        slug
+      }
+      team2 {
+        name
+        photo {
+          url(transformation: {image: {resize: {height: 90, width: 90}}})
+        }
+        shortName
+        slug
+      }
+    }
+  }`;
+  const result = await request(graphqlAPI, query, { slug });
+      return result['game'];
+}

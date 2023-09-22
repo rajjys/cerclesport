@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import { getAllGames } from '@/services';
 import { GameCard } from '@/components';
-import toHumanReadable from '@/utils/dateFormat';
 import DateCarousel from '@/components/DateCarousel';
+import { toHumanReadable } from '@/utils/dateFormat';
 
 const Games = () => {
     const [games, setGames] = useState([]);

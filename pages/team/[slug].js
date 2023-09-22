@@ -17,6 +17,7 @@ const Team = () => {
       getGamesByTeam(slug).then((data) => setGames(data))
     }  
   }, [router.isReady]);
+  if(profile == null) return <p>Equipe Introuvable</p>
   if(games.length == 0 || profile == undefined) return <p>Chargement...</p>
 
   const reducedGames = games.reduce((acc, curr) => {
@@ -34,7 +35,7 @@ const Team = () => {
   const stats = gamesWithStats[profile.name][1];
   return (
     <div>
-      <div className='py-4 bg-indigo-950 top-12 sticky'>
+      <div className='py-4 bg-indigo-950 top-12 lg:top-16 sticky'>
           <DateCarousel dateKeys={dateKeys}/>
       </div>
       <div>

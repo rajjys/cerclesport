@@ -3,10 +3,10 @@ import React from 'react'
 import Image from 'next/image';
 
 const GameCard = ({ game }) => {
-  if(game.length == 0) return <p>Loading</p>;
+  
   const winner = game.scoreTeam1 < game.scoreTeam2;
   return (
-    <div className='rounded-md col-span-2 md:col-span-1 mx-2 bg-white text-gray-700 border border-gray-300'>
+    <div className='rounded-md col-span-2 md:col-span-1 mx-2 bg-white text-gray-700 border border-gray-300 hover:border-red-500 hover:bg-gray-100 transition duration-300 ease-in-out '>
       <Link href={`/game/${game.slug}`}>
         <div className='flex p-6'>
           <div className='flex flex-col md:w-3/4 text-lg text-indigo-900 font-semibold border-r border-gray-300 pr-6'>
