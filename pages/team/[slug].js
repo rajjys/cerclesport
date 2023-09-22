@@ -34,7 +34,7 @@ const Team = () => {
   const stats = gamesWithStats[profile.name][1];
   return (
     <div>
-      <div className='py-4 bg-indigo-950 top-1 sticky'>
+      <div className='py-4 bg-indigo-950 top-12 sticky'>
           <DateCarousel dateKeys={dateKeys}/>
       </div>
       <div>

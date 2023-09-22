@@ -6,15 +6,23 @@ const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
-    items: 12
+    items: 12, slidesToSlide: 3
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 8
+    items: 8, slidesToSlide: 2
+  },
+  laptop: {
+    breakpoint: { max: 1024, min: 768 },
+    items: 6
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 768, min: 640 },
     items: 5
+  },
+  rotate: {
+    breakpoint: { max: 640, min: 464 },
+    items: 4
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
@@ -25,13 +33,13 @@ const responsive = {
 
 const DateCarousel = ({ dateKeys }) => {
   return (
-    <div className='gd-carousel-wrapper px-4'>
+    <div className='px-4'>
         <Carousel
             responsive={responsive}
             infinite={false}
-            className="gd-carousel">
+            className="px-4">
                 {dateKeys.map((datekey, index) => 
-                        <span className='p-4 bg-indigo-900 rounded-full text-white whitespace-nowrap mx-2 dateSelector' key={index}>
+                        <span className='px-4 bg-indigo-900 border border-red-500 rounded-full text-white text-xs sm:text-sm md:text-base whitespace-nowrap' key={index}>
                             <a href={`#${datekey}`}>{datekey}</a>
                         </span>)}
         </Carousel>
