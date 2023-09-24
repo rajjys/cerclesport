@@ -7,7 +7,7 @@ const TeamStatsRow = ( { teamData, rank } ) => {
   const stats = teamData[1][1];
   return (
     <tr className='p-2 text-sm md:text-md lg:text-lg border-b border-gray-300  hover:bg-green-300 transition duration-300 ease-in-out'>
-      <td className='font-bold text-indigo-900 pl-2 pr-9 py-2 border-r border-gray-300 sticky left-0 z-10 bg-white hover:bg-green-300 transition duration-300 ease-in-out'>
+      <td className='font-bold text-indigo-900 pl-2 pr-4 py-2 border-r border-gray-300 sticky left-0 z-10 bg-white hover:bg-green-300 transition duration-300 ease-in-out'>
         <Link href={`team/${stats.teamSlug}`}>
           <div className='flex'>
             <span>{rank + 1}</span>

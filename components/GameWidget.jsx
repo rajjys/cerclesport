@@ -22,7 +22,7 @@ const GameWidget = ( {gameInfo} ) => {
                             <th className='px-2 border-l border-gray-300'>T</th>
                           </tr>
                           <tr>
-                            <td className='px-2 font-bold border-r border-gray-300'>{gameInfo.team1.shortName}</td>
+                            <td className='pr-4 pl-2 font-bold border-r border-gray-300'>{gameInfo.team1.shortName}</td>
                             <td>{gameInfo.q1Team1}</td>
                             <td>{gameInfo.q2Team1}</td>
                             <td>{gameInfo.q3Team1}</td>
@@ -31,7 +31,7 @@ const GameWidget = ( {gameInfo} ) => {
                             <td className='font-bold border-l border-gray-300'>{gameInfo.scoreTeam1}</td>
                           </tr>
                           <tr>
-                            <td className='font-bold border-r border-gray-300'>{gameInfo.team2.shortName}</td>
+                            <td className='font-bold border-r border-gray-300 pr-4 pl-2'>{gameInfo.team2.shortName}</td>
                             <td>{gameInfo.q1Team2}</td>
                             <td>{gameInfo.q2Team2}</td>
                             <td>{gameInfo.q3Team2}</td>
@@ -64,7 +64,7 @@ const GameWidget = ( {gameInfo} ) => {
           <span className={`${textColor1} text-4xl`}>{gameInfo.scoreTeam1}</span>
           <span className='font-bold'>{winOrLoss && "<"}</span>         
         </div>
-        <div className='border border-gray-300'>
+        <div className=''>
           <span className='px-4 md:hidden text-gray-600 font-bold'>--</span>
           <span className='hidden md:inline'>{scoreBoard}</span>
         </div>
@@ -84,7 +84,7 @@ const GameWidget = ( {gameInfo} ) => {
         </div>
         
     </div>
-    <div className='md:hidden bg-white text-black flex justify-center items-center py-2 my-2'>{scoreBoard}</div>
+    <div className='md:hidden bg-white text-black flex justify-center items-center py-2 border-t border-gray-300'>{scoreBoard}</div>
     </div>
     
   )

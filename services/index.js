@@ -113,7 +113,6 @@ export const getGameInfo = async ( slug ) => {
       gameState
       otTeam1
       otTeam2
-      place
       q1Team1
       q1Team2
       q2Team1
@@ -140,7 +139,17 @@ export const getGameInfo = async ( slug ) => {
         shortName
         slug
       }
-    }
+      lineup1
+      lineup2
+      stadium {
+        city
+        capacity
+        name
+        image {
+          url(transformation: {image: {resize: {height: 736, width: 1024, fit: scale}}})
+        }
+      }
+    }  
   }`;
   const result = await request(graphqlAPI, query, { slug });
       return result['game'];

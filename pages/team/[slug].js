@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { getGamesByTeam, getTeamProfile } from '@/services';
 import Image from 'next/image';
 import { DateCarousel, GameCard } from '@/components';
-import toHumanReadable from '@/utils/dateFormat';
 import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';
+import { toHumanReadable } from '@/utils/dateFormat';
 
 const Team = () => {
     let router = useRouter()
