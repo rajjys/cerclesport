@@ -9,11 +9,11 @@ const responsive = {
     items: 12, slidesToSlide: 3
   },
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 8, slidesToSlide: 2
+    breakpoint: { max: 3000, min: 1180 },
+    items: 9, slidesToSlide: 2
   },
   laptop: {
-    breakpoint: { max: 1024, min: 768 },
+    breakpoint: { max: 1180, min: 768 },
     items: 6
   },
   tablet: {

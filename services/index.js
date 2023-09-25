@@ -140,13 +140,16 @@ export const getGameInfo = async ( slug ) => {
         slug
       }
       lineup1
+      coachTeam1
       lineup2
+      coachTeam2
+      referee
       stadium {
         city
         capacity
         name
         image {
-          url(transformation: {image: {resize: {height: 736, width: 1024, fit: scale}}})
+          url(transformation: {image: {resize: {height: 280, width: 470, fit: scale}}})
         }
       }
     }  

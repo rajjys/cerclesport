@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image';
-import toHumanReadable, { formatMultiple } from '@/utils/dateFormat';
+import { formatMultiple } from '@/utils/dateFormat';
+import Link from 'next/link';
 const GameWidget = ( {gameInfo} ) => {
 
   const gamePlayed = gameInfo.gameState == "Terminated";
@@ -51,8 +52,10 @@ const GameWidget = ( {gameInfo} ) => {
     <div>
       <div className='bg-white text-black flex justify-center items-center py-2 overflow-auto'>
         <div className='flex items-center text-xl font-bold px-2 text-indigo-950'>
-          <span className='hidden md:inline whitespace-nowrap px-2'>{gameInfo.team1.name}</span>
-          <span className='md:hidden px-2'>{gameInfo.team1.shortName}</span>
+          <Link href={`/team/${gameInfo.team1.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
+            <span className='hidden md:inline whitespace-nowrap'>{gameInfo.team1.name}</span>
+            <span className='md:hidden'>{gameInfo.team1.shortName}</span>
+          </Link>
           <Image
                   alt={gameInfo.team1.shortName}
                   unoptimized
@@ -65,7 +68,7 @@ const GameWidget = ( {gameInfo} ) => {
           <span className='font-bold'>{winOrLoss && "<"}</span>         
         </div>
         <div className=''>
-          <span className='px-4 md:hidden text-gray-600 font-bold'>--</span>
+          <span className='px-4 md:hidden text-gray-600 font-bold'>-</span>
           <span className='hidden md:inline'>{scoreBoard}</span>
         </div>
         <div className='flex items-center text-xl font-bold px-2 text-indigo-950'>
@@ -79,8 +82,11 @@ const GameWidget = ( {gameInfo} ) => {
                       className='align-middle inline rounded-full'
                       src={gameInfo.team2.photo.url}
                     />
-            <span className='md:hidden px-2'>{gameInfo.team2.shortName}</span>
-            <span className='hidden md:inline whitespace-nowrap px-2'>{gameInfo.team2.name}</span>
+            <Link href={`/team/${gameInfo.team2.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
+              <span className='md:hidden'>{gameInfo.team2.shortName}</span>
+              <span className='hidden md:inline whitespace-nowrap'>{gameInfo.team2.name}</span>
+            </Link>
+            
         </div>
         
     </div>
