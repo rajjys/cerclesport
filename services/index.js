@@ -90,6 +90,21 @@ export const getGamesByTeam = async ( slug ) => {
   const result = await request(graphqlAPI, query, {slug});
       return result['games'];
 }
+export const getAllTeams = async () => {
+  const query = gql`
+      query TeamsQuery {
+        teams(last: 50, orderBy: name_ASC){
+          name
+          photo {
+            url(transformation: {image: {resize: {height: 60, width: 60}}})
+          }
+          slug
+          shortName
+        }
+      }`
+      const result = await request(graphqlAPI, query);
+      return result['teams'];
+}
 export const getTeamProfile = async ( slug ) => {
   const query = gql`
       query GetProfile($slug:String!){
