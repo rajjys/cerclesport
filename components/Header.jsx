@@ -37,10 +37,10 @@ const Header = () => {
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
         <Link href="/team/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Equipes</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden">
         <Link  href="/videos/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Videos</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden">
         <Link  href="/about/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Contacts</span></Link>
       </Typography>
     </ul>

@@ -6,10 +6,10 @@ const GameCard = ({ game }) => {
   
   const winner = game.scoreTeam1 < game.scoreTeam2;
   return (
-    <div className='rounded-md col-span-2 md:col-span-1 mx-2 bg-white text-gray-700 border border-gray-300 hover:border-red-500 hover:bg-gray-100 transition duration-300 ease-in-out '>
+    <div className='rounded-md col-span-2 sm:col-span-1 mx-2 bg-white text-gray-700 border border-gray-300 hover:border-red-200 hover:bg-gray-200 transition duration-300 ease-in-out '>
       <Link href={`/game/${game.slug}`}>
         <div className='flex p-6'>
-          <div className='flex flex-col md:w-3/4 text-lg text-indigo-900 font-semibold border-r border-gray-300 pr-6'>
+          <div className='flex flex-col w-full lg:w-3/4 text-lg text-indigo-900 font-semibold'>
             <div className='flex justify-between pb-2'>
               <div className='flex justify-around'>
                 <Image
@@ -38,11 +38,11 @@ const GameCard = ({ game }) => {
                 <span className='px-2 overflow-hidden whitespace-nowrap'>{game.team2.name}</span>
                 <span className='text-gray-400 font-medium'>{`(${game.team2.shortName})`}</span>
               </div>
-              <span style={{whiteSpace: 'nowrap'}}>{!winner || "> "}{game.scoreTeam2}</span>
+              <span className='whitespace-nowrap'>{!winner || "> "}{game.scoreTeam2}</span>
             </div>
           </div>  
-          <div className='hidden md:block md:w-1/4 md:my-auto md:text-sm '>
-              <span className='text-center text-gray-500 block'>{game.gameState}</span>
+          <div className='hidden ml-4 py-6 lg:block lg:w-1/4 md:my-auto md:text-sm lg:border-l lg:border-gray-300'>
+              <span className='text-center text-gray-500 block'>{game.gameState == "Terminated"? "Fin": "Non Fini" }</span>
           </div>
         </div>
       </Link>
