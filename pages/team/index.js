@@ -17,7 +17,7 @@ const Teams = () => {
       <span className='text-xl font-bold text-indigo-900 m-8'>Equipes Division 1 - Version Masculin</span>
       <div className='grid grid-cols-4 p-4'>
         {teams.map((team, index) => 
-        (<Link href={`/team/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:border hover:border-red-200 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
+        (<Link href={`/team/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
             <Image
                   alt={team.shortName}
                   unoptimized

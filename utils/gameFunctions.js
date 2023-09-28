@@ -41,6 +41,8 @@ export function getGamesByTeams( games ){
         let pointsConceided = 0;
         let teamSlug = "";
         let teamLogo = "";
+        let ppg = 0; ///points per game
+        let dppg = 0; ///points conceided per game
         team === gamesByTeam[0].team1.name ? 
                       (teamLogo = gamesByTeam[0].team1.photo.url,
                         teamSlug = gamesByTeam[0].team1.slug):
@@ -62,9 +64,11 @@ export function getGamesByTeams( games ){
             game.scoreTeam1 < game.scoreTeam2 ? 
                   (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2) : 
                   (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2);
-          }
+          ppg = (pointsScored / (wins + losses + forfeits)).toFixed(1);
+          dppg = (pointsConceided / (wins + losses + forfeits)).toFixed(1);
+                }
             return game;
-        }), {points, wins, losses, forfeits, last5Streak: [...last5Streak].reverse(), pointsScored, pointsConceided, teamLogo, teamSlug}]];
+        }), {points, wins, losses, forfeits, ppg, dppg, last5Streak: [...last5Streak].reverse(), pointsScored, pointsConceided, teamLogo, teamSlug}]];
       })
     );
     return games;
@@ -85,3 +89,21 @@ export function getGamesByTeams( games ){
       return rank;
     });
   }
+
+  export function sortTeamsByAStat(gamesWithTeamStats, stat){
+    ////return an array of objects with index being the rank
+    return Object.entries(gamesWithTeamStats).sort((teamA, teamB) => {
+      let rank = teamB[1][1][stat] - teamA[1][1][stat];
+      if (rank == 0){ ///if points equal check who has more wins
+        rank = teamB[1][1].wins - teamA[1][1].wins;
+          if(rank == 0){ /// if same wins, check points differentials
+            rank = (teamB[1][1].pointsScored - teamB[1][1].pointsConceided) - 
+                    (teamA[1][1].pointsScored - teamA[1][1].pointsConceided);
+                    ///This should give something, but first we need to check
+                    ///team record facing each other
+          }
+        }
+      return rank;
+    });
+  }
+  
