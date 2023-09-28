@@ -106,4 +106,17 @@ export function getGamesByTeams( games ){
       return rank;
     });
   }
+  export function sortTeamsByDiff( gamesWithTeamStats){
+    ////return an array of objects with index being the rank
+    return Object.entries(gamesWithTeamStats).sort((teamA, teamB) => 
+    (teamB[1][1].ppg - teamB[1][1].dppg) - (teamA[1][1].ppg - teamA[1][1].dppg))
+  }
+  export function getBlowoutGames( games ){
+    let sortedArr = games.sort((game1, game2) => 
+    Math.abs(game2.scoreTeam1 - game2.scoreTeam2) - 
+    Math.abs(game1.scoreTeam1 - game1.scoreTeam2)
+    )
+    return sortedArr.slice(0, 10);
+  }
+   
   

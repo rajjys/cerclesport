@@ -22,26 +22,26 @@ const Header = () => {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center  text-black">
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Accueil</span></Link>
+        <Link href="/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
         <Link href="/schedule/" onClick={handleClick}>
-            <span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Matchs</span></Link>
+            <span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Matchs</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/standings/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Classement</span></Link>
+        <Link href="/standings/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Classement</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/statistics/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Statistiques</span></Link>
+        <Link href="/statistics/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Statistiques</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/team/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Equipes</span></Link>
+        <Link href="/team/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Equipes</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden">
-        <Link  href="/videos/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Videos</span></Link>
+        <Link  href="/videos/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Videos</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden">
-        <Link  href="/about/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold rounded hover:bg-slate-500 transition duration-300 ease-in-out'>Contacts</span></Link>
+        <Link  href="/about/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Contacts</span></Link>
       </Typography>
     </ul>
   );
@@ -61,38 +61,32 @@ const Header = () => {
         </Button>
         <IconButton
           variant="text"
-          className="h-6 w-6 text-inherit lg:hover:bg-transparent lg:focus:bg-transparent lg:active:bg-transparent lg:hidden"
+          className="flex items-start text-left h-6 w-6 lg:hidden"
           ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <svg
+          onClick={() => setOpenNav(!openNav)}>
+            {openNav ? (<svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               className="h-6 w-6"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              strokeWidth={2}
-            >
+              strokeWidth={2}>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+                d="M6 18L18 6M6 6l12 12"/>
             </svg>
-          ) : (
+          ) :(
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
               fill="none"
               stroke="currentColor"
-              strokeWidth={2}
-            >
+              strokeWidth={2}>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+                d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
           )}
         </IconButton>
