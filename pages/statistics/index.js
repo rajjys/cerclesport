@@ -103,7 +103,7 @@ const Statistics = () => {
           </div>
           <div>
             <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>10 Plus grands Deficits</span>
-            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5'>
+            <div className='grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
               {blowoutGames.map((game, index) =>{
                 let diff = Math.abs(game.scoreTeam1 - game.scoreTeam2)
                 return <GameCard game={game} showDeficit={true}/>

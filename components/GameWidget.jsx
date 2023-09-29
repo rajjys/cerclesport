@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-import { formatMultiple } from '@/utils/dateFormat';
+import { formatMultiple, toHumanReadable, toHumanReadableTime} from '@/utils/dateFormat';
 import Link from 'next/link';
 const GameWidget = ( {gameInfo} ) => {
 
@@ -49,8 +49,10 @@ const GameWidget = ( {gameInfo} ) => {
                           <span>{gameInfo.place}</span>
                       </div>
   return (
-    <div>
-      <div className='bg-white text-black flex justify-center items-center py-2 overflow-auto'>
+    <div className='bg-white text-black pt-2'>
+      {gamePlayed && <span className='block text-center font-bold text-indigo-900'>{toHumanReadable(gameInfo.dateAndTime)}</span>}
+      {gamePlayed && <span className='block text-center font-bold text-red-700'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>}
+      <div className='flex justify-center items-center py-2 overflow-auto'>
         <div className='flex items-center text-xl font-bold px-2 text-indigo-950'>
           <Link href={`/team/${gameInfo.team1.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
             <span className='hidden md:inline whitespace-nowrap'>{gameInfo.team1.name}</span>

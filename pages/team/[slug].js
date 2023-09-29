@@ -85,11 +85,15 @@ const Team = () => {
               <td className='pr-24'>Points Par Match</td>
               <td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.ppg}</td>
             </tr>
+            <tr className='border-b border-gray-300'>
+              <td className='pr-24'>Points Encaises Par Match</td>
+              <td className='pl-24 border-l border-gray-300 text-right font-bold text-indigo-900'>{stats.dppg}</td>
+            </tr>
           </table>
         </div>
         <div>
             <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES: <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 rounded-full'>{profile.name}</span></span>
-            <div className='m-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5'>
+            <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                 {games.map((game, index) => {
                     return <GameCard game={game} key={index} showDeficit={false}/>
                   })

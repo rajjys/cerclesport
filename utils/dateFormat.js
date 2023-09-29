@@ -4,6 +4,11 @@ export const toHumanReadable = (dateString) => {
     const date =  dateObj.toLocaleDateString('fr', options);
     return date.charAt(0).toUpperCase() + date.slice(1); ///capitalize
 }
+export const toHumanReadableTime = ( dateString ) => {
+    const date = new Date(dateString);
+    const options = { hour: "numeric", minute: "numeric", hour12: false };
+    return date.toLocaleTimeString("en-US", options);
+}
 export const formatMultiple = (dateString) => {
     const date = new Date(dateString);
     const options = { weekday: 'long', year: '2-digit', month: 'long', day: 'numeric' };

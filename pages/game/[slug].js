@@ -24,25 +24,25 @@ const Game = () => {
       <div className='top-12 lg:top-16 sticky'>
         <GameWidget gameInfo={gameInfo}/>
       </div>
-      <div className='flex flex-wrap justify-between text-black' >
+      <div className='flex flex-wrap justify-between text-black text-sm md:text-base lg:text-lg' >
         <div className='p-6 m-4 rounded-lg bg-white grow'>
-          <span className='px-2 font-bold text-indigo-900'>Effectif:</span>
-          <span className='p-1 border border-gray-300 bg-green-300/20 text-indigo-800 font-bold rounded-full'>{gameInfo.team1.name}</span>
-          <div className='pt-2 border-t border-gray-300 pt-2 my-2'>
+          <span className='px-2 font-bold text-indigo-900 text-base lg:text-lg'>Effectif:</span>
+          <span className='p-1 border border-gray-300 bg-green-300/20 text-base lg:text-lg font-bold rounded-full'>{gameInfo.team1.name}</span>
+          <div className='pt-2 border-t border-gray-300 pt-2 my-2 '>
             <div>
-              {gameInfo.lineup1.length == 0 && <span className='font-bold text-center p-4'>Pas D'information</span>}
+              {gameInfo.lineup1.length == 0 && <span className='font-bold text-center p-4 text-base'>Pas D'information</span>}
               {gameInfo.lineup1.map((name, index)=>{
                 return <div>
-                  <span className='px-2 text-sm text-gray-400'>{index + 1}.</span>
+                  <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
               })}
             </div>
             <div className='border-t border-gray-300 pt-2 mt-2'>
-              <span className='font-bold text-black mb-2'>Coach</span>
+              <span className='font-bold text-black text-base lg:text-lg mb-2'>Coach</span>
               {gameInfo.coachTeam1.map((name, index)=>{
                 return <div>
-                  <span className='px-2 text-sm text-gray-400'>{index + 1}.</span>
+                  <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
               })}
@@ -50,23 +50,23 @@ const Game = () => {
           </div>
         </div>
         <div className='p-6 m-4 rounded-lg bg-white grow'>
-          <span className='px-2 font-bold text-indigo-900'>Effectif:</span>
-          <span className='p-1 border border-gray-300 bg-green-300/20 text-indigo-800 font-bold rounded-full'>{gameInfo.team2.name}</span>
+          <span className='px-2 font-bold text-indigo-900 text-base lg:text-lg'>Effectif:</span>
+          <span className='p-1 border border-gray-300 bg-green-300/20 font-bold rounded-full text-base lg:text-lg'>{gameInfo.team2.name}</span>
           <div className='pt-2 border-t border-gray-300 pt-2 my-2'>
             <div>
-              {gameInfo.lineup2.length == 0 && <span className='font-bold text-center p-4'>Pas D'information</span>}
+              {gameInfo.lineup2.length == 0 && <span className='font-bold text-center  text-base p-4'>Pas D'information</span>}
               {gameInfo.lineup2.map((name, index)=>{
                 return <div>
-                  <span className='px-2 text-sm text-gray-400'>{index + 1}.</span>
+                  <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
               })}
             </div>
             <div className='border-t border-gray-300 pt-2 mt-2'>
-              <span className='font-bold text-black mb-2'>Coach</span>
+              <span className='font-bold text-black mb-2 text-base lg:text-lg'>Coach</span>
               {gameInfo.coachTeam2.map((name, index)=>{
                 return <div>
-                  <span className='px-2 text-sm text-gray-400'>{index + 1}.</span>
+                  <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
               })}
@@ -74,12 +74,12 @@ const Game = () => {
           </div>
         </div>
         <div className='p-6 m-4 rounded-lg bg-white grow'>
-          <span className='border p-1 border-gray-300 bg-green-300/20 text-indigo-800 font-bold rounded-full'>Arbitrage</span>
+          <span className='border p-1 border-gray-300 bg-green-300/20  font-bold rounded-full text-base lg:text-lg'>Arbitrage</span>
           <div className='pt-2 border-t border-gray-300 pt-2 mt-2'>
-            {(gameInfo.referee.length == 0) && <span className='font-bold text-center p-4'>Pas D'information</span>}
+            {(gameInfo.referee.length == 0) && <span className='font-bold text-center p-4 text-base'>Pas D'information</span>}
             {gameInfo.referee.map((name, index)=>{
               return <div>
-                <span className='px-2 text-sm text-gray-400'>{index + 1}.</span>
+                <span className='px-2 text-gray-400'>{index + 1}.</span>
                 <span className='font-bold text-black'>{name}</span>
               </div>
             })}
@@ -106,8 +106,7 @@ const Game = () => {
           <span className='px-2 font-bold text-gray-500 text-sm'>Capacite: {gameInfo.stadium.capacity}</span>
         </div> :
         <span className='font-bold p-4'>Pas D'information</span>
-        }
-          
+        }  
         </div>
       </div>
     </div>
