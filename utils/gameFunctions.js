@@ -58,17 +58,19 @@ export function getGamesByTeams( games ){
           if(game.winOrLoss === 'win'){
             game.scoreTeam1 > game.scoreTeam2 ? 
                   (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2) : 
-                  (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2);
+                  (pointsScored += game.scoreTeam2, pointsConceided += game.scoreTeam1);
           }    
           else {///game.winOrLoss is 'loss'
             game.scoreTeam1 < game.scoreTeam2 ? 
                   (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2) : 
-                  (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2);
-          ppg = (pointsScored / (wins + losses + forfeits)).toFixed(1);
-          dppg = (pointsConceided / (wins + losses + forfeits)).toFixed(1);
+                  (pointsScored += game.scoreTeam2, pointsConceided += game.scoreTeam1);
                 }
+            ppg = (pointsScored / (wins + losses + forfeits)).toFixed(1);
+            dppg = (pointsConceided / (wins + losses + forfeits)).toFixed(1);
             return game;
-        }), {points, wins, losses, forfeits, ppg, dppg, last5Streak: [...last5Streak].reverse(), pointsScored, pointsConceided, teamLogo, teamSlug}]];
+        }), {points, wins, losses, forfeits, ppg, 
+            dppg, last5Streak: [...last5Streak].reverse(), 
+            pointsScored, pointsConceided, teamLogo, teamSlug}]];
       })
     );
     return games;

@@ -13,7 +13,7 @@ const Teams = () => {
   return (
     teams.length == 0 ?
     <p className='text-black'> Loading</p> :
-    <div className='text-black'>
+    <div className='text-black text-sm md:text-base pt-4'>
       <span className='text-xl font-bold text-indigo-900 m-8'>Equipes Division 1 - Version Masculin</span>
       <div className='grid grid-cols-4 p-4'>
         {teams.map((team, index) => 
@@ -21,12 +21,12 @@ const Teams = () => {
             <Image
                   alt={team.shortName}
                   unoptimized
-                  width="60"
-                  height="60"
+                  width="30"
+                  height="30"
                   className='align-middle rounded-full'
                   src={team.photo.url}
                 />
-                <span className='px-2 overflow-hidden whitespace-nowrap font-bold text-lg'>{team.name}</span>
+                <span className='px-2 overflow-hidden whitespace-nowrap font-bold'>{team.name}</span>
                 <span className='text-gray-400 font-medium'>{`(${team.shortName})`}</span>
         </Link>))}
       </div>

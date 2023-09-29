@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat, getBlowoutGames,sortTeamsByDiff} from '@/utils/gameFunctions';
 import { toHumanReadable } from '@/utils/dateFormat';
+import { GameCard } from '@/components';
 
 const Statistics = () => {
   const [games, setGames] = useState([]);
@@ -105,33 +106,7 @@ const Statistics = () => {
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5'>
               {blowoutGames.map((game, index) =>{
                 let diff = Math.abs(game.scoreTeam1 - game.scoreTeam2)
-                return <div className='m-2 rounded-lg m-2 bg-white p-2 m-2' key={index}>
-                            <span className='whitespace-nowrap text-center block'>{toHumanReadable(game.dateAndTime)}</span>
-                            <div className='flex items-center justify-around p-2 my-2 border-y border-gray-300 font-bold'>
-                              <span>{game.team1.shortName}</span>
-                              <Image
-                                  alt={game.team1.shortName}
-                                  unoptimized
-                                  width="30"
-                                  height="30"
-                                  className='inline rounded-full'
-                                  src={game.team1.photo.url}
-                                />
-                              <span>{game.scoreTeam1}</span>
-                              <span>-</span>
-                              <span>{game.scoreTeam2}</span>
-                              <Image
-                                  alt={game.team2.shortName}
-                                  unoptimized
-                                  width="30"
-                                  height="30"
-                                  className='inline rounded-full'
-                                  src={game.team2.photo.url}
-                                />
-                              <span>{game.team2.shortName}</span>
-                            </div>
-                            <span className='whitespace-nowrap text-center block'>{diff} Points d'ecart</span>
-                       </div>
+                return <GameCard game={game} showDeficit={true}/>
               }
               )}
             </div>

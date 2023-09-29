@@ -4,8 +4,9 @@ import Image from 'next/image';
 import { toHumanReadable } from '@/utils/dateFormat';
 
 const GameCard = ({ game , showDeficit}) => {
-  
-  const winner = game.scoreTeam1 < game.scoreTeam2;
+  const winOrLoss = game.scoreTeam1 > game.scoreTeam2
+  const textColor1 = winOrLoss ? "text-black" : "text-gray-500";
+  const textColor2 = winOrLoss ? "text-gray-600" : "text-black";
   let diff = Math.abs(game.scoreTeam1 - game.scoreTeam2)
   return (
       <Link href={`/game/${game.slug}`}>
@@ -21,9 +22,9 @@ const GameCard = ({ game , showDeficit}) => {
                                     className='inline rounded-full'
                                     src={game.team1.photo.url}
                                   />
-                                <span>{game.scoreTeam1}</span>
+                                <span className={`${textColor1}`}>{game.scoreTeam1}</span>
                                 <span>-</span>
-                                <span>{game.scoreTeam2}</span>
+                                <span  className={`${textColor2}`}>{game.scoreTeam2}</span>
                                 <Image
                                     alt={game.team2.shortName}
                                     unoptimized
