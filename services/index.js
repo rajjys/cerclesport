@@ -4,7 +4,7 @@ const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 export const getAllGames = async () => {
 
     const query = gql`query MyQuery {
-        games(orderBy: dateAndTime_DESC, last: 50) {
+        games(orderBy: dateAndTime_DESC, last: 50, where: {OR: [{gameType: regular}, {gameType: null}]}) {
           otTeam1
           otTeam2
           place
@@ -49,7 +49,9 @@ export const getAllGames = async () => {
 export const getGamesByTeam = async ( slug ) => {
 
   const query = gql`query MyQuery($slug:String!){
-      games(where: {OR: [{team1: {slug: $slug}}, {team2: {slug: $slug}}]}) {
+    games(orderBy: dateAndTime_ASC, last: 50,
+       where: {OR: [{gameType: regular}, {gameType: null}],
+        AND: [{OR: [{team1: {slug: $slug}}, {team2: {slug: $slug}}]}]}) {
         otTeam1
         otTeam2
         place
@@ -171,4 +173,54 @@ export const getGameInfo = async ( slug ) => {
   }`;
   const result = await request(graphqlAPI, query, { slug });
       return result['game'];
+}
+
+export const getAllPlayoffData = async ( ) => {
+  const query = gql`
+  query playoffQuery {
+    playoffPools {
+      slug
+      name
+      level
+      description
+      relatedPools {
+        slug
+        name
+      }
+      games {
+        gameType
+        dateAndTime
+        gameState
+        slug
+        team1 {
+          name
+          slug
+          shortName
+          photo {
+            url(transformation: {image: {resize: {height: 30, width: 30}}})
+          }
+        }
+        team2 {
+          name
+          slug
+          shortName
+          photo {
+            url(transformation: {image: {resize: {height: 30, width: 30}}})
+          }
+        }
+        scoreTeam1
+        scoreTeam2
+      }
+      teams {
+        name
+        shortName
+        slug
+        photo {
+          url(transformation: {image: {resize: {height: 30, width: 30}}})
+        }
+      }
+    }
+  }`;
+  const result = await request(graphqlAPI, query);
+      return result['playoffPools'];
 }
