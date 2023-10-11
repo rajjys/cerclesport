@@ -7,7 +7,6 @@ export const getAllGames = async () => {
         games(orderBy: dateAndTime_DESC, last: 50, where: {OR: [{gameType: regular}, {gameType: null}]}) {
           otTeam1
           otTeam2
-          place
           dateAndTime
           gameState
           id
@@ -43,7 +42,7 @@ export const getAllGames = async () => {
       }
       `;
       const result = await request(graphqlAPI, query);
-      ////console.log(result['games']);
+      console.log(result['games']);
       return result['games'];
 }
 export const getGamesByTeam = async ( slug ) => {
@@ -54,7 +53,6 @@ export const getGamesByTeam = async ( slug ) => {
         AND: [{OR: [{team1: {slug: $slug}}, {team2: {slug: $slug}}]}]}) {
         otTeam1
         otTeam2
-        place
         dateAndTime
         gameState
         id
