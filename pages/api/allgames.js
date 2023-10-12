@@ -25,7 +25,6 @@ export default async function handler(req, res) {
     }),
   });
   const readDataJson = await readData.json();
-  console.log(readDataJson);
   res.status(200).json(readDataJson.documents);
   break;
         default:
