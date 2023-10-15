@@ -1,11 +1,11 @@
 import React,{useState, useEffect} from 'react'
-import { getAllGames } from '@/services';
+import { fetchAllGames } from '@/services';
 import { GameCard } from '@/components';
 
 const Games = () => {
     const [games, setGames] = useState([]);
     useEffect(() => {
-        getAllGames().then((data) => setGames(data))
+        fetchAllGames().then((data) => setGames(data))
     }, []);
 
     return (

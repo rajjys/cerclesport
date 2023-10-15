@@ -1,4 +1,4 @@
-import { getAllGames } from '@/services';
+import { fetchAllGames } from '@/services';
 import React, {useState, useEffect} from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import { GameCard } from '@/components';
 const Statistics = () => {
   const [games, setGames] = useState([]);
   useEffect(() => {
-    getAllGames().then((data) => setGames(data));
+    fetchAllGames().then((data) => setGames(data));
   }, []);
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost

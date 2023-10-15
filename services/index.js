@@ -1,14 +1,13 @@
 import { request, gql } from 'graphql-request';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
-export const getAllGames = async () => {
+export const fetchAllGames = async () => {
 
     const query = gql`query MyQuery {
         games(orderBy: dateAndTime_DESC, last: 50, where: {OR: [{gameType: regular}, {gameType: null}]}) {
           otTeam1
           otTeam2
           dateAndTime
-          gameState
           id
           q1Team1
           q1Team2
@@ -50,6 +49,11 @@ export const getAllGames = async () => {
             image {
               url(transformation: {image: {resize: {height: 280, width: 470, fit: scale}}})
             }
+            gameType
+            gameDivision
+            gameVersion
+            gameSeason
+            gameState
         }
       }
       `;
