@@ -1,11 +1,11 @@
 import React,{useState, useEffect} from 'react'
-import { fetchAllGames } from '@/services';
+import { fetchAllGamesGQL } from '@/services';
 import { GameCard } from '@/components';
 
 const Games = () => {
     const [games, setGames] = useState([]);
     useEffect(() => {
-        fetchAllGames().then((data) => setGames(data))
+        fetchAllGamesGQL().then((data) => setGames(data))
     }, []);
 
     return (

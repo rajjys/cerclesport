@@ -1,7 +1,7 @@
 import { request, gql } from 'graphql-request';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
-export const fetchAllGames = async () => {
+export const fetchAllGamesGQL = async () => {
 
     const query = gql`query MyQuery {
         games(orderBy: dateAndTime_DESC, last: 50, where: {OR: [{gameType: regular}, {gameType: null}]}) {

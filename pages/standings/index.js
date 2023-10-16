@@ -1,5 +1,5 @@
 import { StandingsTable } from '@/components';
-import { fetchAllGames } from '@/services';
+import { fetchAllGamesGQL } from '@/services';
 import React, {useState, useEffect} from 'react';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat} from '@/utils/gameFunctions';
 
@@ -7,7 +7,7 @@ import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat} fro
 const Standings = () => {
   const [games, setGames] = useState([]);
   useEffect(() => {
-    fetchAllGames().then((data) => setGames(data));
+    fetchAllGamesGQL().then((data) => setGames(data));
   }, []);
   if(games.length == 0) return <p>Loading</p> ///If has not loaded yet
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
