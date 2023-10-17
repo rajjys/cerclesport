@@ -1,3 +1,4 @@
+
 export default async function handler(req, res) {
     const fetchOptions = {
         method: "POST",
@@ -15,7 +16,6 @@ export default async function handler(req, res) {
       const baseUrl = `${process.env.MONGODB_DATA_API_URL}/action`;
   
     try {
-      
           const readData = await fetch(`${baseUrl}/find`, {
             ...fetchOptions,
             body: JSON.stringify({

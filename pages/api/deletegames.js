@@ -16,15 +16,15 @@ export default async function handler(req, res) {
   
     try {
       switch (req.method) {
-        case "POST":
-          const games = req.body;
-          const insertData = await fetch(`${baseUrl}/insertMany`, {
-              ...fetchOptions,
-              body: JSON.stringify({
-                ...fetchBody, document: games,
-              }),
-          });
-          res.status(201).json({ success: true, data: insertData });
+        case "DELETE":
+            const deleteData = await fetch(`${baseUrl}/deleteMany`, {
+                ...fetchOptions,
+                body: JSON.stringify({
+                  ...fetchBody,
+                }),
+            });
+            const deleteDataJson = await deleteData.json();
+            res.status(200).json(deleteDataJson);
         break;
         default:
           res.status(405).end();
