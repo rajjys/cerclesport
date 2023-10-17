@@ -9,7 +9,12 @@ import { GameCard } from '@/components';
 const Statistics = () => {
   const [games, setGames] = useState([]);
   useEffect(() => {
-    fetchAllGamesGQL().then((data) => setGames(data));
+    const fetchGames = async () => {
+      await fetch('/api/fetchallgames')
+      .then(response => response.json())
+      .then(data => setGames(data));
+    }
+    fetchGames();
   }, []);
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost

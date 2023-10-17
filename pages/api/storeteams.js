@@ -7,13 +7,13 @@ import { promises as fs } from 'fs';
       
             // Write the updated data to the JSON file
             
-            await fs.writeFile('data/games.json', updatedData);
+            await fs.writeFile('data/teams.json', updatedData);
       
             // Send a success response
-            res.status(200).json({ message: 'Games Updated successfully' });
+            res.status(200).json({ message: 'Teams Updated successfully' });
           } catch (error) {
             console.error(error);
             // Send an error response
-            res.status(500).json({ message: 'Error storing Games' });
+            res.status(500).json({ message: 'Error storing Teams' });
           }
     }

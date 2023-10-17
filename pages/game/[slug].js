@@ -11,14 +11,23 @@ const Game = () => {
   useEffect(() => {
     if (router.isReady){
       const { slug } = router.query;
-      ///getTeamProfile(slug).then((data) => setProfile(data));
-      ///getGamesByTeam(slug).then((data) => setGames(data))
-        getGameInfo(slug).then((data) => setGameInfo(data));
+        const fetchGame = async () => {
+          await fetch('/api/fetchgame', {
+            body: JSON.stringify(slug),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+          })
+          .then(response => response.json())
+          .then(data => setGameInfo(data));
+        }
+        fetchGame();
     }  
   }, [router.isReady]);
+  console.log(gameInfo);
   if(gameInfo == null) return <p>Match introuvable</p>
   if(gameInfo == undefined) return <p>Chargement...</p>
-  console.log(gameInfo);
   return (
     <div>
       <div className='top-12 lg:top-16 sticky'>

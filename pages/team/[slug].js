@@ -12,7 +12,18 @@ const Team = () => {
   useEffect(() => {
     if (router.isReady){
       const { slug } = router.query;
-      getTeamProfile(slug).then((data) => setProfile(data));
+      const fetchTeam = async () => {
+        await fetch('/api/fetchteam', {
+          body: JSON.stringify(slug),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+        .then(response => response.json())
+        .then(data => setProfile(data));
+      }
+      fetchTeam();
       getGamesByTeam(slug).then((data) => setGames(data))
     }  
   }, [router.isReady]);

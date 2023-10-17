@@ -105,7 +105,7 @@ export const getGamesByTeam = async ( slug ) => {
   const result = await request(graphqlAPI, query, {slug});
       return result['games'];
 }
-export const getAllTeams = async () => {
+export const fetchAllTeams = async () => {
   const query = gql`
       query TeamsQuery {
         teams(last: 50, orderBy: name_ASC){
@@ -120,6 +120,18 @@ export const getAllTeams = async () => {
       const result = await request(graphqlAPI, query);
       return result['teams'];
 }
+export const fetchAllStadiums = async ()=>{
+  const query = gql`
+      query TeamsQuery {
+        stadiums(last: 50, orderBy: name_ASC){
+          name
+          slug
+        }
+      }`
+      const result = await request(graphqlAPI, query);
+      return result['stadiums'];
+}
+
 export const getTeamProfile = async ( slug ) => {
   const query = gql`
       query GetProfile($slug:String!){

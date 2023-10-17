@@ -7,7 +7,12 @@ import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat} fro
 const Standings = () => {
   const [games, setGames] = useState([]);
   useEffect(() => {
-    fetchAllGamesGQL().then((data) => setGames(data));
+    const fetchGames = async () => {
+      await fetch('/api/fetchallgames')
+      .then(response => response.json())
+      .then(data => setGames(data));
+    }
+    fetchGames();
   }, []);
   if(games.length == 0) return <p>Loading</p> ///If has not loaded yet
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team

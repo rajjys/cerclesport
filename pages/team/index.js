@@ -1,4 +1,4 @@
-import { getAllTeams } from '@/services';
+import { fetchAllTeams } from '@/services';
 import Link from 'next/link';
 import React, {useState, useEffect} from 'react'
 import Image from 'next/image';
@@ -7,7 +7,12 @@ const Teams = () => {
 
   const [teams, setTeams] = useState([]);
   useEffect(() => {
-    getAllTeams().then((data) => setTeams(data))
+    const fetchTeams = async () => {
+      await fetch('/api/fetchallteams')
+      .then(response => response.json())
+      .then(data => setTeams(data));
+    }
+    fetchTeams();
   }, []);
   console.log(teams);
   return (
