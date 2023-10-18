@@ -12,7 +12,7 @@ const Team = () => {
   useEffect(() => {
     if (router.isReady){
       const { slug } = router.query;
-      const fetchTeam = async () => {
+      const fetchTeamProfile = async () => {
         await fetch('/api/fetchteam', {
           body: JSON.stringify(slug),
           method: "POST",
@@ -23,8 +23,19 @@ const Team = () => {
         .then(response => response.json())
         .then(data => setProfile(data));
       }
-      fetchTeam();
-      getGamesByTeam(slug).then((data) => setGames(data))
+      const fetchGamesByTeam = async () => {
+        await fetch('/api/fetchgamesbyteam', {
+          body: JSON.stringify(slug),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        })
+        .then(response => response.json())
+        .then(data => setGames(data));
+      }
+      fetchTeamProfile();
+      fetchGamesByTeam();
     }  
   }, [router.isReady]);
   if(profile == null) return <p>Equipe Introuvable</p>

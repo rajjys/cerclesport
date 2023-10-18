@@ -66,15 +66,15 @@ const Admin = () => {
         <span className='bold text-lg bg-white text-black rounded p-2 m-2 block'>{response}</span>
         <div className='bg-white text-black text-md rounded m-4 p-2'>
             <span className='block mb-2'>Games from graphcms: <span>{`${gamesGQL.length}`}</span></span>
-            <button className='rounded-full  border border-gray-300 p-2 m-2 text-white bold bg-pink-400' onClick={updateGamesLocal}>Up DB</button>
+            <button className='rounded-full  border border-gray-300 p-2 m-2 text-white bold bg-pink-400' onClick={updateGamesLocal}>Update games local</button>
         </div>
         <div className='bg-white text-black text-md rounded m-4 p-2'>
             <span className='block mb-2'>Teams from graphcms: <span>{`${teams.length}`}</span></span>
-            <button className='rounded-full  border border-gray-300 p-2 m-2 text-white bold bg-pink-400' onClick={updateTeamsLocal}>Up DB</button>
+            <button className='rounded-full  border border-gray-300 p-2 m-2 text-white bold bg-pink-400' onClick={updateTeamsLocal}>Update teams local</button>
         </div>
         <div className='bg-white text-black text-md rounded m-4 p-2'>
             <span className='block mb-2'>Stadiums from graphcms: <span>{`${stadiums.length}`}</span></span>
-            <button className='rounded-full  border border-gray-300 p-2 m-2 text-white bold bg-pink-400' onClick={updateStadiumsLocal}>Up DB</button>
+            <button className='rounded-full  border border-gray-300 p-2 m-2 text-white bold bg-pink-400' onClick={updateStadiumsLocal}>Update stadiums local</button>
         </div>
     </div>
   )
