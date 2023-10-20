@@ -15,6 +15,8 @@
     "fs-extra": "^11.1.1",
     "graphql": "^16.8.0",
     "graphql-request": "^6.1.0",
+    "html-react-parser": "^4.2.7",
+    "moment": "^2.29.4",
     "mongodb": "^6.1.0",
     "next": "^13.4.16",
     "next-connect": "^0.12.1",
