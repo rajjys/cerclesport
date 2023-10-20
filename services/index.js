@@ -1,6 +1,7 @@
 import { request, gql } from 'graphql-request';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
+const blogGraphqlAPI = process.env.NEXT_PUBLIC_BLOG_ENDPOINT;
 export const fetchAllGamesGQL = async () => {
     const query = gql`query MyQuery {
         games(orderBy: dateAndTime_DESC, last: 50, where: {OR: [{gameType: regular}, {gameType: null}]}) {
@@ -135,43 +136,31 @@ export const getAllPlayoffData = async ( ) => {
   const result = await request(graphqlAPI, query);
       return result['playoffPools'];
 }
-
-const blogGraphqlAPI = process.env.BLOG_GRAPHCMS_ENDPOINT;
-export const getPosts = async () => {
+export const getBlogPosts = async () => {
   const query = gql`
-    query MyQuery {
-      postsConnection(last:16 orderBy: createdAt_DESC) {
-        edges {
-          cursor
-          node {
-            author {
-              bio
-              name
-              id
-              photo {
-                url
-              }
-            }
-            createdAt
-            slug
-            title
-            excerpt
-            featuredImage {
-              url
-            }
-            categories {
-              name
-              slug
-            }
-          }
+  query MyQuery {
+    posts(last: 10, orderBy: publishedAt_DESC) {
+      author {
+        name
+        photo {
+          url(transformation: {image: {resize: {height: 30, width: 30}}})
         }
       }
+      excerpt
+      featuredImage {
+        url
+      }
+      featuredPost
+      slug
+      title
+      createdAt
     }
+  }
   `;
-
+  console.log(blogGraphqlAPI)
   const result = await request(blogGraphqlAPI, query);
-
-  return result.postsConnection.edges;
+  console.log(result['posts']);
+  return result['posts'];
 };
 
 export const getCategories = async () => {

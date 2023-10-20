@@ -1,8 +1,5 @@
 import React, {useState, useEffect} from 'react'
-///import moment from 'moment'
-import parse from 'html-react-parser'
 import { getComments } from '@/services'
-import { Result } from 'postcss'
 import { toHumanReadable } from '@/utils/dateFormat'
 
 const Comments = ({ slug }) => {
@@ -29,7 +26,7 @@ const Comments = ({ slug }) => {
                 {' '}
                 {toHumanReadable(comment.createdAt).format('MMM DD, YYYY')}
               </p>
-              <p className='whitespace-pre-line text-gray-600 w-full'>{parse(comment.comment)}</p>
+              <p className='whitespace-pre-line text-gray-600 w-full'>{comment.comment}</p>
             </div>
             )
           )}
