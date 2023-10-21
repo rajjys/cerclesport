@@ -1,9 +1,8 @@
-import { fetchAllGamesGQL } from '@/services';
 import React, {useState, useEffect} from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat, getBlowoutGames,sortTeamsByDiff} from '@/utils/gameFunctions';
-import { toHumanReadable } from '@/utils/dateFormat';
+import { resizeImage} from '@/utils/formatting';
 import { GameCard } from '@/components';
 
 const Statistics = () => {
@@ -45,7 +44,7 @@ const Statistics = () => {
                                   width="40"
                                   height="40"
                                   className='align-middle rounded-full'
-                                  src={team[1][1].teamLogo}
+                                  src={resizeImage(60, 60, team[1][1].teamLogo)}
                                 />
                                 <span className='px-2 overflow-hidden whitespace-nowrap'>{team[0]}</span>
                             </div>
@@ -70,7 +69,7 @@ const Statistics = () => {
                                   width="40"
                                   height="40"
                                   className='align-middle rounded-full'
-                                  src={team[1][1].teamLogo}
+                                  src={resizeImage(60, 60, team[1][1].teamLogo)}
                                 />
                                 <span className='px-2 overflow-hidden whitespace-nowrap'>{team[0]}</span>
                             </div>
@@ -97,7 +96,7 @@ const Statistics = () => {
                                   width="40"
                                   height="40"
                                   className='align-middle rounded-full'
-                                  src={team[1][1].teamLogo}
+                                  src={resizeImage(60, 60, team[1][1].teamLogo)}
                                 />
                                 <span className='px-2 overflow-hidden whitespace-nowrap'>{team[0]}</span>
                             </div>

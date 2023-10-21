@@ -2,6 +2,7 @@ import { fetchAllTeams } from '@/services';
 import Link from 'next/link';
 import React, {useState, useEffect} from 'react'
 import Image from 'next/image';
+import { resizeImage } from '@/utils/formatting';
 
 const Teams = () => {
 
@@ -29,7 +30,7 @@ const Teams = () => {
                   width="30"
                   height="30"
                   className='align-middle rounded-full'
-                  src={team.photo.url}
+                  src={resizeImage(60, 60, team.photo.url)}
                 />
                 <span className='px-2 overflow-hidden whitespace-nowrap font-bold'>{team.name}</span>
                 <span className='text-gray-400 font-medium'>{`(${team.shortName})`}</span>

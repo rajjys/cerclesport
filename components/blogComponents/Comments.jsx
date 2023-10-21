@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { getComments } from '@/services'
-import { toHumanReadable } from '@/utils/dateFormat'
+import { toHumanReadable } from '@/utils/formatting'
 
 const Comments = ({ slug }) => {
   const [comments, setComments] = useState([]);

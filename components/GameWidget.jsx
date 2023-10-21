@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-import { formatMultiple, toHumanReadable, toHumanReadableTime} from '@/utils/dateFormat';
+import { formatMultiple, resizeImage, toHumanReadable, toHumanReadableTime} from '@/utils/formatting';
 import Link from 'next/link';
 const GameWidget = ( {gameInfo} ) => {
 
@@ -64,7 +64,7 @@ const GameWidget = ( {gameInfo} ) => {
                   width="60"
                   height="60"
                   className='align-middle inline rounded-full'
-                  src={gameInfo.team1.photo.url}
+                  src={resizeImage(90, 90, gameInfo.team1.photo.url)}
                 />
           <span className={`${textColor1} text-4xl`}>{gameInfo.scoreTeam1}</span>
           <span className='font-bold'>{winOrLoss && "<"}</span>         
@@ -82,7 +82,7 @@ const GameWidget = ( {gameInfo} ) => {
                       width="60"
                       height="60"
                       className='align-middle inline rounded-full'
-                      src={gameInfo.team2.photo.url}
+                      src={resizeImage(90, 90, gameInfo.team2.photo.url)}
                     />
             <Link href={`/team/${gameInfo.team2.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
               <span className='md:hidden'>{gameInfo.team2.shortName}</span>

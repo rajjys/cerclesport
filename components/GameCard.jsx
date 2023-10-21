@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react'
 import Image from 'next/image';
-import { toHumanReadable, toHumanReadableTime } from '@/utils/dateFormat';
+import { resizeImage, toHumanReadable, toHumanReadableTime } from '@/utils/formatting';
 
 const GameCard = ({ game , showDeficit}) => {
   const winOrLoss = game.scoreTeam1 > game.scoreTeam2
@@ -20,7 +20,7 @@ const GameCard = ({ game , showDeficit}) => {
                                     width="30"
                                     height="30"
                                     className='inline rounded-full'
-                                    src={game.team1.photo.url}
+                                    src={resizeImage(60, 60,game.team1.photo.url)}
                                   />
                                 <span className={`${textColor1}`}>{game.scoreTeam1}</span>
                                 <span>-</span>
@@ -31,7 +31,7 @@ const GameCard = ({ game , showDeficit}) => {
                                     width="30"
                                     height="30"
                                     className='inline rounded-full'
-                                    src={game.team2.photo.url}
+                                    src={resizeImage(60, 60, game.team2.photo.url)}
                                   />
                                 <span>{game.team2.shortName}</span>
                               </div>

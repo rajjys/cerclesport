@@ -1,7 +1,7 @@
 import React from 'react';
 ///import moment from 'moment';
 import Link from 'next/link';
-import { toHumanReadable } from '@/utils/dateFormat';
+import { toHumanReadable } from '@/utils/formatting';
 
 const AdjacentPostCard = ({ post, position }) => (
   <>

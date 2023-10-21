@@ -4,6 +4,7 @@ import { getGamesByTeam, getTeamProfile } from '@/services';
 import Image from 'next/image';
 import { DateCarousel, GameCard } from '@/components';
 import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';
+import { resizeImage } from '@/utils/formatting';
 
 const Team = () => {
     let router = useRouter()
@@ -63,7 +64,7 @@ const Team = () => {
                   width="120"
                   height="120"
                   className='align-middle inline rounded rounded-full'
-                  src={profile.photo.url}
+                  src={resizeImage(180, 180, profile.photo.url)}
                 />
             <div className='text-white px-4'>
               <div className='text-3xl my-2'>

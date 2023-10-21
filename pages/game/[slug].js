@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { useRouter } from 'next/router';
-import { getGameInfo } from '@/services';
 import { GameWidget } from '@/components';
 import Image from 'next/image';
+import { resizeImage } from '@/utils/formatting';
 
 const Game = () => {
 
@@ -107,7 +107,7 @@ const Game = () => {
                       width="470"
                       height="280"
                       className='align-middle rounded-lg'
-                      src={gameInfo.stadium.image[0].url}
+                      src={resizeImage(470, 280, gameInfo.stadium.image[0].url)}
                     />
               <span className='p-1 m-2 text-lg font-bold text-white bg-black/70 rounded absolute bottom-0'>{gameInfo.stadium.name}</span>
             </div>

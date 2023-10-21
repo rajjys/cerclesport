@@ -2,6 +2,7 @@ import React from 'react'
 import Last5Streak from './Last5Streak';
 import Image from 'next/image';
 import Link from 'next/link';
+import { resizeImage } from '@/utils/formatting';
 
 const TeamStatsRow = ( { teamData, rank } ) => {
   const stats = teamData[1][1];
@@ -17,7 +18,7 @@ const TeamStatsRow = ( { teamData, rank } ) => {
                       width="30"
                       height="30"
                       className='align-middle rounded-full mx-2'
-                      src={stats.teamLogo}
+                      src={resizeImage(30, 30, stats.teamLogo)}
               />
               <span className='overflow-hidden whitespace-nowrap'>{teamData[0]}</span>
           </div>

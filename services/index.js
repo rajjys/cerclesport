@@ -22,7 +22,7 @@ export const fetchAllGamesGQL = async () => {
           team1 {
             name
             photo {
-              url(transformation: {image: {resize: {height: 60, width: 60}}})
+              url
             }
             slug
             shortName
@@ -31,7 +31,7 @@ export const fetchAllGamesGQL = async () => {
             id
             name
             photo {
-              url(transformation: {image: {resize: {height: 60, width: 60}}})
+              url
             }
             slug
             shortName
@@ -66,7 +66,7 @@ export const fetchAllTeams = async () => {
         teams(last: 50, orderBy: name_ASC){
           name
           photo {
-            url(transformation: {image: {resize: {height: 60, width: 60}}})
+            url
           }
           slug
           shortName
@@ -109,7 +109,7 @@ export const getAllPlayoffData = async ( ) => {
           slug
           shortName
           photo {
-            url(transformation: {image: {resize: {height: 30, width: 30}}})
+            url
           }
         }
         team2 {
@@ -117,7 +117,7 @@ export const getAllPlayoffData = async ( ) => {
           slug
           shortName
           photo {
-            url(transformation: {image: {resize: {height: 30, width: 30}}})
+            url
           }
         }
         scoreTeam1
@@ -128,7 +128,7 @@ export const getAllPlayoffData = async ( ) => {
         shortName
         slug
         photo {
-          url(transformation: {image: {resize: {height: 30, width: 30}}})
+          url
         }
       }
     }
@@ -143,7 +143,7 @@ export const getBlogPosts = async () => {
       author {
         name
         photo {
-          url(transformation: {image: {resize: {height: 30, width: 30}}})
+          url
         }
       }
       excerpt

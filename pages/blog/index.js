@@ -12,8 +12,8 @@ const Blogs = () => {
   return (
     <div>
         {(blogPosts.length != 0) && 
-        <div className='blogs'>
-            { blogPosts.map((blogPost, index) => <PostCard blogPost={blogPost} />)}
+        <div className='blogs text-black grid grid-cols-10 m-4 grid-rows-10 gap-6'>
+            { blogPosts.map((blogPost, index) => <PostCard blogPost={blogPost} index={index} key={index}/>)}
         </div>}
     </div>
   )
