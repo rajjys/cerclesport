@@ -25,9 +25,9 @@ const Statistics = () => {
 
   return (
     games.length == 0 ? <p>Loading</p>: 
-    <div className='text-indigo-900 text-xs lg:text-sm'>
+    <div className='text-indigo-900 text-xs lg:text-sm mt-4'>
       <div className='flex flex-wrap'>
-              <div className='p-2 m-2 rounded-lg bg-white grow'>
+              <div className='p-2 m-2 rounded-lg bg-white grow shadow-md'>
                 <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>Leaders Offensifs</span>
                 <div className='font-bold'>
                   <span className='hidden md:block text-gray-500 text-right pr-2 font-bold border-b border-gray-300'>Points Par Match</span>
@@ -52,7 +52,7 @@ const Statistics = () => {
                     </Link>)}
                 </div>
               </div>
-              <div className='p-2 m-2 rounded-lg bg-white text-indigo-900 grow'>
+              <div className='p-2 m-2 rounded-lg bg-white text-indigo-900 grow shadow-md'>
                 <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>Leaders Defensifs</span>
                 <div className='font-bold'>
                   <span className='hidden md:block text-gray-500 text-right pr-2 font-bold border-b border-gray-300'>Points Encaisses Par Match</span>
@@ -77,7 +77,7 @@ const Statistics = () => {
                     </Link>)}
                 </div>
               </div>
-              <div className='p-2 m-2 rounded-lg bg-white grow'>
+              <div className='p-2 m-2 rounded-lg bg-white grow shadow-md'>
                 <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>Leaders Differentiels</span>
                 <div className='font-bold'>
                   <span className='hidden md:block text-gray-500 text-right pr-2 font-bold border-b border-gray-300'>Points Par Match</span>

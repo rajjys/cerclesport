@@ -136,7 +136,7 @@ export const getAllPlayoffData = async ( ) => {
   const result = await request(graphqlAPI, query);
       return result['playoffPools'];
 }
-export const getBlogPosts = async () => {
+export const fetchBlogPosts = async () => {
   const query = gql`
   query MyQuery {
     posts(last: 10, orderBy: publishedAt_DESC) {
@@ -157,12 +157,36 @@ export const getBlogPosts = async () => {
     }
   }
   `;
-  console.log(blogGraphqlAPI)
   const result = await request(blogGraphqlAPI, query);
-  console.log(result['posts']);
   return result['posts'];
 };
-
+export const fetchBlog = async ( slug ) => {
+  const query = gql`
+  query GetBlogPostDetails($slug : String!) {
+    post(where: {slug: $slug}) {
+      title
+      excerpt
+      featuredImage {
+        url
+      }
+      author{
+        name
+        bio
+        photo {
+          url
+        }
+      }
+      createdAt
+      slug
+      content {
+        raw
+      }
+    }
+  }`;
+  const result = await request(blogGraphqlAPI, query, { slug });
+  console.log(result);
+  return result['post'];
+}
 export const getCategories = async () => {
   const query = gql`
     query GetGategories {

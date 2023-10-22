@@ -49,7 +49,7 @@ const GameWidget = ( {gameInfo} ) => {
                           <span>{gameInfo.place}</span>
                       </div>
   return (
-    <div className='bg-white text-black pt-2'>
+    <div className='bg-white text-black pt-2 shadow-md'>
       {gamePlayed && <span className='block text-center font-bold text-indigo-900'>{toHumanReadable(gameInfo.dateAndTime)}</span>}
       {gamePlayed && <span className='block text-center font-bold text-red-700'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>}
       <div className='flex justify-center items-center py-2 overflow-auto'>

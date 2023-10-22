@@ -33,7 +33,7 @@ const PostCard = ({blogPost, index}) => {
     imageUrl = resizeImage(230, 140, imageUrl);
   }  
   return (
-    <div className={`text-black ${rowspan} col-span-10 ${colspan}`}>
+    <div className={`text-black ${rowspan} col-span-10 ${colspan} bg-white rounded shadow-md`}>
       <Link href={`/blog/${blogPost.slug}`} className={`${display}`}>
         <Image 
                 src={imageUrl}

@@ -1,4 +1,4 @@
-import { getBlogPosts } from '@/services';
+import { fetchBlogPosts } from '@/services';
 import Head from 'next/head'
 
 ///import { FeaturedPosts } from '@/sections'
@@ -22,7 +22,7 @@ export default function Home({ posts }) {
 }
 
 export async function getStaticProps(){
-  const posts = (await getBlogPosts()) || [];
+  const posts = (await fetchBlogPosts()) || [];
   return {
     props: { posts }
   };
