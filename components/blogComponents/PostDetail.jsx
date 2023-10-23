@@ -50,7 +50,7 @@ const PostDetail = ({ post }) => {
                   src={post.featuredImage.url}
                   unoptimized
                   alt={post.title}
-                  className='object-top w-full h-full '
+                  className='rounded-t-md object-top w-full h-full '
                   width='200'
                   height='200'
         />   

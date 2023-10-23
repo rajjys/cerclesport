@@ -18,7 +18,7 @@ const TeamStatsRow = ( { teamData, rank } ) => {
                       width="30"
                       height="30"
                       className='align-middle rounded-full mx-2'
-                      src={resizeImage(30, 30, stats.teamLogo)}
+                      src={resizeImage(60, 60, stats.teamLogo)}
               />
               <span className='overflow-hidden whitespace-nowrap'>{teamData[0]}</span>
           </div>

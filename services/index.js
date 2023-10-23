@@ -139,7 +139,7 @@ export const getAllPlayoffData = async ( ) => {
 export const fetchBlogPosts = async () => {
   const query = gql`
   query MyQuery {
-    posts(last: 10, orderBy: publishedAt_DESC) {
+    posts(last: 11, orderBy: publishedAt_DESC) {
       author {
         name
         photo {

@@ -21,6 +21,6 @@ export const formatMultiple = (dateString) => {
     const numericDate = `${day}/${month}/${year}`;
     return [numericDate, formattedDate, formattedTime];
 }
-export function resizeImage(width, height, url) {
-    return `https://media.graphassets.com/resize=height:${height},width:${width}/${url.split('/').pop()}`;
+export function resizeImage(width, height, url, resizeOption = 'scale') {
+    return `https://media.graphassets.com/resize=fit:${resizeOption},height:${height},width:${width}/${url.split('/').pop()}`;
   }
