@@ -6,7 +6,6 @@ import Head from 'next/head'
 
 
 export default function Home({ posts }) {
-
   return (
     <div
       className="mb-8">
