@@ -14,7 +14,7 @@ export const formatMultiple = (dateString) => {
     const options = { weekday: 'long', year: '2-digit', month: 'long', day: 'numeric' };
     const formatter = new Intl.DateTimeFormat('fr-FR', options);
     const formattedDate = formatter.format(date);
-    const formattedTime = date.toLocaleTimeString('fr-FR');
+    const formattedTime = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear().toString();
