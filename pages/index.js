@@ -10,7 +10,7 @@ import { Button } from '@material-tailwind/react';
 
 ///import { FeaturedPosts } from '@/sections'
 
-
+///API Calls 121,321 on 25 oct 2023
 
 export default function Home({ posts }) {
 
@@ -33,7 +33,7 @@ export default function Home({ posts }) {
         </Head>
         <div className='grid grid-cols-8'>
           {(posts.length != 0) && 
-          <div className='col-span-8 md:col-span-5 lg:col-span-6 text-black bg-white grid grid-cols-5 m-4 grid-rows-10 gap-6 p-2'>
+          <div className='col-span-8 md:col-span-5 lg:col-span-6 text-black grid grid-cols-5 m-4 grid-rows-10 gap-6 p-2'>
               { posts.map((blogPost, index) => {
                 let loacalIndex = index;
                 if(index > 0) loacalIndex += 4;
