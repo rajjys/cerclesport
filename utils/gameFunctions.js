@@ -54,7 +54,7 @@ export function getGamesByTeams( games ){
           else if(game.winOrLoss === 'loss' && game.gameState === "Forfeited") forfeits++;
           else losses++;
           last5Streak.push(game.winOrLoss);
-          if(last5Streak.length > 5) last5Streak.shift(); ///Keep the length to 5
+          if(last5Streak.length > 5) last5Streak.pop(); ///Keep the length to 5
           if(game.winOrLoss === 'win'){
             game.scoreTeam1 > game.scoreTeam2 ? 
                   (pointsScored += game.scoreTeam1, pointsConceided += game.scoreTeam2) : 

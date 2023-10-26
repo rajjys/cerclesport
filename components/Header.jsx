@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from "react";
 import { Navbar,MobileNav,Typography,Button,IconButton} from "@material-tailwind/react";
 import Link from "next/link";
+import Image from "next/image";
  
 const Header = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -20,46 +21,52 @@ const Header = () => {
     setOpenNav(false);
   };
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center  text-black">
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
+    <ul className="flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center  text-black">
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
+        <Link href="/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
         <Link href="/schedule/" onClick={handleClick}>
-            <span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Matchs</span></Link>
+            <span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Matchs</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/standings/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Classement</span></Link>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
+        <Link href="/standings/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Classement</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/blog/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Blog</span></Link>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
+        <Link href="/blog/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Blog</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/statistics/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Statistiques</span></Link>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
+        <Link href="/statistics/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Statistiques</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal">
-        <Link href="/team/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Equipes</span></Link>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
+        <Link href="/team/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Equipes</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden">
-        <Link  href="/videos/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Videos</span></Link>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden mx-2">
+        <Link  href="/videos/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Videos</span></Link>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden">
-        <Link  href="/about/" onClick={handleClick}><span className='mx-2 p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Contacts</span></Link>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden mx-2">
+        <Link  href="/about/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Contacts</span></Link>
       </Typography>
     </ul>
   );
  
   return (
-    <Navbar className="w-full py-2 px-4 lg:px-8 lg:py-4 bg-indigo-950">
-      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-        <Typography
+    <Navbar className="w-full py-1 md:py-2 px-4 lg:px-8  bg-indigo-950 border-none">
+      <div className=",x-2 lg:mx-8 flex items-center justify-between text-blue-gray-900">
+        <Link
           as="a"
           href="/"
-          className="mr-4 cursor-pointer py-1.5 font-bold text-red-500">
-          Cercle Sport
-        </Typography>
+          className="mr-4 cursor-pointer font-bold text-red-500 ">
+          <Image 
+                src={`/favicon.ico`}
+                alt="Cercle Sport"
+                width='55'
+                height='55'
+                className="inline"
+              />
+        </Link>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block mb-2 px-6 border rounded-full border-yellow-300 bg-indigo-900 w-auto">
+        <Button variant="gradient" size="sm" className="hidden lg:inline-block px-6 border rounded-full border-yellow-300 bg-indigo-900 w-auto">
           <span>Login</span>
         </Button>
         <IconButton
