@@ -8,13 +8,13 @@ import Image from 'next/image';
 import { formatMultiple, resizeImage, toHumanReadable } from '@/utils/formatting';
 import { Button } from '@material-tailwind/react';
 
-///import { FeaturedPosts } from '@/sections'
-
 ///API Calls 121,321 on 25 oct 2023
+///API Calls 121,497 on 26 oct 2023 +176
 
-export default function Home({ posts }) {
+export default function Home() {
 
   const [games, setGames] = useState([]);
+  const [blogPosts, setBlogPosts] = useState([]);
     useEffect(() => {
       const fetchGames = async () => {
         await fetch('/api/fetchallgames')
@@ -22,7 +22,7 @@ export default function Home({ posts }) {
         .then(data => setGames(data));
       }
       fetchGames();
-        ///fetchAllGamesGQL().then((data) => setGames(data))
+      fetchBlogPosts().then((data) => setBlogPosts(data))
     }, []);
 
   return (
@@ -32,9 +32,9 @@ export default function Home({ posts }) {
           <link rel='icon' href='/favicon.ico'/>
         </Head>
         <div className='grid grid-cols-8'>
-          {(posts.length != 0) && 
+          {(blogPosts.length != 0) && 
           <div className='col-span-8 md:col-span-5 lg:col-span-6 text-black grid grid-cols-5 m-4 grid-rows-10 gap-6 p-2'>
-              { posts.map((blogPost, index) => {
+              { blogPosts.map((blogPost, index) => {
                 let loacalIndex = index;
                 if(index > 0) loacalIndex += 4;
                 return <PostCard blogPost={blogPost} index={loacalIndex} key={index}/>
@@ -88,11 +88,4 @@ export default function Home({ posts }) {
     </div>
     </div>
   )
-}
-
-export async function getStaticProps(){
-  const posts = (await fetchBlogPosts()) || [];
-  return {
-    props: { posts }
-  };
 }
