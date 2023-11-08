@@ -8,6 +8,7 @@ import { promises as fs } from 'fs';
         }
         console.log(data);
       });
+      ///this is for debugging purposes only
       const parsedGames = JSON.parse(games);
       console.log(parsedGames);
       return res.status(200).json(parsedGames);
