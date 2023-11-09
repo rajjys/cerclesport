@@ -41,7 +41,7 @@ const Game = () => {
             <div>
               {gameInfo.lineup1.length == 0 && <span className='font-bold text-center p-4 text-base'>Pas D'information</span>}
               {gameInfo.lineup1.map((name, index)=>{
-                return <div>
+                return <div key={index}>
                   <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
@@ -50,7 +50,7 @@ const Game = () => {
             <div className='border-t border-gray-300 pt-2 mt-2'>
               <span className='font-bold text-black text-base lg:text-lg mb-2'>Coach</span>
               {gameInfo.coachTeam1.map((name, index)=>{
-                return <div>
+                return <div key={index}>
                   <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
@@ -65,7 +65,7 @@ const Game = () => {
             <div>
               {gameInfo.lineup2.length == 0 && <span className='font-bold text-center  text-base p-4'>Pas D'information</span>}
               {gameInfo.lineup2.map((name, index)=>{
-                return <div>
+                return <div key={index}>
                   <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
@@ -74,7 +74,7 @@ const Game = () => {
             <div className='border-t border-gray-300 pt-2 mt-2'>
               <span className='font-bold text-black mb-2 text-base lg:text-lg'>Coach</span>
               {gameInfo.coachTeam2.map((name, index)=>{
-                return <div>
+                return <div key={index}>
                   <span className='px-2 text-gray-400'>{index + 1}.</span>
                   <span className='text-black'>{name}</span>
                 </div>
@@ -87,7 +87,7 @@ const Game = () => {
           <div className='pt-2 border-t border-gray-300 pt-2 mt-2'>
             {(gameInfo.referee.length == 0) && <span className='font-bold text-center p-4 text-base'>Pas D'information</span>}
             {gameInfo.referee.map((name, index)=>{
-              return <div>
+              return <div key={index}>
                 <span className='px-2 text-gray-400'>{index + 1}.</span>
                 <span className='font-bold text-black'>{name}</span>
               </div>

@@ -34,7 +34,7 @@ const BlogPost = () => {
                       <span className='font-bold text-md pb-2 mb-2 border-b border-gray-300 block'>RECENTS</span>
                       {recents.length != 0 &&
                         recents.map((recentPost, index)=>
-                        <div className='border-b border-gray-300 m-2 p-2'>
+                        <div className='border-b border-gray-300 m-2 p-2' key={index}>
                           <Link  href={`/blog/${recentPost.slug}`}>
                             <span className='text-sm font-bold block'>{recentPost.title}</span>
                             <span className='text-xs text-gray-500 block'>{recentPost.excerpt.substring(0, 100) + "..."}</span>

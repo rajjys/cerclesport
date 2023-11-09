@@ -52,7 +52,7 @@ export default function Home() {
                 const textColor1 = winOrLoss ? "text-black" : "text-gray-500";
                 const textColor2 = winOrLoss ? "text-gray-600" : "text-black";
                 const dateAndTime = formatMultiple(game.dateAndTime);
-                return  <Link href={`/game/${game.slug}`} className="p-2 m-2 bg-white shadow-md rounded text-black text-center">
+                return  <Link href={`/game/${game.slug}`} key={index} className="p-2 m-2 bg-white shadow-md rounded text-black text-center">
                             <span className='py-2 text-xs font-bold'>{dateAndTime[0]}</span>
                             <span className='py-2 text-xs font-bold text-red-800 ml-6'>{dateAndTime[2]}</span>
                             <div className='flex items-center justify-around font-bold 

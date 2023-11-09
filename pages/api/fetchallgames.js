@@ -1,15 +1,8 @@
 import { promises as fs } from 'fs';
+import path from 'path';
     export default async function handler (req, res) {
-      console.log("Calling api");
-      const games = await fs.readFile('data/games.json', 'utf8',(err, data) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(data);
-      });
-      ///this is for debugging purposes only
+      const myPath = path.join(process.cwd(), 'data/games.json')
+      const games = await fs.readFile(myPath, 'utf8');
       const parsedGames = JSON.parse(games);
-      console.log(parsedGames);
       return res.status(200).json(parsedGames);
     }
