@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import path from 'path';
     export default async function handler (req, res) {
         try {
             ///console.log(req.body);
@@ -6,8 +7,8 @@ import { promises as fs } from 'fs';
             const updatedData = JSON.stringify(req.body);
       
             // Write the updated data to the JSON file
-            
-            await fs.writeFile('data/teams.json', updatedData);
+            const myPath = path.join(process.cwd(), 'data/teams.json')
+            await fs.writeFile(myPath, updatedData);
       
             // Send a success response
             res.status(200).json({ message: 'Teams Updated successfully' });

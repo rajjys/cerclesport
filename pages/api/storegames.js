@@ -6,8 +6,8 @@ import { promises as fs } from 'fs';
             const updatedData = JSON.stringify(req.body);
       
             // Write the updated data to the JSON file
-            
-            await fs.writeFile('data/games.json', updatedData);
+            const myPath = path.join(process.cwd(), 'data/games.json')
+            await fs.writeFile(myPath, updatedData);
       
             // Send a success response
             res.status(200).json({ message: 'Games Updated successfully' });
