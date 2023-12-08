@@ -1,4 +1,4 @@
-import { fetchAllTeams } from '@/services';
+import { fetchAllTeams } from '@/services/gqlBlogRequests';
 import Link from 'next/link';
 import React, {useState, useEffect} from 'react'
 import Image from 'next/image';

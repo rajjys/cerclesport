@@ -1,5 +1,5 @@
 import { StandingsTable } from '@/components';
-import { fetchAllGamesGQL } from '@/services';
+import { fetchAllGamesGQL } from '@/services/gqlBlogRequests';
 import React, {useState, useEffect} from 'react';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat} from '@/utils/gameFunctions';
 

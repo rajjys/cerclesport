@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
-import { getGamesByTeam, getTeamProfile } from '@/services';
+import { getGamesByTeam, getTeamProfile } from '@/services/gqlBlogRequests';
 import Image from 'next/image';
 import { DateCarousel, GameCard } from '@/components';
 import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';

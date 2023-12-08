@@ -32,6 +32,9 @@ const Header = () => {
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
         <Link href="/standings/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Classement</span></Link>
       </Typography>
+      <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2 hidden">
+        <Link href="/playoff/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Playoff</span></Link>
+      </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
         <Link href="/blog/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Blog</span></Link>
       </Typography>

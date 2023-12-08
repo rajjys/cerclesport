@@ -1,5 +1,5 @@
 import { PostDetail, PostCard } from '@/components/blogComponents';
-import { fetchBlog, fetchBlogPosts } from '@/services';
+import { fetchBlog, fetchBlogPosts } from '@/services/gqlBlogRequests';
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'

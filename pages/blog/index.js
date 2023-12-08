@@ -1,6 +1,6 @@
 import { PostCard } from '@/components/blogComponents';
 import React, { useEffect, useState } from 'react'
-import { fetchBlogPosts } from '@/services';
+import { fetchBlogPosts } from '@/services/gqlBlogRequests';
 
 const Blogs = () => {
     const [blogPosts, setBlogPosts] = useState([]);
@@ -8,7 +8,7 @@ const Blogs = () => {
         fetchBlogPosts().then((data)=>{
             setBlogPosts(data);
         })
-    })
+    }, [])
   return (
     <div>
         {(blogPosts.length != 0) && 

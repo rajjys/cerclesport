@@ -1,4 +1,4 @@
-import { fetchBlogPosts } from '@/services';
+import { fetchBlogPosts } from '@/services/gqlBlogRequests';
 import Head from 'next/head'
 import { PostCard } from '@/components/blogComponents';
 import { GameCard, GameWidget } from '@/components';

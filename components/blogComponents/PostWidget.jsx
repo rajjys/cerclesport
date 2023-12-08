@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import moment from 'moment'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getRecentPosts, getSimilarPosts } from '@/services'
+import { getRecentPosts, getSimilarPosts } from '@/services/gqlBlogRequests'
 
 const PostWidget = ({categories, slug}) => {
   const [realtedPosts, setRelatedPosts] = useState([]);

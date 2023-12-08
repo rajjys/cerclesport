@@ -1,4 +1,4 @@
-import { getAllPlayoffData } from '@/services';
+import { getAllPlayoffData } from '@/services/gqlBlogRequests';
 import React, {useState, useEffect} from 'react'
 
 const Playoff = () => {
