@@ -71,6 +71,7 @@ const gamesQueries = {
         photo {
           url
         }
+        shortName
         slug
       }
       team2 {
@@ -125,6 +126,7 @@ const gamesQueries = {
         photo {
           url
         }
+        shortName
         slug
       }
       team2 {
@@ -179,6 +181,7 @@ const gamesQueries = {
         photo {
           url
         }
+        shortName
         slug
       }
       team2 {

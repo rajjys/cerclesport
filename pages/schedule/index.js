@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
-import { fetchAllGamesGQL } from '@/services/gqlBlogRequests';
 import { GameCard } from '@/components';
+import { divisionsNames } from '@/constants';
 
 const Games = () => {
     const [games, setGames] = useState([]);
@@ -8,19 +8,24 @@ const Games = () => {
     const [selectedDivision, setSelectedDivision] = useState("D1M");
     useEffect(() => {
       const fetchGames = async () => {
-        await fetch('/api/fetchallgames')
+        await fetch('/api/fetchallgames', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ division: selectedDivision,league: selectedLeague})
+        })
         .then(response => response.json())
         .then(data => setGames(data));
       }
       fetchGames();
-        ///fetchAllGamesGQL().then((data) => setGames(data))
-    }, []);
+    }, [selectedDivision, selectedLeague]);
     
     return (
       <div className='text-black'>
         <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md'>
           <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-lg'>
-             <span className='block'>{selectedLeague} 2024 - {divisionNames[selectedDivision]}</span>
+             <span className='block'>{selectedLeague} 2024 - {divisionsNames[selectedDivision]}</span>
              <span className='block'>Tout les Matchs</span>
           </div>
            <div className='m-2'>
@@ -39,18 +44,14 @@ const Games = () => {
         
         <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
         { (games.length != 0) && games.map((game, index) => {
-               return <GameCard game={game} key={index} showDeficit={false}/>
+               return <GameCard game={game} key={index} showDeficit={false} 
+                                league={selectedLeague} division={selectedDivision}/>
              })
             }
       </div>
     </div>
     )
 }
- const divisionNames = {
-  "D1M" : "1e DIVISION - MASCULIN",
-  "D1F" : "1e DIVISION - FEMININ",
-  "D2M" : "2e DIVISION - MASCULIN"
- }
 
 
 export default Games

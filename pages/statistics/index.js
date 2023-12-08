@@ -4,17 +4,26 @@ import Image from 'next/image';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat, getBlowoutGames,sortTeamsByDiff} from '@/utils/gameFunctions';
 import { resizeImage} from '@/utils/formatting';
 import { GameCard } from '@/components';
+import { divisionsNames } from '@/constants';
 
 const Statistics = () => {
   const [games, setGames] = useState([]);
+  const [selectedLeague, setSelectedLeague] = useState("EUBAGO");
+  const [selectedDivision, setSelectedDivision] = useState("D1M");
   useEffect(() => {
     const fetchGames = async () => {
-      await fetch('/api/fetchallgames')
+      await fetch('/api/fetchallgames', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ division: selectedDivision,league: selectedLeague})
+      })
       .then(response => response.json())
       .then(data => setGames(data));
     }
     fetchGames();
-  }, []);
+  }, [selectedDivision, selectedLeague]);
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
   const gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team like Wins, Losses, Last5 streak,...
@@ -26,6 +35,24 @@ const Statistics = () => {
   return (
     games.length == 0 ? <p>Loading</p>: 
     <div className='text-indigo-900 text-xs lg:text-sm mt-4'>
+      <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-black'>
+          <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-lg'>
+             <span className='block'>{selectedLeague} 2024 - {divisionsNames[selectedDivision]}</span>
+             <span className='block'>Statistiques</span>
+          </div>
+           <div className='m-2'>
+            <select className=" py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
+                  onChange={(event) => setSelectedLeague(event.target.value)}>
+                  <option value="EUBAGO">EUBAGO - Goma</option>
+            </select>
+            <select id="division" className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
+                onChange={(event) => setSelectedDivision(event.target.value)}>
+                <option value="D1M">1ere Division - M</option>
+                <option value="D1F">1ere Division - F</option>
+                <option value="D2M">2eme Division - M</option>
+            </select>
+           </div>
+        </div>
       <div className='flex flex-wrap'>
               <div className='p-2 m-2 rounded-lg bg-white grow shadow-md'>
                 <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>Leaders Offensifs</span>
