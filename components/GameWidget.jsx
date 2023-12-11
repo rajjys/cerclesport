@@ -4,7 +4,7 @@ import { formatMultiple, resizeImage, toHumanReadable, toHumanReadableTime} from
 import Link from 'next/link';
 const GameWidget = ( {gameInfo} ) => {
 
-  const gamePlayed = gameInfo.gameState == "Terminated";
+  const gamePlayed = gameInfo.gameState == "Ended";
   const winOrLoss = gameInfo.scoreTeam1 > gameInfo.scoreTeam2
   const textColor1 = winOrLoss ? "text-black" : "text-gray-500";
   const textColor2 = winOrLoss ? "text-gray-600" : "text-black";
@@ -43,10 +43,9 @@ const GameWidget = ( {gameInfo} ) => {
                         </table>
                       </div> :
                       <div className='text-xs px-2 flex flex-col items-center'>
-                          <span className=''>{date[0]}</span>
-                          <span className=''>{date[1]}</span>
-                          <span>{date[2]}</span>
-                          <span>{gameInfo.place}</span>
+                          <span className='block text-center font-bold text-indigo-900'>{toHumanReadable(gameInfo.dateAndTime)}</span>
+                          <span className='block text-center font-bold text-red-700'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>
+                          <span className='block text-center font-bold text-black text-sm '>{gameInfo.stadium.name}</span>
                       </div>
   return (
     <div className='bg-white text-black pt-2 shadow-md'>

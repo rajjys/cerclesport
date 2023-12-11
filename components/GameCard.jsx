@@ -10,7 +10,7 @@ const GameCard = ({ game , showDeficit, league, division}) => {
   const textColor2 = winOrLoss ? "text-gray-600" : "text-black";
   let diff = Math.abs(game.scoreTeam1 - game.scoreTeam2);
   return (
-              <Link href={`/game/${game.slug}`} className='rounded-lg bg-white p-2 lg:m-2 text-indigo-900 text-xs lg:text-sm shadow-md'>
+              <Link href={`/game/24/${league}/${division}/${game.slug}`} className='rounded-lg bg-white p-2 lg:m-2 text-indigo-900 text-xs lg:text-sm shadow-md'>
                               <span className={`whitespace-nowrap text-center block font-bold`}>{toHumanReadable(game.dateAndTime)}</span>
                               <span className={`whitespace-nowrap text-center block text-red-800 font-bold`}>{toHumanReadableTime(game.dateAndTime)}</span>
                               <div className='flex items-center justify-around p-2 my-2 border-y border-gray-300 font-bold'>

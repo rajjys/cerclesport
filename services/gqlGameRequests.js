@@ -84,6 +84,7 @@ const gamesQueries = {
         slug
       }
       gameType
+      gameState
     }
   }
   `,
@@ -139,6 +140,7 @@ const gamesQueries = {
         slug
       }
       gameType
+      gameState
     }
   }
   `,
@@ -194,6 +196,7 @@ const gamesQueries = {
         slug
       }
       gameType
+      gameState
     }
   }
   `

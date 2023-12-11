@@ -3,17 +3,18 @@ import { useRouter } from 'next/router';
 import { GameWidget } from '@/components';
 import Image from 'next/image';
 import { resizeImage } from '@/utils/formatting';
+import { divisionsNames } from '@/constants';
 
 const Game = () => {
 
-  let router = useRouter()
     const [gameInfo, setGameInfo] = useState();///Team games
+    let router = useRouter();
+    const { slug, division, league, season } = router.query;
   useEffect(() => {
     if (router.isReady){
-      const { slug } = router.query;
         const fetchGame = async () => {
           await fetch('/api/fetchgame', {
-            body: JSON.stringify(slug),
+            body: JSON.stringify({slug, division, league, season}),
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -22,15 +23,15 @@ const Game = () => {
           .then(response => response.json())
           .then(data => setGameInfo(data));
         }
-        fetchGame();
+       fetchGame();
     }  
-  }, [router.isReady]);
-  console.log(gameInfo);
+  }, [router.query, router.isReady]);
   if(gameInfo == null) return <p>Match introuvable</p>
   if(gameInfo == undefined) return <p>Chargement...</p>
   return (
     <div>
-      <div className='top-12 lg:top-16 sticky'>
+      <div className='top-12 lg:top-20 sticky'>
+        <span className='block text-black font-bold text-center mx-auto my-2 p-2 border border-gray-300 bg-gray-100 rounded-full text-xs md:text-sm lg:text-base'>{league} 2024 - {divisionsNames[division]}</span>
         <GameWidget gameInfo={gameInfo}/>
       </div>
       <div className='flex flex-wrap justify-between text-black text-sm md:text-base lg:text-lg mt-4' >

@@ -34,9 +34,9 @@ const Statistics = () => {
 
   return (
     games.length == 0 ? <p>Loading</p>: 
-    <div className='text-indigo-900 text-xs lg:text-sm mt-4'>
-      <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-black'>
-          <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-lg'>
+    <div className='text-indigo-900'>
+      <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-black text-xs md:text-sm mt-4'>
+          <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-base md:text-lg'>
              <span className='block'>{selectedLeague} 2024 - {divisionsNames[selectedDivision]}</span>
              <span className='block'>Statistiques</span>
           </div>
