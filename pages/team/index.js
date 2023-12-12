@@ -1,4 +1,3 @@
-import { fetchAllTeams } from '@/services/gqlBlogRequests';
 import Link from 'next/link';
 import React, {useState, useEffect} from 'react'
 import Image from 'next/image';
@@ -47,7 +46,7 @@ const Teams = () => {
         </div>
         <div className='grid grid-cols-4 p-4'>
             {teams.length !=0 && teams.map((team, index) => 
-                            (<Link href={`/team/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
+                            (<Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
                                 <Image
                                       alt={team.shortName}
                                       unoptimized

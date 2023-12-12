@@ -9,7 +9,6 @@ const GameWidget = ( {gameInfo} ) => {
   const textColor1 = winOrLoss ? "text-black" : "text-gray-500";
   const textColor2 = winOrLoss ? "text-gray-600" : "text-black";
   const overTimed = gameInfo.otTeam1 != null;
-  const date = formatMultiple(gameInfo.dateAndTime);
   const scoreBoard = (gamePlayed) ? 
                       <div className='text-xs px-2 text-center'>
                         <table>
@@ -48,11 +47,11 @@ const GameWidget = ( {gameInfo} ) => {
                           <span className='block text-center font-bold text-black text-sm '>{gameInfo.stadium.name}</span>
                       </div>
   return (
-    <div className='bg-white text-black pt-2 shadow-md'>
-      {gamePlayed && <span className='block text-center font-bold text-indigo-900'>{toHumanReadable(gameInfo.dateAndTime)}</span>}
-      {gamePlayed && <span className='block text-center font-bold text-red-700'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>}
+    <div className='bg-white text-black shadow-md'>
+      {gamePlayed && <span className='block text-center font-bold text-indigo-900 text-sm md:text-sm'>{toHumanReadable(gameInfo.dateAndTime)}</span>}
+      {gamePlayed && <span className='block text-center font-bold text-red-700 text-sm md:text-sm'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>}
       <div className='flex justify-center items-center py-2 overflow-auto'>
-        <div className='flex items-center text-xl font-bold px-2 text-indigo-950'>
+        <div className='flex items-center text-lg font-bold px-2 text-indigo-950'>
           <Link href={`/team/${gameInfo.team1.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
             <span className='hidden md:inline whitespace-nowrap'>{gameInfo.team1.name}</span>
             <span className='md:hidden'>{gameInfo.team1.shortName}</span>
@@ -62,25 +61,25 @@ const GameWidget = ( {gameInfo} ) => {
                   unoptimized
                   width="60"
                   height="60"
-                  className='align-middle inline rounded-full'
+                  className='align-middle inline rounded-full md:mx-1'
                   src={resizeImage(90, 90, gameInfo.team1.photo.url)}
                 />
-          <span className={`${textColor1} text-4xl`}>{gameInfo.scoreTeam1}</span>
+          <span className={`${textColor1} text-3xl`}>{gameInfo.scoreTeam1}</span>
           <span className='font-bold'>{winOrLoss && "<"}</span>         
         </div>
         <div className=''>
           <span className='px-4 md:hidden text-gray-600 font-bold'>-</span>
           <span className='hidden md:inline'>{scoreBoard}</span>
         </div>
-        <div className='flex items-center text-xl font-bold px-2 text-indigo-950'>
+        <div className='flex items-center text-lg font-bold px-2 text-indigo-950'>
             <span className='font-bold'>{!winOrLoss && ">"}</span>
-            <span className={`${textColor2} text-4xl`}>{gameInfo.scoreTeam2}</span>
+            <span className={`${textColor2} text-3xl`}>{gameInfo.scoreTeam2}</span>
             <Image
                       alt={gameInfo.team2.shortName}
                       unoptimized
                       width="60"
                       height="60"
-                      className='align-middle inline rounded-full'
+                      className='align-middle inline rounded-full md:mx-1'
                       src={resizeImage(90, 90, gameInfo.team2.photo.url)}
                     />
             <Link href={`/team/${gameInfo.team2.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>

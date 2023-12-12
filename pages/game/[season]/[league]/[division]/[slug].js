@@ -25,7 +25,7 @@ const Game = () => {
         }
        fetchGame();
     }  
-  }, [router.query, router.isReady]);
+  }, [router.isReady]);
   if(gameInfo == null) return <p>Match introuvable</p>
   if(gameInfo == undefined) return <p>Chargement...</p>
   return (

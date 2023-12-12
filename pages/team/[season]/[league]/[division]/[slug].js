@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
-import { getGamesByTeam, getTeamProfile } from '@/services/gqlBlogRequests';
 import Image from 'next/image';
-import { DateCarousel, GameCard } from '@/components';
+import { GameCard } from '@/components';
 import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';
 import { resizeImage } from '@/utils/formatting';
 
@@ -10,12 +9,12 @@ const Team = () => {
     let router = useRouter()
     const [games, setGames] = useState([]);///Team games
     const [profile, setProfile] = useState(); ///Team profile
+    const { slug, division, league, season } = router.query;
   useEffect(() => {
     if (router.isReady){
-      const { slug } = router.query;
       const fetchTeamProfile = async () => {
         await fetch('/api/fetchteam', {
-          body: JSON.stringify(slug),
+          body: JSON.stringify({slug, division, league, season}),
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -26,7 +25,7 @@ const Team = () => {
       }
       const fetchGamesByTeam = async () => {
         await fetch('/api/fetchgamesbyteam', {
-          body: JSON.stringify(slug),
+          body: JSON.stringify({slug, division, league, season}),
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -118,7 +117,7 @@ const Team = () => {
             <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES: <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 rounded-full'>{profile.name}</span></span>
             <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                 {games.map((game, index) => {
-                    return <GameCard game={game} key={index} showDeficit={false}/>
+                    return <GameCard game={game} key={index} showDeficit={false} league={league} division={division}/>
                   })
                 }
             </div>

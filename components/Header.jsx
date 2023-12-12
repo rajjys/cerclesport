@@ -23,7 +23,7 @@ const Header = () => {
   const navList = (
     <ul className="flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center  text-black">
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
-        <Link href="/" onClick={handleClick}><span className='lg:p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
+        <Link href="/" onClick={handleClick}><span className='p-2 align-middle text-white font-bold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
         <Link href="/schedule/" onClick={handleClick}>
