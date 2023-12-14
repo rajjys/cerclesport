@@ -21,7 +21,7 @@ const Game = () => {
             },
           })
           .then(response => response.json())
-          .then(data => setGameInfo(data));
+          .then(data => setGameInfo({...data, league, division }));
         }
        fetchGame();
     }  
@@ -30,9 +30,11 @@ const Game = () => {
   if(gameInfo == undefined) return <p>Chargement...</p>
   return (
     <div>
-      <div className='top-12 lg:top-20 sticky'>
-        <span className='block text-black font-bold text-center mx-auto my-2 p-2 border border-gray-300 bg-gray-100 rounded-full text-xs md:text-sm lg:text-base'>{league} 2024 - {divisionsNames[division]}</span>
-        <GameWidget gameInfo={gameInfo}/>
+      <div className='top-12 lg:top-16 pt-2 sticky bg-white'>
+            <div className='flex justify-center text-gray-800 mb-2'>
+                <span className='font-bold border border-gray-300 rounded-full bg-gray-100 px-2 py-1 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
+            </div>
+            <GameWidget gameInfo={gameInfo}/>
       </div>
       <div className='flex flex-wrap justify-between text-black text-sm md:text-base lg:text-lg mt-4' >
         <div className='p-6 m-4 rounded-lg bg-white grow shadow-md'>

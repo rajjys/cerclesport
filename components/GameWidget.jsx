@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-import { formatMultiple, resizeImage, toHumanReadable, toHumanReadableTime} from '@/utils/formatting';
+import { resizeImage, toHumanReadable, toHumanReadableTime} from '@/utils/formatting';
 import Link from 'next/link';
 const GameWidget = ( {gameInfo} ) => {
 
@@ -52,7 +52,7 @@ const GameWidget = ( {gameInfo} ) => {
       {gamePlayed && <span className='block text-center font-bold text-red-700 text-sm md:text-sm'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>}
       <div className='flex justify-center items-center py-2 overflow-auto'>
         <div className='flex items-center text-lg font-bold px-2 text-indigo-950'>
-          <Link href={`/team/${gameInfo.team1.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
+          <Link href={`/team/24/${gameInfo.league}/${gameInfo.division}/${gameInfo.team1.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
             <span className='hidden md:inline whitespace-nowrap'>{gameInfo.team1.name}</span>
             <span className='md:hidden'>{gameInfo.team1.shortName}</span>
           </Link>
@@ -82,7 +82,7 @@ const GameWidget = ( {gameInfo} ) => {
                       className='align-middle inline rounded-full md:mx-1'
                       src={resizeImage(90, 90, gameInfo.team2.photo.url)}
                     />
-            <Link href={`/team/${gameInfo.team2.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
+            <Link href={`/team/24/${gameInfo.league}/${gameInfo.division}/${gameInfo.team2.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>
               <span className='md:hidden'>{gameInfo.team2.shortName}</span>
               <span className='hidden md:inline whitespace-nowrap'>{gameInfo.team2.name}</span>
             </Link>
