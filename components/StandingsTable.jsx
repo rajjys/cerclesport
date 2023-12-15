@@ -1,7 +1,7 @@
 import React from 'react'
 import TeamStatsRow from "./TeamStatsRow"
 
-const StandingsTable = ( { standingsArray } ) => {
+const StandingsTable = ( { standingsArray, league, division } ) => {
   return (
     <div className='q   112border border-gray-300'>
         <table>
@@ -21,7 +21,7 @@ const StandingsTable = ( { standingsArray } ) => {
             </thead>
             <tbody>
                 {standingsArray.map((teamData, index) => {
-                    return <TeamStatsRow teamData={teamData} rank={index} key={index}/>
+                    return <TeamStatsRow teamData={teamData} rank={index} key={index} league={league} division={division} />
                 })}
             </tbody>
         </table>

@@ -40,15 +40,19 @@ const Team = () => {
     }  
   }, [router.isReady]);
   if(profile == null) return <p>Equipe Introuvable</p>
-  if(games.length == 0 || profile == undefined) return <p>Chargement...</p>
+  if(profile == undefined) return <p>Chargement...</p>
 
   const gameObj = {}
   gameObj[profile.name] = games;
-  const gamesWithStats = addTeamStats(addWinLossEntries(gameObj));///Get stats for this team
-  const stats = gamesWithStats[profile.name][1];
+  let gamesWithStats = {};
+  let stats = {};
+  if(games.length != 0) {
+    gamesWithStats = addTeamStats(addWinLossEntries(gameObj));///Get stats for this team
+    stats = gamesWithStats[profile.name][1];
+  }
   return (
       <div>
-        <div className='bg-green-700 text-white flex justify-start'>
+        <div className='bg-green-700 text-white flex justify-between px-6'>
             <div className='flex  px-4 py-6 items-center'>
                 <Image
                       alt={profile.shortName}
@@ -70,7 +74,7 @@ const Team = () => {
                 </div>   
             </div>
             <div className='flex justify-center items-center ml-40'>
-                <span className='font-bold text-gray-300 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
+                <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
             </div>
         </div>
         <div className='border-b border-gray-300 pb-6 mb-6 mx-2'>

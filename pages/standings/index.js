@@ -49,7 +49,7 @@ const Standings = () => {
            </div>
         </div>
       <div className='grid place-items-center overflow-auto mb-4'>
-          <StandingsTable standingsArray={sortedGames}/>
+          <StandingsTable standingsArray={sortedGames} league={selectedLeague} division={selectedDivision}/>
       </div>
       <div className='text-xs text-black flex flex-wrap justify-between mb-4 pb-4 border-b border-gray-300'>
         <span className='px-2 whitespace-nowrap'><b>MJ</b>: Matchs Joués</span>
