@@ -52,7 +52,10 @@ const Team = () => {
   }
   return (
       <div>
-        <div className='bg-green-700 text-white flex justify-between px-6'>
+        <div className='bg-green-700 text-white px-6 pt-2'>
+            <div className='flex justify-center items-center'>
+                <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
+            </div>
             <div className='flex  px-4 py-6 items-center'>
                 <Image
                       alt={profile.shortName}
@@ -72,9 +75,6 @@ const Team = () => {
                     <span className='ml-6'>Bilan:<span className='px-2 font-bold'>{stats.wins}-{stats.losses}-{stats.forfeits}</span></span>
                   </div>
                 </div>   
-            </div>
-            <div className='flex justify-center items-center ml-40'>
-                <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
             </div>
         </div>
         <div className='border-b border-gray-300 pb-6 mb-6 mx-2'>
