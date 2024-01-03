@@ -78,7 +78,10 @@ const Team = () => {
             </div>
         </div>
         <div className='border-b border-gray-300 pb-6 mb-6 mx-2'>
-          <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>STATISTIQUES: <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 rounded-full'>{profile.name}</span></span>
+          <div className='font-bold text-xl py-4 flex flex-wrap justify-center items-center'>
+              <span className='text-center text-indigo-900 block'>STATISTIQUES: </span>
+              <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 text-center rounded-full'>{profile.name}</span>
+          </div>
           <table className='text-left text-black mx-auto'>
             <tr className='border-b border-gray-300'>
               <td className='pr-24'>Matchs Joues</td>
@@ -115,7 +118,10 @@ const Team = () => {
           </table>
         </div>
         <div>
-            <span className='text-center font-bold text-xl py-4 text-indigo-900 block'>MATCHS JOUES: <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-indigo-800 rounded-full'>{profile.name}</span></span>
+        <div className='font-bold text-xl py-4 flex flex-wrap justify-center items-center'>
+              <span className='text-center text-indigo-900 block'>MATCHS: </span>
+              <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-center text-indigo-800 rounded-full'>{profile.name}</span>
+          </div>
             <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                 {games.map((game, index) => {
                     return <GameCard game={game} key={index} showDeficit={false} league={league} division={division}/>
