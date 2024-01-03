@@ -90,7 +90,7 @@ const Statistics = () => {
                   <span className='hidden md:block text-gray-500 text-right pr-2 font-bold border-b border-gray-300'>Points Par Match</span>
                   <span className='block md:hidden text-right text-gray-500 pr-4 font-bold border-b border-gray-300'>PPM</span>
                   {sortedByPPG.map((team, index) => 
-                  <Link href={`/team/24${selectedLeague}/${selectedDivision}/${team[1][1].teamSlug}`} 
+                  <Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team[1][1].teamSlug}`} 
                         className='flex justify-between items-center p-1 m-1 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' 
                         key={index}>
                           <div className='flex items-center'>
@@ -115,7 +115,7 @@ const Statistics = () => {
                   <span className='hidden md:block text-gray-500 text-right pr-2 font-bold border-b border-gray-300'>Points Encaisses Par Match</span>
                   <span className='block md:hidden text-right text-gray-500 pr-4 font-bold border-b border-gray-300'>PEPM</span>
                   {sortedByDPPG.map((team, index) => 
-                  <Link href={`/team/24${selectedLeague}/${selectedDivision}/${team[1][1].teamSlug}`} 
+                  <Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team[1][1].teamSlug}`} 
                         className='flex justify-between items-center p-1 m-1 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' 
                         key={index}>
                           <div className='flex items-center'>
@@ -142,7 +142,7 @@ const Statistics = () => {
                   {sortedByDiff.map((team, index) => 
                   { let diff = (team[1][1].ppg - team[1][1].dppg).toFixed(1);
                     let text_color = diff >= 0 ? "text-green-700" : "text-red-700";
-                  return <Link href={`/team/24${selectedLeague}/${selectedDivision}/${team[1][1].teamSlug}`} 
+                  return <Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team[1][1].teamSlug}`} 
                         className='flex justify-between items-center p-1 m-1 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' 
                         key={index}>
                           <div className='flex items-center'>

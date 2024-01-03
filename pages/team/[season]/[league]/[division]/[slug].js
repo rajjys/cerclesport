@@ -52,11 +52,11 @@ const Team = () => {
   }
   return (
       <div>
-        <div className='bg-green-700 text-white px-6 pt-2'>
+        <div className='bg-green-700 text-white pt-2'>
             <div className='flex justify-center items-center'>
                 <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
             </div>
-            <div className='flex  px-4 py-6 items-center'>
+            <div className='flex p-4 items-center'>
                 <Image
                       alt={profile.shortName}
                       unoptimized
@@ -65,14 +65,14 @@ const Team = () => {
                       className='align-middle inline rounded rounded-full'
                       src={resizeImage(180, 180, profile.photo.url)}
                     />
-                <div className='px-4'>
+                <div className='px-2'>
                   <div className='text-3xl my-2'>
                     <span className='font-bold'>{profile.name}</span>
                     <span className='text-gray-400 font-medium'>{` (${profile.shortName})`}</span>
                   </div>
                   <div className='flex justify-end'>
                     <span className='px-2'>Points: <span className='font-bold'>{stats.points}</span></span>
-                    <span className='ml-6'>Bilan:<span className='px-2 font-bold'>{stats.wins}-{stats.losses}-{stats.forfeits}</span></span>
+                    <span className='ml-6'>Bilan:<span className='pl-2 font-bold'>{stats.wins}-{stats.losses}-{stats.forfeits}</span></span>
                   </div>
                 </div>   
             </div>
