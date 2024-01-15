@@ -7,7 +7,7 @@ import { resizeImage } from '@/utils/formatting';
 const PostCard = ({blogPost, index}) => {
  
   let rowspan, colspan, display, 
-  imageJustify, height, width, titleSize, excerptSize, padding,
+  imageJustify, height, width, titleSize, excerptSize, padding, textPadding,
   shadow = 'shadow-md', rounded = 'rounded-md', borderB;
   let imageUrl = blogPost.featuredImage.url;
   if(index == 0) {
@@ -18,6 +18,7 @@ const PostCard = ({blogPost, index}) => {
     width = 'w-full';
     titleSize = 'text-2xl';
     padding = 'pt-2';
+    textPadding = "px-2 py-4"
     excerptSize = 'text-sm';
     rounded = 'rounded-t-md'
 }
@@ -52,10 +53,10 @@ const PostCard = ({blogPost, index}) => {
                 height='45'
                 className={`${rounded} ${imageJustify} ${width} ${height}`}
               />
-        <div className='px-2 flex flex-col justify-between'>
+        <div className={`px-2 flex flex-col justify-between ${textPadding}`}>
           <span className={`block font-bold ${titleSize} ${padding}`} >{blogPost.title}</span>
           <p className={`${excerptSize} text-gray-500 py-1`}>{blogPost.excerpt.substring(0, 100) + "..."}</p>
-          <span className='block text-slate-500 text-xs'>{moment(blogPost.createdAt).fromNow()}</span>
+          <span className='block text-slate-500 text-xs font-bold'>{moment(blogPost.createdAt).fromNow()}</span>
         </div>
         </Link>
     </div>

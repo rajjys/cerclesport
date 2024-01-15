@@ -38,7 +38,7 @@ export default function Home() {
       fetchGames("EUBAGO", "D1M");
       fetchGames("EUBAGO", "D1F");
       fetchGames("EUBAGO", "D2M");
-      fetchBlogPosts().then((data) => setBlogPosts(data))
+      fetchBlogPosts().then((data) => setBlogPosts(data.slice(0, 10)))
     }, []);
 
   const latestGames = [...gamesd1m, ...gamesd1f, ...gamesd2m];
@@ -51,7 +51,7 @@ export default function Home() {
           <title>Cercle Sport - Statistiques et Info Sport RDC</title>
           <link rel='icon' href='/favicon.ico'/>
         </Head>
-        <div className='grid grid-cols-8'>
+        <div className='grid grid-cols-8 lg:w-5/6 lg:mx-auto'>
           {(blogPosts.length != 0) && 
           <div className='col-span-8 md:col-span-5 lg:col-span-6 text-black grid grid-cols-5 m-4 grid-rows-10 gap-6 p-2'>
               { blogPosts.map((blogPost, index) => {
