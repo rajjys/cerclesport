@@ -1,10 +1,20 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-    export default async function handler (req, res) {
-      const league = req.body.league;
-      const division = req.body.division;
-      const myPath = path.join(process.cwd(), `data/${league}S2324/${division}/teams.json`)
-      const teams = await fs.readFile(myPath, 'utf8');
-      const parsedTeams = JSON.parse(teams);
-      return res.status(200).json(parsedTeams);
-    }
+import nextConnect from 'next-connect';
+import middleware from '@/middleware/database';
+
+const handler = nextConnect();
+
+handler.use(middleware);
+
+handler.post(async (req, res) => {
+    // Convert the object back to a JSON string;
+    const league = req.body.league;
+    const division = req.body.division;
+    const fieldString = `${league}.${division}.teams`;
+    let projectionObject = {_id: 0};
+    projectionObject[fieldString] = 1;
+    let doc = await req.db.collection('24').findOne({}, { projection: projectionObject });
+    let teams = doc[league][division].teams;
+    return res.status(200).json(teams);
+});
+
+export default handler;

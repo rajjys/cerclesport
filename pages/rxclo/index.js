@@ -34,7 +34,7 @@ const Admin = () => {
        
         ///insert games into the file
         SetResponse("Inserting...");
-        const result = await fetch('/api/storegames', {
+        const result = await fetch('/api/storegamesdb', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ const Admin = () => {
       
        ///insert teams into the file
        SetResponse("Inserting...");
-       const result = await fetch('/api/storeteams', {
+       const result = await fetch('/api/storeteamsdb', {
            method: 'POST',
            headers: {
              'Content-Type': 'application/json'
