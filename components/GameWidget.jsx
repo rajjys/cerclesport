@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-import { resizeImage, toHumanReadable, toHumanReadableTime} from '@/utils/formatting';
+import { resizeImage, getHumanReadable, getHumanReadableTime} from '@/utils/formatting';
 import Link from 'next/link';
 const GameWidget = ( {gameInfo} ) => {
 
@@ -42,14 +42,14 @@ const GameWidget = ( {gameInfo} ) => {
                         </table>
                       </div> :
                       <div className='text-xs px-2 flex flex-col items-center'>
-                          <span className='block text-center font-bold text-indigo-900'>{toHumanReadable(gameInfo.dateAndTime)}</span>
-                          <span className='block text-center font-bold text-red-700'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>
+                          <span className='block text-center font-bold text-indigo-900'>{getHumanReadable(gameInfo.dateAndTime)}</span>
+                          <span className='block text-center font-bold text-red-700'>{getHumanReadableTime(gameInfo.dateAndTime)}</span>
                           <span className='block text-center font-bold text-black text-sm '>{gameInfo.stadium.name}</span>
                       </div>
   return (
     <div className='bg-white text-black shadow-md'>
-      {gamePlayed && <span className='block text-center font-bold text-indigo-900 text-sm md:text-sm'>{toHumanReadable(gameInfo.dateAndTime)}</span>}
-      {gamePlayed && <span className='block text-center font-bold text-red-700 text-sm md:text-sm'>{toHumanReadableTime(gameInfo.dateAndTime)}</span>}
+      {gamePlayed && <span className='block text-center font-bold text-indigo-900 text-sm md:text-sm'>{getHumanReadable(gameInfo.dateAndTime)}</span>}
+      {gamePlayed && <span className='block text-center font-bold text-red-700 text-sm md:text-sm'>{getHumanReadableTime(gameInfo.dateAndTime)}</span>}
       <div className='flex justify-center items-center py-2 overflow-auto'>
         <div className='flex items-center text-lg font-bold px-2 text-indigo-950'>
           <Link href={`/team/24/${gameInfo.league}/${gameInfo.division}/${gameInfo.team1.slug}`} className='hover:text-red-800 transition duration-300 ease-in-out'>

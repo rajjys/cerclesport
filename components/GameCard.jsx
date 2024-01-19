@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react'
 import Image from 'next/image';
-import { resizeImage, toHumanReadable, toHumanReadableTime } from '@/utils/formatting';
+import { resizeImage, getHumanReadableTime, getNumericDate } from '@/utils/formatting';
 
 const GameCard = ({ game , showDeficit, league, division}) => {
 
@@ -10,9 +10,11 @@ const GameCard = ({ game , showDeficit, league, division}) => {
   const textColor2 = winOrLoss ? "text-gray-600" : "text-black";
   let diff = Math.abs(game.scoreTeam1 - game.scoreTeam2);
   return (
-              <Link href={`/game/24/${league}/${division}/${game.slug}`} className='rounded-lg bg-white p-2 lg:m-2 text-indigo-900 text-xs lg:text-sm shadow-md'>
-                              <span className={`whitespace-nowrap text-center block font-bold`}>{toHumanReadable(game.dateAndTime)}</span>
-                              <span className={`whitespace-nowrap text-center block text-red-800 font-bold`}>{toHumanReadableTime(game.dateAndTime)}</span>
+              <Link href={`/game/24/${league}/${division}/${game.slug}`} className='rounded-lg bg-white p-2 my-1 text-indigo-900 text-xs lg:text-sm shadow-md'>
+                              <div className='flex justify-center'>
+                                  <span className={`whitespace-nowrap text-center font-bold pr-4 border-r border-gray-300`}>{getNumericDate(game.dateAndTime)}</span>
+                                  <span className={`whitespace-nowrap text-center text-red-800 font-bold pl-4`}>{getHumanReadableTime(game.dateAndTime)}</span>
+                              </div>
                               <div className='flex items-center justify-around p-2 my-2 border-y border-gray-300 font-bold'>
                                 <span>{game.team1.shortName}</span>
                                 <Image

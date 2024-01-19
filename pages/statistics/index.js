@@ -164,7 +164,7 @@ const Statistics = () => {
           </div>
           <div>
             <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>10 Plus grands Deficits</span>
-            <div className='grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            <div className='grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4'>
               {blowoutGames.map((game, index) =>{
                 return <GameCard game={game} showDeficit={true} key={index} league={selectedLeague} division={selectedDivision}/>
               }

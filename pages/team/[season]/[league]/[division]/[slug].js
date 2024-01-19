@@ -62,6 +62,7 @@ const Team = () => {
                       unoptimized
                       width="120"
                       height="120"
+                      loading="eager"
                       className='align-middle inline rounded rounded-full'
                       src={resizeImage(180, 180, profile.photo.url)}
                     />
