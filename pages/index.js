@@ -4,8 +4,8 @@ import { PostCard } from '@/components/blogComponents';
 import React, {useEffect, useState} from 'react'
 import Link from 'next/link';
 import { GameCard } from '@/components';
-import Image from 'next/image';
-import { getNumericDate, resizeImage } from '@/utils/formatting';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
 
@@ -52,18 +52,22 @@ export default function Home() {
           <title>Cercle Sport - Statistiques et Info Sport RDC</title>
           <link rel='icon' href='/favicon.ico'/>
         </Head>
-        <div className='flex justify-between flex-wrap'>
+        <div className='grid grid-cols-12 gap-0'>
           {(blogPosts.length != 0) && 
-          <div className='flex-1 w-full lg:w-3/4 grow text-black grid grid-cols-10 m-4 grid-rows-10 gap-2 p-2'>
-              { blogPosts.map((blogPost, index) => {
-                return <PostCard blogPost={blogPost} index={index} key={index}/>
-                })}
+          <div className='col-span-12 xl:col-span-9 p-4'>
+            <PostCard blogPost={blogPosts[0]} index={0}/>
+                <Carousel responsive={responsive}
+                ssr={true} showDots={false} itemClass="mr-2 lg:mr-3" 
+                className='pt-8 px-2'>
+                    {blogPosts.slice(1).map((blogPost, index) => 
+                (<PostCard blogPost={blogPost} key={index} index={index + 1}/>))}
+                </Carousel>
           </div>
           }
           {
             ///Latest Games
             (games.length != 0) && 
-            <div className='flex-none w-full lg:w-1/4 flex flex-col px-4'>
+            <div className='col-span-12 xl:col-span-3 flex flex-col px-4'>
               <span className='text-xl lg:text-2xl font-bold py-4 text-center'>MATCHS RECENTS</span>
               {games.map((game, index) => {
                 return <GameCard game={game} showDeficit={false} key={index} league={game.league} division={game.division}/>
@@ -78,3 +82,23 @@ export default function Home() {
     </div>
   )
 }
+
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 4
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 3
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 2
+  }
+};

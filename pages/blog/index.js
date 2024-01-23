@@ -1,6 +1,8 @@
 import { PostCard } from '@/components/blogComponents';
 import React, { useEffect, useState } from 'react'
 import { fetchBlogPosts } from '@/services/gqlBlogRequests';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 const Blogs = () => {
     const [blogPosts, setBlogPosts] = useState([]);
@@ -10,13 +12,43 @@ const Blogs = () => {
         })
     }, [])
   return (
-    <div>
+    <div className='m-4'>
         {(blogPosts.length != 0) && 
-        <div className='blogs text-black bg-white grid grid-cols-10 m-4 grid-rows-10 gap-6 p-2'>
-            { blogPosts.map((blogPost, index) => <PostCard blogPost={blogPost} index={index} key={index}/>)}
-        </div>}
+                <div className=' p-4'>
+                <PostCard blogPost={blogPosts[0]} index={0}/>
+                    <Carousel responsive={responsive}
+                    ssr={true} showDots={false} itemClass="mr-2 lg:mr-3" 
+                    className='pt-8 px-2'>
+                        {blogPosts.slice(1).map((blogPost, index) => 
+                    (<PostCard blogPost={blogPost} key={index} index={index + 1}/>))}
+                    </Carousel>
+            </div>}
     </div>
   )
 }
 
 export default Blogs
+const responsive = {
+    desktop: {
+        // the naming can be any, depends on you.
+        breakpoint: { max: 3000, min: 1920 },
+        items: 7
+      },
+    laptop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 1920, min: 1124 },
+      items: 5
+    },
+    tablet: {
+      breakpoint: { max: 1124, min: 900 },
+      items: 4
+    },
+    smallTablet: {
+      breakpoint: { max: 900, min: 464 },
+      items: 3
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 2
+    }
+  };

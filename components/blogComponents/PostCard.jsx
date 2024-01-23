@@ -5,58 +5,46 @@ import Image from 'next/image'
 import { resizeImage } from '@/utils/formatting';
 
 const PostCard = ({blogPost, index}) => {
- 
-  let rowspan, colspan, display, 
-  imageJustify, height, width, titleSize, excerptSize, padding, textPadding,
-  shadow = 'shadow-md', rounded = 'rounded-md', borderB, loading='lazy';
+
   let imageUrl = blogPost.featuredImage.url;
-  if(index == 0) {
-    rowspan = "row-span-2";
-    colspan = "col-span-10"
-    display = "";
-    loading = 'eager';
-    imageJustify = "block";
-    width = 'w-full';
-    titleSize = 'text-2xl';
-    padding = 'pt-2';
-    textPadding = "px-2 py-4"
-    excerptSize = 'text-sm';
-    rounded = 'rounded-t-md'
-    imageUrl = resizeImage(700, 410, imageUrl, 'crop');
-}
-  else {
-    rowspan = 'row-span-1';
-    colspan = "col-span-10 lg:col-span-5"
-    display = 'flex';
-    imageJustify = 'inline'
-    width = 'w-44'
-    height = 'h-full'
-    titleSize = 'text-sm';
-    excerptSize = 'text-xs hidden md:block'
-    borderB = "border-b border-gray-300 lg:border-none"
-      shadow = "shadow-none lg:shadow-md"
-    ///resize
-    imageUrl = resizeImage(180, 100, imageUrl, 'crop');
-  }  
+  let backColor = index % 2 == 0 ? "bg-black text-white":"bg-white text-black"
   return (
-    <div className={`text-black  ${colspan} rounded ${shadow} ${borderB} grow`}>
-      <Link href={`/blog/${blogPost.slug}`} className={`${display}`}>
-        <Image 
-                src={imageUrl}
-                unoptimized
-                alt={blogPost.title}
-                width='160'
-                height='90'
-                loading={loading}
-                className={`${rounded} ${imageJustify} ${width} ${height}`}
-              />
-        <div className={`px-2 flex flex-col justify-between ${textPadding}`}>
-          <span className={`block font-bold  ${titleSize} ${padding}`} >{blogPost.title}</span>
-          <p className={`${excerptSize} text-gray-500 py-1`}>{blogPost.excerpt.substring(0, 100) + "..."}</p>
-          <span className='block text-slate-500 text-xs font-bold'>{moment(blogPost.createdAt).fromNow()}</span>
-        </div>
-        </Link>
-    </div>
+        (index == 0)?
+        <Link href={`/blog/${blogPost.slug}`} className='grid grid-cols-5 rounded-lg shadow-md pb-2'>
+          <Image 
+            src={resizeImage(700, 410, imageUrl, 'crop')}
+            unoptimized
+            alt={blogPost.title}
+            width='700'
+            height='410'
+            loading="eager"
+            className='w-full col-span-5 lg:col-span-3 rounded-md shadow-md'
+          />
+          <div className='col-span-5 lg:col-span-2'>
+              <span className="font-bold font-serif text-black text-2xl md:text-3xl 
+              px-4 py-6 mb-6 border-b border-red-700 block" >
+                {blogPost.title.charAt(0).toUpperCase() + blogPost.title.slice(1)}</span>
+              <p className="text-gray-600 text-sm md:text-md mb-4 pb-2 px-6">{blogPost.excerpt.substring(0, 100) + "..."}</p>
+              <span className='block text-slate-500 text-xs font-bold px-6'>{moment(blogPost.createdAt).fromNow()}</span>
+          </div>
+        </Link>:   
+        <Link href={`/blog/${blogPost.slug}`} className={`${backColor} flex flex-col justify-between rounded-md shadow-md h-full`}>
+          <Image 
+            src={resizeImage(210, 120, imageUrl, 'crop')}
+            unoptimized
+            alt={blogPost.title}
+            width='240'
+            height='140'
+            loading='lazy'
+            className="rounded-t-md w-full"
+          />
+          <div className='flex-auto flex flex-col justify-between'>
+              <span className="p-2 font-bold text-sm md:text-base lg:text-lg 
+              font-bold font-serif" >
+                {blogPost.title.charAt(0).toUpperCase() + blogPost.title.slice(1)}</span>
+              <span className='block text-slate-500 text-xs md:text-sm p-2 border-t border-red-700'>{moment(blogPost.createdAt).fromNow()}</span>
+          </div>
+        </Link>  
   )
 }
 
