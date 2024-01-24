@@ -10,7 +10,7 @@ const PostCard = ({blogPost, index}) => {
   let backColor = index % 2 == 0 ? "bg-black text-white":"bg-white text-black"
   return (
         (index == 0)?
-        <Link href={`/blog/${blogPost.slug}`} className='grid grid-cols-5 rounded-lg shadow-md pb-2'>
+        <Link href={`/blog/${blogPost.slug}`} className='grid grid-cols-5 rounded-lg shadow-md'>
           <Image 
             src={resizeImage(700, 410, imageUrl, 'crop')}
             unoptimized

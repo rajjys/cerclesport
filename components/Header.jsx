@@ -56,8 +56,7 @@ const Header = () => {
   return (
     <Navbar className="w-full py-1 md:py-2 px-4 lg:px-8  bg-indigo-950 border-none">
       <div className=",x-2 lg:mx-8 flex items-center justify-between text-blue-gray-900">
-        <Link
-          as=""
+        <Link as=""
           href="/"
           className="mr-4 cursor-pointer font-bold text-red-500 ">
           <Image 
