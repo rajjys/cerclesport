@@ -40,7 +40,7 @@ const PostCard = ({blogPost, index}) => {
           />
           <div className='flex-auto flex flex-col justify-between'>
               <span className="p-2 font-bold text-sm md:text-base lg:text-lg 
-              font-bold font-serif" >
+              font-bold font-serif">
                 {blogPost.title.charAt(0).toUpperCase() + blogPost.title.slice(1)}</span>
               <span className='block text-slate-500 text-xs md:text-sm p-2 border-t border-red-700'>{moment(blogPost.createdAt).fromNow()}</span>
           </div>
