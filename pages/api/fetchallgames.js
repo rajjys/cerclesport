@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 export default async function handler(req, res) {
-    const MONGODB_URI = "mongodb+srv://rajjys:kwL3Vbt95ry2xSeO@cluster0.6ks4zoa.mongodb.net/?retryWrites=true&w=majority";
+    const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
     const MONGODB_DB = 'cercleSport';
 
     async function getDb() {
