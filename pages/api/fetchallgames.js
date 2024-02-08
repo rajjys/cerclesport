@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 export default async function handler(req, res) {
-    const MONGODB_URI = process.env.NEXT_PUBLIC_MONGO_DB_URI;
+    const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
     const MONGODB_DB = 'cercleSport';
 
     async function getDb() {
