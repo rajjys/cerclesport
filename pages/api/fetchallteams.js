@@ -6,10 +6,8 @@ import { MongoClient } from 'mongodb';
     
         async function getDb() {
             if (!global.mongoClient) {
-            global.mongoClient = new MongoClient(MONGODB_URI, {
-                useUnifiedTopology: true,
-                useNewUrlParser: true,
-            }).connect();
+            global.mongoClient = new MongoClient(MONGODB_URI, {})
+            .connect();
             }
     
             const client = await global.mongoClient;

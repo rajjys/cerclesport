@@ -7,8 +7,6 @@ export default async function handler(req, res) {
     async function getDb() {
         if (!global.mongoClient) {
         global.mongoClient = new MongoClient(MONGODB_URI, {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
         }).connect();
         }
 
