@@ -1,20 +1,29 @@
-import nextConnect from 'next-connect';
-import middleware from '@/middleware/database';
+import { MongoClient } from 'mongodb';
 
-const handler = nextConnect();
+export default async function handler(req, res) {
+    const MONGODB_URI = process.env.NEXT_PUBLIC_MONGO_DB_URI;
+    const MONGODB_DB = 'cercleSport';
 
-handler.use(middleware);
+    async function getDb() {
+        if (!global.mongoClient) {
+        global.mongoClient = new MongoClient(MONGODB_URI, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+        }).connect();
+        }
 
-handler.post(async (req, res) => {
+        const client = await global.mongoClient;
+        return client.db(MONGODB_DB);
+    }
+
+    let db = await getDb();
     // Convert the object back to a JSON string;
     const league = req.body.league;
     const division = req.body.division;
     const fieldString = `${league}.${division}.games`;
     let projectionObject = {_id: 0};
     projectionObject[fieldString] = 1;
-    let doc = await req.db.collection('24').findOne({}, { projection: projectionObject });
+    let doc = await db.collection('24').findOne({}, { projection: projectionObject });
     let games = doc[league][division].games;
     return res.status(200).json(games);
-});
-
-export default handler;
+};
