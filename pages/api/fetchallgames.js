@@ -1,20 +1,19 @@
 import { MongoClient } from 'mongodb';
+    export default async function handler(req, res) {
+        const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
+        const MONGODB_DB = 'cercleSport';
 
-export default async function handler(req, res) {
-    const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
-    const MONGODB_DB = 'cercleSport';
+        async function getDb() {
+            if (!global.mongoClient) {
+            global.mongoClient = new MongoClient(MONGODB_URI, {})
+            .connect();
+            }
 
-    async function getDb() {
-        if (!global.mongoClient) {
-        global.mongoClient = new MongoClient(MONGODB_URI, {
-        }).connect();
+            const client = await global.mongoClient;
+            return client.db(MONGODB_DB);
         }
 
-        const client = await global.mongoClient;
-        return client.db(MONGODB_DB);
-    }
-
-    let db = await getDb();
+        let db = await getDb();
     // Convert the object back to a JSON string;
     const league = req.body.league;
     const division = req.body.division;

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat, getBlowoutGames,sortTeamsByDiff} from '@/utils/gameFunctions';
 import { resizeImage} from '@/utils/formatting';
 import { GameCard } from '@/components';
-import { divisionsNames } from '@/constants';
+import { fullForms, supportedLeagues } from '@/constants';
 import { useRouter } from 'next/router';
 
 
@@ -44,7 +44,8 @@ const Statistics = () => {
     const query = { ...router.query }
   
     if (name === 'league') {
-      query.league = value
+      query.league = value;
+      query.division = supportedLeagues[value][0];
     } else if (name === 'division') {
       query.division = value
     }
@@ -63,27 +64,27 @@ const Statistics = () => {
   const blowoutGames = getBlowoutGames(games);
 
   return (
-    games.length == 0 ? <p>Loading</p>: 
     <div className='text-indigo-900'>
       <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-black text-xs md:text-sm mt-4'>
           <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-base md:text-lg'>
-             <span className='block'>{selectedLeague} 2024 - {divisionsNames[selectedDivision]}</span>
+             <span className='block'>{selectedLeague} 2024 - {fullForms[selectedDivision]}</span>
              <span className='block'>Statistiques</span>
           </div>
            <div className='m-2'>
             <select className=" py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                   onChange={handleChange} name='league' id='league' value={selectedLeague}>
-                  <option value="EUBAGO">EUBAGO - Goma</option>
+                  { Object.keys(supportedLeagues).
+                           map((league, index) =><option value={league} key={index}>{fullForms[league]}</option>)
+                    }
             </select>
             <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                 onChange={handleChange} name='division' id='division' value={selectedDivision}>
-                <option value="D1M">1ere Division - M</option>
-                <option value="D1F">1ere Division - F</option>
-                <option value="D2M">2eme Division - M</option>
+                {supportedLeagues[selectedLeague].
+                map((division, index)=><option value={division} key={index}>{fullForms[division]}</option>)}
             </select>
            </div>
         </div>
-      <div className='flex flex-wrap'>
+      {(games.length != 0) && <div className='flex flex-wrap'>
               <div className='p-2 m-2 rounded-lg bg-white grow shadow-md'>
                 <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>Leaders Offensifs</span>
                 <div className='font-bold'>
@@ -161,8 +162,8 @@ const Statistics = () => {
                     </Link>})}
                 </div>
               </div>
-          </div>
-          <div>
+          </div>}
+          {(games.length != 0 ) && <div>
             <span className='font-bold text-xl px-4 text-center py-2 mb-2 block'>10 Plus grands Deficits</span>
             <div className='grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-4'>
               {blowoutGames.map((game, index) =>{
@@ -170,7 +171,7 @@ const Statistics = () => {
               }
               )}
             </div>
-          </div>
+          </div>}
     </div>
   )
 }

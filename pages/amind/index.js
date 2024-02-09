@@ -1,10 +1,14 @@
+import { fullForms, supportedLeagues } from '@/constants';
 import { fetchGamesFromGQL, fetchTeamsFromGQL } from '@/services/gqlGameRequests';
-import { data } from 'autoprefixer';
 import React, { useEffect, useState } from 'react'
 
 const Admin = () => {
     const [status, setStatus] = useState("Up To Date");
     const [selectedLeague, setSelectedLeague] =  useState("EUBAGO");
+    const [showProcessModal, setShowProcessModal] = useState(false);
+    const [processState, setProcessState] = useState([]);
+    const [modifedTeams, setModifiedTeams] = useState([]);
+    const [modifedGames, setModifiedGames] = useState([]);
 ////Games
     const [gamesd1mGQL, setGamesd1mGQL] = useState([]);
     const [gamesd1fGQL, setGamesd1fGQL] = useState([]);
@@ -25,20 +29,24 @@ const Admin = () => {
         fetchGames(selectedLeague, "D1M");
         fetchGames(selectedLeague, "D1F");
         fetchGames(selectedLeague, "D2M");
-        ///Fetching Games from Hygraph
-        fetchGamesFromGQL(selectedLeague, "D1M").then(data => setGamesd1mGQL(data));
-        fetchGamesFromGQL(selectedLeague, "D1F").then(data => setGamesd1fGQL(data));
-        fetchGamesFromGQL(selectedLeague, "D2M").then(data => setGamesd2mGQL(data));
         ///Fetching teams from MongoDB
         fetchTeams(selectedLeague, "D1M");
         fetchTeams(selectedLeague, "D1F");
         fetchTeams(selectedLeague, "D2M");
         ///Fetching Games from Hygraph
+        fetchGamesFromGQL(selectedLeague, "D1M").then(data => setGamesd1mGQL(data));
+        fetchGamesFromGQL(selectedLeague, "D1F").then(data => setGamesd1fGQL(data));
+        fetchGamesFromGQL(selectedLeague, "D2M").then(data => setGamesd2mGQL(data));
+        ///Fetching Games from Hygraph
         fetchTeamsFromGQL(selectedLeague, "D1M").then(data => setTeamsd1mGQL(data));
         fetchTeamsFromGQL(selectedLeague, "D1F").then(data => setTeamsd1fGQL(data));
         fetchTeamsFromGQL(selectedLeague, "D2M").then(data => setTeamsd2mGQL(data));
-
     }, [selectedLeague]);
+    
+    useEffect(() => {
+        updateModifiedFields();
+    }, [gamesd1mGQL, gamesd1fGQL, gamesd2mGQL, gamesd1mMongo, gamesd1fMongo, gamesd2mMongo, 
+        teamsd1mGQL, teamsd1fGQL, teamsd2mGQL, teamsd1mMongo, teamsd1fMongo, teamsd1mMongo])
 
     const fetchGames = async (league, division) => {
         await fetch('/api/fetchallgames', {
@@ -81,17 +89,88 @@ const Admin = () => {
         const { name, value } = e.target;
         setSelectedLeague(value);
       }
+      const handleClick = async() => {
+        setShowProcessModal(true);
+        ///Update games object. Write the games data from GQL into MongoDB
+        if(modifedGames.length != 0){
+            modifedGames.map(division => {storeGamesToMongoDB(selectedLeague, division)})
+        }
+        ///Update teams object. Write the teams data from GQL into MongoDB
+        if(modifedTeams.length != 0){
+            modifedTeams.map(division => {storeTeamsToMongoDB(selectedLeague, division)})
+        }
+      }
+      const storeGamesToMongoDB = async ( league, division )=>{
+         ///stores games data of specific division from GQL to MongoDB
+         const result = await fetch('/api/storegames', {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+               division,
+               league,
+               games:  division == "D1M" ? gamesd1mGQL : 
+                      (division == "D1F" ? gamesd1fGQL : 
+                      (division == "D2M" ? gamesd2mGQL : null))
+             })
+           }).then(result => result.json()).then((data)=>{
+                if(data.message == "ok"){
+                    setProcessState([...processState, "Updated Games: " + fullForms[division]]);
+                    console.log("process: " + processState);
+                }
+              }   
+           );
+        }
+        const storeTeamsToMongoDB = async ( league, division )=>{
+            ///stores games data of specific division from GQL to MongoDB
+            const result = await fetch('/api/storeteams', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  division,
+                  league,
+                  teams:  division == "D1M" ? teamsd1mGQL : 
+                         (division == "D1F" ? teamsd1fGQL : 
+                         (division == "D2M" ? teamsd2mGQL : null))
+                })
+              }).then(result => result.json()).then((data)=>{
+                   if(data.message == "ok"){
+                    setProcessState([...processState, "Updated Games: " + fullForms[division]]);
+                    console.log("process: " + processState);
+                   }
+                 }
+              );
+           }
+      function updateModifiedFields(){
+        let teams = [], games = [];
+        if(!ArraysEqual(gamesd1mGQL, gamesd1mMongo)) games.push("D1M");
+        if(!ArraysEqual(gamesd1fGQL, gamesd1fMongo)) games.push("D1F");
+        if(!ArraysEqual(gamesd2mGQL, gamesd2mMongo)) games.push("D2M");
+        if(!ArraysEqual(teamsd1mGQL, teamsd1mMongo)) teams.push("D1M");
+        if(!ArraysEqual(teamsd1fGQL, teamsd1fMongo)) teams.push("D1F");
+        if(!ArraysEqual(teamsd2mGQL, teamsd2mMongo)) teams.push("D2M");
+        setModifiedGames(games);
+        setModifiedTeams(teams);
+      }
   return (
         <div className='text-black m-4 bg-white'>
             <div className='flex justify-center flex-wrap'>
                 <select className="block py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                     onChange={handleChange} name='league' id='league'>
-                    <option value="EUBAGO">EUBAGO - Goma</option>
-                    <option value="EUBABUK">EUBABUK - Bukavu</option>
+                    { Object.keys(supportedLeagues).
+                             map((league, index) =>
+                                    <option value={league} key={index}>{fullForms[league]}</option>)
+                    }
                 </select>
                 <div className='p-2'>
                     <span className='py-2 px-4 font-bold mr-4'>{selectedLeague}</span>
-                    <span className='font-bold py-2 px-4 text-green-700'>{status}</span>
+                    {(modifedGames.length == 0 && modifedTeams.length == 0) && 
+                        <span className='text-green-700 font-bold px-4'>MongoDB is Up To Date with Hygraph Content</span>}
+                    {(modifedGames.length != 0 || modifedTeams.length != 0) && 
+                        <span className='text-red-700 font-bold px-4'>Hygraph Content was Modified</span>}
                 </div>
             </div>
             
@@ -113,19 +192,28 @@ const Admin = () => {
                                     <td className='border-r border-gray-300'>D1M</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd1mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd1mMongo.length}</td>
-                                    <td className='text-center'>{ArraysEqual(gamesd1mGQL, gamesd1mMongo)}</td>
+                                    <td className='text-center'>
+                                        {ArraysEqual(gamesd1mGQL, gamesd1mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
+                                        {!ArraysEqual(gamesd1mGQL, gamesd1mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                    </td>
                                 </tr>
                                 <tr className=' border border-gray-300'>
                                     <td className='border-r border-gray-300'>D1F</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd1fGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd1fMongo.length}</td>
-                                    <td className='text-center'>{ArraysEqual(gamesd1fGQL, gamesd1fMongo)}</td>
+                                    <td className='text-center'>
+                                        {ArraysEqual(gamesd1fGQL, gamesd1fMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
+                                        {!ArraysEqual(gamesd1fGQL, gamesd1fMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                    </td>
                                 </tr>
                                 <tr className='border border-gray-300'>
                                     <td className='border-r border-gray-300'>D2M</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd2mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd2mMongo.length}</td>
-                                    <td className='text-center'>{ArraysEqual(gamesd2mGQL, gamesd2mMongo)}</td>
+                                    <td className='text-center'>
+                                        {ArraysEqual(gamesd2mGQL, gamesd2mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
+                                        {!ArraysEqual(gamesd2mGQL, gamesd2mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -146,39 +234,70 @@ const Admin = () => {
                                     <td className='border-r border-gray-300'>D1M</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd1mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd1mMongo.length}</td>
-                                    <td className='text-center'>{ArraysEqual(teamsd1mGQL, teamsd1mMongo)}</td>
+                                    <td className='text-center'>
+                                        {ArraysEqual(teamsd1mGQL, teamsd1mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
+                                        {!ArraysEqual(teamsd1mGQL, teamsd1mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                    </td>
                                 </tr>
                                 <tr className=' border border-gray-300'>
                                     <td className='border-r border-gray-300'>D1F</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd1fGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd1fMongo.length}</td>
-                                    <td className='text-center'>{ArraysEqual(teamsd1fGQL, teamsd1fMongo)}</td>
+                                    <td className='text-center'>
+                                        {ArraysEqual(teamsd1fGQL, teamsd1fMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
+                                        {!ArraysEqual(teamsd1fGQL, teamsd1fMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                    </td>
                                 </tr>
                                 <tr className='border border-gray-300'>
                                     <td className='border-r border-gray-300'>D2M</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd2mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd2mMongo.length}</td>
-                                    <td className='text-center'>{ArraysEqual(teamsd2mGQL, teamsd2mMongo)}</td>
+                                    <td className='text-center'>
+                                        {ArraysEqual(teamsd2mGQL, teamsd2mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
+                                        {!ArraysEqual(teamsd2mGQL, teamsd2mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <button onClick={()=>{}} type='button'
-                    className='block w-full pselect-none rounded-full bg-gradient-to-tr from-gray-900 
+                <button onClick={handleClick} type='button' id='updateDB'
+                    className={`block w-full pselect-none rounded-full bg-gradient-to-tr from-gray-900 
                     to-gray-700 py-3 text-center align-middle font-sans text-lg font-bold uppercase 
                     text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg 
                     hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none 
-                    disabled:opacity-50 disabled:shadow-none'>
+                    disabled:opacity-50 disabled:shadow-none `} disabled={modifedGames.length == 0 && modifedTeams.length == 0}>
                         Update Database Content</button>
+                        {/*Modal Window*/}
+                        {showProcessModal && <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+                                <div className="p-8 border w-auto shadow-lg rounded-md bg-white">
+                                    <div className="text-center">
+                                    <h3 className="text-2xl font-bold text-gray-900">Tasks</h3>
+                                    <div className="mt-2 px-7 py-3">
+                                        {processState.map((msg, index) =>
+                                        <span className='text-green-700 py-2' key={index}>- {msg}</span>)}
+                                    </div>
+                                    <div className="flex justify-center mt-4">
+
+                                        {/*closing the modal */}
+                                        <button type='button' onClick={()=>setShowProcessModal(false)} className={`pselect-none rounded-full px-4 bg-gradient-to-tr from-gray-900 
+                                                to-gray-700 py-3 text-center align-middle font-sans text-md font-bold uppercase 
+                                                text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg 
+                                                hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none 
+                                                disabled:opacity-50 disabled:shadow-none 
+                                                `}>Close</button>
+                                            
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>}
             </div>
         </div>
   )
 }
 const ArraysEqual = (arr1, arr2) => {
-    if(JSON.stringify(arr1) === JSON.stringify(arr2))
-    return <span className='text-green-700'>Up To Date</span>;
-    else return <span className='text-red-700'>Modified</span>;
+    return (JSON.stringify(arr1) === JSON.stringify(arr2));
+
 }
     
 

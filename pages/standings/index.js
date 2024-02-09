@@ -1,7 +1,7 @@
 import { StandingsTable } from '@/components';
 import React, {useState, useEffect} from 'react';
 import { getGamesByTeams, addWinLossEntries, addTeamStats, sortTeamsByAStat} from '@/utils/gameFunctions';
-import { divisionsNames } from '@/constants';
+import { fullForms, supportedLeagues } from '@/constants';
 import { useRouter } from 'next/router';
 
 
@@ -39,7 +39,8 @@ const Standings = () => {
     const query = { ...router.query }
   
     if (name === 'league') {
-      query.league = value
+      query.league = value;
+      query.division = supportedLeagues[value][0];
     } else if (name === 'division') {
       query.division = value
     }
@@ -50,7 +51,6 @@ const Standings = () => {
     }, undefined, { shallow: true });
   }
 
-  if(games.length == 0) return <p>Loading</p> ///If has not loaded yet
   const gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
   const gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
   const gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team like Wins, Losses, Last5 streak,...
@@ -59,24 +59,25 @@ const Standings = () => {
     <div className='text-black'>
       <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-xs md:text-sm mt-4'>
           <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-base md:text-lg'>
-             <span className='block'>{selectedLeague} 2024 - {divisionsNames[selectedDivision]}</span>
+             <span className='block'>{selectedLeague} 2024 - {fullForms[selectedDivision]}</span>
              <span className='block'>Classement</span>
           </div>
            <div className='m-2'>
             <select className=" py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                   onChange={handleChange} name='league' id='league' value={selectedLeague}>
-                  <option value="EUBAGO">EUBAGO - Goma</option>
+                  { Object.keys(supportedLeagues).
+                           map((league, index) =><option value={league} key={index}>{fullForms[league]}</option>)
+                    }
             </select>
             <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                 onChange={handleChange} name='division' id='division' value={selectedDivision}>
-                <option value="D1M">1ere Division - M</option>
-                <option value="D1F">1ere Division - F</option>
-                <option value="D2M">2eme Division - M</option>
+                {supportedLeagues[selectedLeague].
+                map((division, index)=><option value={division} key={index}>{fullForms[division]}</option>)}
             </select>
            </div>
         </div>
       <div className='grid place-items-center overflow-auto mb-4'>
-          <StandingsTable standingsArray={sortedGames} league={selectedLeague} division={selectedDivision}/>
+          {(games.length != 0) && <StandingsTable standingsArray={sortedGames} league={selectedLeague} division={selectedDivision}/>}
       </div>
       <div className='text-xs text-black flex flex-wrap justify-between mb-4 pb-4 border-b border-gray-300'>
         <span className='px-2 whitespace-nowrap'><b>MJ</b>: Matchs Joués</span>

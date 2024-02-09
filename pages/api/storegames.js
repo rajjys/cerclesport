@@ -28,7 +28,7 @@ export default async function handler(req, res) {
             let pushObj = {}
             pushObj[fieldString] = { $each: games };
             await db.collection('24').updateOne({}, { $push: pushObj });
-            res.status(200).json({ message: league + " - " + division + ' - Games Updated successfully'});}
+            res.status(200).json({ message: 'ok'});}
     catch(error){
         res.status(500).json({ message: "Error" });
     }

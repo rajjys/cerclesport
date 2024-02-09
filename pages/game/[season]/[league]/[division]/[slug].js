@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GameWidget } from '@/components';
 import Image from 'next/image';
 import { resizeImage } from '@/utils/formatting';
-import { divisionsNames } from '@/constants';
+import { fullForms } from '@/constants';
 
 const Game = () => {
 
@@ -32,7 +32,7 @@ const Game = () => {
     <div>
       <div className='top-12 lg:top-16 pt-2 sticky bg-white'>
             <div className='flex justify-center text-gray-800 mb-2'>
-                <span className='font-bold border border-gray-300 rounded-full bg-gray-100 px-2 py-1 text-xs md:text-sm'>{league} 2024 - {divisionsNames[division]}</span>
+                <span className='font-bold border border-gray-300 rounded-full bg-gray-100 px-2 py-1 text-xs md:text-sm'>{league} 2024 - {fullForms[division]}</span>
             </div>
             <GameWidget gameInfo={gameInfo}/>
       </div>

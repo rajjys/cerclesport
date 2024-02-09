@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { Navbar,MobileNav,Typography,Button,IconButton} from "@material-tailwind/react";
+import { Navbar,MobileNav,Typography,Button,IconButton, Collapse} from "@material-tailwind/react";
 import Link from "next/link";
 import Image from "next/image";
  
@@ -21,7 +21,7 @@ const Header = () => {
     setOpenNav(false);
   };
   const navList = (
-    <ul className="flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center  text-black">
+    <ul className="flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center text-black">
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
         <Link href="/" onClick={handleClick}><span className='p-2 align-middle text-white font-bold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
       </Typography>
@@ -54,8 +54,8 @@ const Header = () => {
   );
  
   return (
-    <Navbar className="w-full py-1 md:py-2 px-4 lg:px-8  bg-indigo-950 border-none">
-      <div className=",x-2 lg:mx-8 flex items-center justify-between text-blue-gray-900">
+    <Navbar className="w-full py-1 md:py-2 px-4 lg:px-8 bg-indigo-950 border-none rounded-none">
+      <div className="x-2 lg:mx-8 flex items-center justify-between text-blue-gray-900">
         <Link as=""
           href="/"
           className="mr-4 cursor-pointer font-bold text-red-500 ">
@@ -103,14 +103,14 @@ const Header = () => {
           )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         <div className="container mx-auto ">
           {navList}
           <Button variant="gradient" size="sm" fullWidth className="mb-2 ml-2 px-6 border rounded-full border-yellow-300 bg-indigo-900 inline-block w-auto">
             <span>Login</span>
           </Button>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 }

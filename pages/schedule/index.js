@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { GameCard } from '@/components';
-import { divisionsNames } from '@/constants';
+import { fullForms, supportedLeagues } from '@/constants';
 import { useRouter } from 'next/router';
 
 const Games = () => {
@@ -39,6 +39,7 @@ const Games = () => {
     
       if (name === 'league') {
         query.league = value
+        query.division = supportedLeagues[value][0];///Reset the division dropdown when the league is changed
       } else if (name === 'division') {
         query.division = value
       }
@@ -53,19 +54,20 @@ const Games = () => {
       <div className='text-black'>
         <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-xs md:text-sm mt-4'>
           <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-base md:text-lg'>
-             <span className='block'>{selectedLeague} 2024 - {divisionsNames[selectedDivision]}</span>
+             <span className='block'>{selectedLeague} 2024 - {fullForms[selectedDivision]}</span>
              <span className='block'>Tout les Matchs</span>
           </div>
            <div className='m-2'>
             <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                   onChange={handleChange} name='league' id='league' value={selectedLeague}>
-                  <option value="EUBAGO">EUBAGO - Goma</option>
+                  { Object.keys(supportedLeagues).
+                           map((league, index) =><option value={league} key={index}>{fullForms[league]}</option>)
+                    }
             </select>
             <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                 onChange={handleChange} name='division' id='division' value={selectedDivision}>
-                <option value="D1M">1ere Division - M</option>
-                <option value="D1F">1ere Division - F</option>
-                <option value="D2M">2e Division - M</option>
+                {supportedLeagues[selectedLeague].
+                map((division, index)=><option value={division} key={index}>{fullForms[division]}</option>)}
             </select>
            </div>
         </div>
