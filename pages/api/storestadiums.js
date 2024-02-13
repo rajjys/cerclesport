@@ -27,10 +27,8 @@ export default async function handler(req, res) {
             let pushObj = {}
             pushObj[fieldString] = { $each: stadiums };
             await db.collection('24').updateOne({}, { $push: pushObj });
-            //console.log(doc);
-            //res.json(doc);
             res.status(200).json({ message: 'ok'});}
     catch(error){
-        res.status(500).json({ message: "Error storing stadiums data" });
+        res.status(500).json({ message: error.message });
     }
 }

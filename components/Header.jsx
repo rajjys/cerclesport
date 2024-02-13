@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { Navbar,MobileNav,Typography,Button,IconButton, Collapse} from "@material-tailwind/react";
+import { Navbar, Typography,Button,IconButton, Collapse} from "@material-tailwind/react";
 import Link from "next/link";
 import Image from "next/image";
  
@@ -21,34 +21,34 @@ const Header = () => {
     setOpenNav(false);
   };
   const navList = (
-    <ul className="flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center text-black">
+    <ul className="flex flex-col  lg:mb-0 lg:mt-0 lg:flex-row lg:items-center text-white">
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
-        <Link href="/" onClick={handleClick}><span className='p-2 align-middle text-white font-bold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
+        <Link href="/" onClick={handleClick}><span className='p-2 align-middle  font-bold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Accueil</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
         <Link href="/schedule/" onClick={handleClick}>
-            <span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Matchs</span></Link>
+            <span className='p-2 align-middle font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Matchs</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
-        <Link href="/standings/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Classement</span></Link>
+        <Link href="/standings/" onClick={handleClick}><span className='p-2 align-middle font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Classement</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2 hidden">
-        <Link href="/playoff/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Playoff</span></Link>
+        <Link href="/playoff/" onClick={handleClick}><span className='p-2 align-middle  font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Playoff</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
-        <Link href="/blog/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Blog</span></Link>
+        <Link href="/blog/" onClick={handleClick}><span className='p-2 align-middle  font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Blog</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
-        <Link href="/statistics/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Statistiques</span></Link>
+        <Link href="/statistics/" onClick={handleClick}><span className='p-2 align-middle font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Statistiques</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal mx-2">
-        <Link href="/team/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Equipes</span></Link>
+        <Link href="/team/" onClick={handleClick}><span className='p-2 align-middle font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Equipes</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden mx-2">
-        <Link  href="/videos/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Videos</span></Link>
+        <Link  href="/videos/" onClick={handleClick}><span className='p-2 align-middle font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Videos</span></Link>
       </Typography>
       <Typography as="li" variant="small" color="blue-gray" className="py-1 font-normal hidden mx-2">
-        <Link  href="/about/" onClick={handleClick}><span className='p-2 align-middle text-white font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Contacts</span></Link>
+        <Link  href="/about/" onClick={handleClick}><span className='p-2 align-middle font-semibold lg:rounded lg:hover:bg-slate-500 lg:transition lg:duration-300 lg:ease-in-out'>Contacts</span></Link>
       </Typography>
     </ul>
   );
@@ -79,7 +79,7 @@ const Header = () => {
             {openNav ? (<svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              className="h-6 w-6"
+              className="h-6 w-6 text-red-800"
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth={2}>
@@ -91,7 +91,7 @@ const Header = () => {
           ) :(
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-6 w-6 text-white"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}>
@@ -103,7 +103,7 @@ const Header = () => {
           )}
         </IconButton>
       </div>
-      <Collapse open={openNav}>
+      <Collapse open={openNav} className="text-gray-300">
         <div className="container mx-auto ">
           {navList}
           <Button variant="gradient" size="sm" fullWidth className="mb-2 ml-2 px-6 border rounded-full border-yellow-300 bg-indigo-900 inline-block w-auto">

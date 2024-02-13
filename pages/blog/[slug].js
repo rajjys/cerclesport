@@ -1,24 +1,10 @@
-import { PostDetail, PostCard } from '@/components/blogComponents';
+import { PostDetail} from '@/components/blogComponents';
 import { fetchBlog, fetchBlogPosts } from '@/services/gqlBlogRequests';
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link';
 
-const BlogPost = () => {
-  let router = useRouter();
-  const [blog, setBlog] = useState();
-  const [recents, setRecents] = useState([]); ///Recents blogposts
-  useEffect(()=>{
-    if(router.isReady){
-      const {slug} = router.query;
-      fetchBlog(slug).then((data) => setBlog(data)); ///Fetch blog informations
-      ///Fetch the most recent posts, get the 6 most recents and remove the current one if it's part of recents
-      fetchBlogPosts().then((data)=>setRecents(data.filter(recent => recent.slug != slug).slice(0, 5)));
-    }
-  },[router.isReady, router.query]);
-  
-
+const BlogPost = ({ blog, recents }) => {
   return (
     blog != undefined && 
         <div className='mx-2 my-2 p-2 md:mx-6 md:my-6 md:px-6 text-black bg-white'>
@@ -49,5 +35,22 @@ const BlogPost = () => {
     </div>
   )
 }
+export async function getServerSideProps({ query }) {
+      const { slug } = query;
 
+      // Fetch blog information
+      const blog = await fetchBlog(slug);
+
+      // Fetch the most recent posts (excluding the current one)
+      const recents = await fetchBlogPosts().then((data) =>
+        data.filter((recent) => recent.slug !== slug).slice(0, 5)
+      );
+
+      return {
+        props: {
+          blog,
+          recents,
+        },
+      };
+}
 export default BlogPost

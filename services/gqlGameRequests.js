@@ -30,7 +30,7 @@ export const fetchStadiumsFromGQL = async (league)=>{
       return result['stadiums'];
 }
 const eubagoGraphqlAPI = process.env.NEXT_PUBLIC_EUBAGO_ENDPOINT;
-const eubabukGraphqlAPI = process.env.NEXT_PUBLIC_EUBABUK_ENDPOINT
+const eubabukGraphqlAPI = process.env.NEXT_PUBLIC_EUBABUK_ENDPOINT;
 const gamesQueries = {
   "D1M" : gql`query Assets {
     gamesD1M(orderBy: dateAndTime_DESC, last: 150){

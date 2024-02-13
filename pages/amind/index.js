@@ -1,5 +1,6 @@
 import { fullForms, supportedLeagues } from '@/constants';
 import { fetchGamesFromGQL, fetchTeamsFromGQL } from '@/services/gqlGameRequests';
+import { addTeamStats, addWinLossEntries, getBlowoutGames, getGamesByTeams, sortTeamsByAStat, sortTeamsByDiff } from '@/utils/gameFunctions';
 import React, { useEffect, useState } from 'react'
 
 const Admin = () => {
@@ -88,19 +89,51 @@ const Admin = () => {
       const handleChange = (e) => {
         const { name, value } = e.target;
         setSelectedLeague(value);
+        setProcessState([]);
       }
       const handleClick = async() => {
+        setProcessState([])
         setShowProcessModal(true);
         ///Update games object. Write the games data from GQL into MongoDB
         if(modifedGames.length != 0){
-            modifedGames.map(division => {storeGamesToMongoDB(selectedLeague, division)})
+            modifedGames.map(division => {
+                ///Choose games source from division
+                let games = division == "D1M" ? gamesd1mGQL : 
+                           (division == "D1F" ? gamesd1fGQL : 
+                           (division == "D2M" ? gamesd2mGQL : null))
+                ///Depending on which fields were modified(game fields), 
+                ///generate data for standings, stats and blowouts games
+                ///Generate standings for this division
+                let gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
+                let gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
+                let gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
+                let standings = sortTeamsByAStat(gamesWithTeamStats, "points"); ///Returns the equivalent array, sorted by points, wins or points scored difference 
+                ///Generate stats
+                let statsByPPG = sortTeamsByAStat(gamesWithTeamStats, "ppg");/// points per game
+                let statsByDPPG = sortTeamsByAStat(gamesWithTeamStats, "dppg").reverse(); ///points conceided per game
+                let statsByDiff = sortTeamsByDiff(gamesWithTeamStats); ///Differential
+                let blowoutGames = getBlowoutGames(games); ///Games with the biggest margins the whole season
+                let stats = {
+                        ppg: statsByPPG,
+                        dppg : statsByDPPG,
+                        diffppg : statsByDiff,
+                        blowouts: blowoutGames
+                    }
+                    console.log(stats);
+                storeGamesToMongoDB(selectedLeague, division, games);
+                storeStandingsToMongoDB(selectedLeague, division, standings);
+                storeStatsToMongoDB(selectedLeague, division, stats);
+            });
+                
         }
         ///Update teams object. Write the teams data from GQL into MongoDB
         if(modifedTeams.length != 0){
-            modifedTeams.map(division => {storeTeamsToMongoDB(selectedLeague, division)})
+            modifedTeams.map(division => {
+                storeTeamsToMongoDB(selectedLeague, division)}
+            )
         }
       }
-      const storeGamesToMongoDB = async ( league, division )=>{
+      const storeGamesToMongoDB = async ( league, division) => {
          ///stores games data of specific division from GQL to MongoDB
          const result = await fetch('/api/storegames', {
              method: 'POST',
@@ -110,19 +143,19 @@ const Admin = () => {
              body: JSON.stringify({
                division,
                league,
-               games:  division == "D1M" ? gamesd1mGQL : 
+               games : division == "D1M" ? gamesd1mGQL : 
                       (division == "D1F" ? gamesd1fGQL : 
                       (division == "D2M" ? gamesd2mGQL : null))
              })
            }).then(result => result.json()).then((data)=>{
                 if(data.message == "ok"){
-                    setProcessState([...processState, "Updated Games: " + fullForms[division]]);
-                    console.log("process: " + processState);
+                    setProcessState([...processState, "Updated Games for: " + fullForms[division]]);
                 }
+                else console.log(data.message);
               }   
            );
         }
-        const storeTeamsToMongoDB = async ( league, division )=>{
+        const storeTeamsToMongoDB = async ( league, division) => {
             ///stores games data of specific division from GQL to MongoDB
             const result = await fetch('/api/storeteams', {
                 method: 'POST',
@@ -132,26 +165,68 @@ const Admin = () => {
                 body: JSON.stringify({
                   division,
                   league,
-                  teams:  division == "D1M" ? teamsd1mGQL : 
-                         (division == "D1F" ? teamsd1fGQL : 
-                         (division == "D2M" ? teamsd2mGQL : null))
+                  teams: division == "D1M" ? teamsd1mGQL : 
+                        (division == "D1F" ? teamsd1fGQL : 
+                        (division == "D2M" ? teamsd2mGQL : null))
                 })
               }).then(result => result.json()).then((data)=>{
                    if(data.message == "ok"){
-                    setProcessState([...processState, "Updated Games: " + fullForms[division]]);
-                    console.log("process: " + processState);
+                    setProcessState([...processState, "Updated Teams for: " + fullForms[division]]);
                    }
+                   else console.log(data.message);
                  }
               );
            }
+        const storeStandingsToMongoDB = async (league, division, standings) => {
+            ///store computed "standings" data of specific division from to MongoDB, from GQL
+            const result = await fetch('/api/storestandings', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  division,
+                  league,
+                  standings
+                })
+              }).then(result => result.json()).then((data)=>{
+                   if(data.message == "ok"){
+                    setProcessState([...processState, "Updated Standings for: " + fullForms[division]]);
+                   }
+                   else console.log(data.message);
+                 }
+              );
+         
+        }
+        const storeStatsToMongoDB = async( league, division, stats) => {
+                ///stores games data of specific division from GQL to MongoDB
+            const result = await fetch('/api/storestats', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  division,
+                  league,
+                  stats
+                })
+              }).then(result => result.json()).then((data)=>{
+                   if(data.message == "ok"){
+                    setProcessState([...processState, "Updated Statistics for: " + fullForms[division]]);
+                   }
+                   else console.log(data.message);
+                 }
+              );
+         
+            }
       function updateModifiedFields(){
         let teams = [], games = [];
-        if(!ArraysEqual(gamesd1mGQL, gamesd1mMongo)) games.push("D1M");
-        if(!ArraysEqual(gamesd1fGQL, gamesd1fMongo)) games.push("D1F");
-        if(!ArraysEqual(gamesd2mGQL, gamesd2mMongo)) games.push("D2M");
-        if(!ArraysEqual(teamsd1mGQL, teamsd1mMongo)) teams.push("D1M");
-        if(!ArraysEqual(teamsd1fGQL, teamsd1fMongo)) teams.push("D1F");
-        if(!ArraysEqual(teamsd2mGQL, teamsd2mMongo)) teams.push("D2M");
+        if(!ArraysEqual(gamesd1mGQL, gamesd1mMongo, "games")) games.push("D1M");
+        if(!ArraysEqual(gamesd1fGQL, gamesd1fMongo, "games")) games.push("D1F");
+        if(!ArraysEqual(gamesd2mGQL, gamesd2mMongo, "games")) games.push("D2M");
+        if(!ArraysEqual(teamsd1mGQL, teamsd1mMongo, "teams")) teams.push("D1M");
+        if(!ArraysEqual(teamsd1fGQL, teamsd1fMongo, "teams")) teams.push("D1F");
+        if(!ArraysEqual(teamsd2mGQL, teamsd2mMongo, "teams")) teams.push("D2M");
         setModifiedGames(games);
         setModifiedTeams(teams);
       }
@@ -275,7 +350,7 @@ const Admin = () => {
                                     <h3 className="text-2xl font-bold text-gray-900">Tasks</h3>
                                     <div className="mt-2 px-7 py-3">
                                         {processState.map((msg, index) =>
-                                        <span className='text-green-700 py-2' key={index}>- {msg}</span>)}
+                                        <span className='text-green-800 py-2 block w-full' key={index}>{index + 1}. {msg}</span>)}
                                     </div>
                                     <div className="flex justify-center mt-4">
 
@@ -295,8 +370,10 @@ const Admin = () => {
         </div>
   )
 }
-const ArraysEqual = (arr1, arr2) => {
-    return (JSON.stringify(arr1) === JSON.stringify(arr2));
+const ArraysEqual = (gqlObject, mongodbObject, entry) => {
+    ///MongoDB has added fields: standings, stats,.... 
+    ///these fields should not be considered while checking for equality
+    return (JSON.stringify(gqlObject[entry]) === JSON.stringify(mongodbObject[entry]));
 
 }
     

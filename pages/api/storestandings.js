@@ -20,16 +20,16 @@ export default async function handler(req, res) {
    try { // Convert the object back to a JSON string;
             const league = req.body.league;
             const division = req.body.division;
-            const teams = req.body.teams;
-            const fieldString = `${league}.${division}.teams`;
+            const standings = req.body.standings;
+            const fieldString = `${league}.${division}.standings`;
             let unsetObj = {};
             unsetObj[fieldString] = '';
             await db.collection('24').updateOne({}, { $unset: unsetObj });
             let pushObj = {}
-            pushObj[fieldString] = { $each: teams };
+            pushObj[fieldString] = { $each: standings };
             await db.collection('24').updateOne({}, { $push: pushObj });
             res.status(200).json({ message: 'ok'});}
     catch(error){
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message});
     }
 }

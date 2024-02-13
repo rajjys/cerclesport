@@ -4,13 +4,7 @@ import { fetchBlogPosts } from '@/services/gqlBlogRequests';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-const Blogs = () => {
-    const [blogPosts, setBlogPosts] = useState([]);
-    useEffect(()=>{
-        fetchBlogPosts().then((data)=>{
-            setBlogPosts(data);
-        })
-    }, [])
+const Blogs = ({blogPosts}) => {
   return (
     <div className='m-4'>
         {(blogPosts.length != 0) && 
@@ -26,8 +20,18 @@ const Blogs = () => {
     </div>
   )
 }
+export async function getServerSideProps() {
+  // Fetch blog posts here (replace with your actual fetch logic)
+  const blogPosts = await fetchBlogPosts();
 
+  return {
+    props: {
+      blogPosts,
+    },
+  };
+}
 export default Blogs
+
 const responsive = {
     desktop: {
         // the naming can be any, depends on you.

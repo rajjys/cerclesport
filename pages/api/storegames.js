@@ -30,6 +30,6 @@ export default async function handler(req, res) {
             await db.collection('24').updateOne({}, { $push: pushObj });
             res.status(200).json({ message: 'ok'});}
     catch(error){
-        res.status(500).json({ message: "Error" });
+        res.status(500).json({ message: error.message });
     }
 }
