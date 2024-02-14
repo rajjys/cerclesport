@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react'
 import { GameCard } from '@/components';
 import { fullForms, supportedLeagues } from '@/constants';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const Games = () => {
     const router = useRouter();
@@ -52,6 +53,9 @@ const Games = () => {
 
     return (
       <div className='text-black'>
+        <Head>
+          <title>Matchs: {`${selectedLeague} - ${selectedDivision}`}</title>
+        </Head>
         <div className='my-4 mx-4 py-2 bg-white rounded-lg shadow-md text-xs md:text-sm mt-4'>
           <div className='border-b border-gray-300 mx-4 px-4 my-2 font-bold text-base md:text-lg'>
              <span className='block'>{selectedLeague} 2024 - {fullForms[selectedDivision]}</span>

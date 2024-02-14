@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { fetchBlogPosts } from '@/services/gqlBlogRequests';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import Head from 'next/head';
 
 const Blogs = ({blogPosts}) => {
   return (
     <div className='m-4'>
         {(blogPosts.length != 0) && 
                 <div className=' p-4'>
+                  <Head>
+                    <title>Informations</title>
+                  </Head>
                 <PostCard blogPost={blogPosts[0]} index={0}/>
                     <Carousel responsive={responsive}
                     ssr={true} showDots={false} itemClass="mr-2 lg:mr-3" 

@@ -5,6 +5,7 @@ import { GameCard } from '@/components';
 import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';
 import { resizeImage } from '@/utils/formatting';
 import { fullForms } from '@/constants';
+import Head from 'next/head';
 
 const Team = () => {
     let router = useRouter()
@@ -52,6 +53,9 @@ const Team = () => {
   }
   return (
       <div>
+        <Head>
+          <title>{`${profile.name} - ${profile.shortName}`}</title>
+        </Head>
         <div className='bg-green-700 text-white pt-2'>
             <div className='flex justify-center items-center'>
                 <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {fullForms[division]}</span>
