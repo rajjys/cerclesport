@@ -28,6 +28,10 @@ const Game = () => {
   return (
     gameInfo!= undefined &&
     <div>
+      <head>
+        <title>{`${gameInfo.team1.Name} ${gameInfo.scoreTeam1} - ${gameInfo.scoreTeam2} ${gameInfo.team2.shortName}`}</title>
+        <meta property="og:description" content={`${gameInfo.league}-${gameInfo.division}-20${gameInfo.season}`} />
+      </head>
       <div className='top-12 lg:top-16 pt-2 sticky bg-white'>
             <div className='flex justify-center text-gray-800 mb-2'>
             <span className='font-bold border border-gray-300 rounded-full bg-gray-100 px-2 py-1 text-xs md:text-sm'>{league} 2024 - {fullForms[division]}</span>
