@@ -12,6 +12,7 @@ const Blogs = ({blogPosts}) => {
                 <div className=' p-4'>
                   <Head>
                     <title>Informations</title>
+                    <meta property="og:image" content={resizeImage(230, 130, blogPosts[0].featuredImage.url, "crop")}/>
                   </Head>
                 <PostCard blogPost={blogPosts[0]} index={0}/>
                     <Carousel responsive={responsive}
