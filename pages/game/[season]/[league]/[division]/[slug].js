@@ -5,12 +5,32 @@ import Image from 'next/image';
 import { resizeImage } from '@/utils/formatting';
 import { fullForms } from '@/constants';
 
-const Game = ({ gameInfo }) => {
+const Game = () => {
+  const [gameInfo, setGameInfo] = useState();///Team games
+    let router = useRouter();
+    const { slug, division, league, season } = router.query;
+  useEffect(() => {
+    if (router.isReady){
+        const fetchGame = async () => {
+          await fetch('/api/fetchgame', {
+            body: JSON.stringify({slug, division, league, season}),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+          })
+          .then(response => response.json())
+          .then(data => setGameInfo({...data, league, division }));
+        }
+       fetchGame();
+    }  
+  }, [router.isReady]);
   return (
+    gameInfo!= undefined &&
     <div>
       <div className='top-12 lg:top-16 pt-2 sticky bg-white'>
             <div className='flex justify-center text-gray-800 mb-2'>
-                <span className='font-bold border border-gray-300 rounded-full bg-gray-100 px-2 py-1 text-xs md:text-sm'>{gameInfo.league} 2024 - {fullForms[gameInfo.division]}</span>
+            <span className='font-bold border border-gray-300 rounded-full bg-gray-100 px-2 py-1 text-xs md:text-sm'>{league} 2024 - {fullForms[division]}</span>
             </div>
             <GameWidget gameInfo={gameInfo}/>
       </div>
@@ -101,29 +121,5 @@ const Game = ({ gameInfo }) => {
       </div>
     </div>
   )
-}
-export async function getServerSideProps({ query }) {
-  const { slug, division, league, season } = query;
-  
-  // Fetch game information
-  const gameInfo = await fetchGame(slug, division, league, season);
-
-  return {
-    props: {
-      gameInfo,
-    },
-  };
-}
-async function fetchGame(slug, division, league, season) {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${API_URL}/api/fetchgame`, {
-    method: 'POST',
-    body: JSON.stringify({ slug, division, league, season }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const data = await response.json();
-  return {...data, league, division};
 }
 export default Game

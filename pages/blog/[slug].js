@@ -3,6 +3,7 @@ import { fetchBlog, fetchBlogPosts } from '@/services/gqlBlogRequests';
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link';
+import { resizeImage } from '@/utils/formatting';
 
 const BlogPost = ({ blog, recents }) => {
   return (
@@ -10,6 +11,7 @@ const BlogPost = ({ blog, recents }) => {
         <div className='mx-2 my-2 p-2 md:mx-6 md:my-6 md:px-6 text-black bg-white'>
           <Head>
             <title>{blog.title}</title>
+            <meta property="og:image" content={resizeImage(20, 10, blog.featuredImage.url, "scale")} />
           </Head>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 place-content-stretch'>
               <div className='col-span-1 lg:col-span-8'>
