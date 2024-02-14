@@ -4,6 +4,7 @@ import { fetchBlogPosts } from '@/services/gqlBlogRequests';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Head from 'next/head';
+import { resizeImage } from '@/utils/formatting';
 
 const Blogs = ({blogPosts}) => {
   return (
@@ -12,7 +13,6 @@ const Blogs = ({blogPosts}) => {
                 <div className=' p-4'>
                   <Head>
                     <title>Informations</title>
-                    <meta property="og:image" content={resizeImage(230, 130, blogPosts[0].featuredImage.url, "crop")}/>
                   </Head>
                 <PostCard blogPost={blogPosts[0]} index={0}/>
                     <Carousel responsive={responsive}
