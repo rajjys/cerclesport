@@ -4,7 +4,6 @@ import { fetchBlogPosts } from '@/services/gqlBlogRequests';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Head from 'next/head';
-import { resizeImage } from '@/utils/formatting';
 
 const Blogs = ({blogPosts}) => {
   return (

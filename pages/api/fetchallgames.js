@@ -22,5 +22,8 @@ import { MongoClient } from 'mongodb';
     projectionObject[fieldString] = 1;
     let doc = await db.collection('24').findOne({}, { projection: projectionObject });
     let games = doc[league][division].games;
-    return res.status(200).json(games);
+    ////sort by an index: dateAndTime.
+    ///For some strange reasons, Mongodb return data unsorted the way it was fed
+    let sortedGames = games.sort((game1, game2) =>  new Date(game2.dateAndTime) - new Date(game1.dateAndTime))
+    return res.status(200).json(sortedGames);
 };

@@ -1,11 +1,13 @@
 import { fullForms, supportedLeagues } from '@/constants';
 import { fetchGamesFromGQL, fetchTeamsFromGQL } from '@/services/gqlGameRequests';
 import { addTeamStats, addWinLossEntries, getBlowoutGames, getGamesByTeams, sortTeamsByAStat, sortTeamsByDiff } from '@/utils/gameFunctions';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
 const Admin = () => {
-    const [status, setStatus] = useState("Up To Date");
-    const [selectedLeague, setSelectedLeague] =  useState("EUBAGO");
+
+    const router = useRouter();
+    const [selectedLeague, setSelectedLeague] =  useState();
     const [showProcessModal, setShowProcessModal] = useState(false);
     const [processState, setProcessState] = useState([]);
     const [modifedTeams, setModifiedTeams] = useState([]);
@@ -26,23 +28,28 @@ const Admin = () => {
     const [teamsd2mMongo, setTeamsd2mMongo] = useState([]);
 
     useEffect(() => {
+        const league = router.query.league || 'EUBAGO';
+        setSelectedLeague(league);
+        setProcessState([]);
+        setModifiedGames([]);
+        setModifiedTeams([]);
         ///Fetching games from MongoDB
-        fetchGames(selectedLeague, "D1M");
-        fetchGames(selectedLeague, "D1F");
-        fetchGames(selectedLeague, "D2M");
+        fetchGames(league, "D1M");
+        fetchGames(league, "D1F");
+        fetchGames(league, "D2M");
         ///Fetching teams from MongoDB
-        fetchTeams(selectedLeague, "D1M");
-        fetchTeams(selectedLeague, "D1F");
-        fetchTeams(selectedLeague, "D2M");
+        fetchTeams(league, "D1M");
+        fetchTeams(league, "D1F");
+        fetchTeams(league, "D2M");
         ///Fetching Games from Hygraph
-        fetchGamesFromGQL(selectedLeague, "D1M").then(data => setGamesd1mGQL(data));
-        fetchGamesFromGQL(selectedLeague, "D1F").then(data => setGamesd1fGQL(data));
-        fetchGamesFromGQL(selectedLeague, "D2M").then(data => setGamesd2mGQL(data));
+        fetchGamesFromGQL(league, "D1M").then(data => setGamesd1mGQL(data));
+        fetchGamesFromGQL(league, "D1F").then(data => setGamesd1fGQL(data));
+        fetchGamesFromGQL(league, "D2M").then(data => setGamesd2mGQL(data));
         ///Fetching Games from Hygraph
-        fetchTeamsFromGQL(selectedLeague, "D1M").then(data => setTeamsd1mGQL(data));
-        fetchTeamsFromGQL(selectedLeague, "D1F").then(data => setTeamsd1fGQL(data));
-        fetchTeamsFromGQL(selectedLeague, "D2M").then(data => setTeamsd2mGQL(data));
-    }, [selectedLeague]);
+        fetchTeamsFromGQL(league, "D1M").then(data => setTeamsd1mGQL(data));
+        fetchTeamsFromGQL(league, "D1F").then(data => setTeamsd1fGQL(data));
+        fetchTeamsFromGQL(league, "D2M").then(data => setTeamsd2mGQL(data));
+    }, [router]);
     
     useEffect(() => {
         updateModifiedFields();
@@ -67,7 +74,7 @@ const Admin = () => {
           }
         );
       }
-      const fetchTeams = async (league, division) => {
+    const fetchTeams = async (league, division) => {
         await fetch('/api/fetchallteams', {
           method: 'POST',
           headers: {
@@ -86,12 +93,18 @@ const Admin = () => {
         );
       }
      
-      const handleChange = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setSelectedLeague(value);
-        setProcessState([]);
+        const query = { ...router.query }
+        if (name === 'league') {
+        query.league = value;
+        }
+        router.push({
+            pathname: '/amind',
+            query: query
+          }, undefined, { shallow: true });
       }
-      const handleClick = async() => {
+    const handleClick = async() => {
         setProcessState([])
         setShowProcessModal(true);
         ///Update games object. Write the games data from GQL into MongoDB
@@ -119,21 +132,20 @@ const Admin = () => {
                         diffppg : statsByDiff,
                         blowouts: blowoutGames
                     }
-                    console.log(stats);
-                storeGamesToMongoDB(selectedLeague, division, games);
+                storeGamesToMongoDB(selectedLeague, division);
                 storeStandingsToMongoDB(selectedLeague, division, standings);
                 storeStatsToMongoDB(selectedLeague, division, stats);
             });
                 
         }
-        ///Update teams object. Write the teams data from GQL into MongoDB
-        if(modifedTeams.length != 0){
-            modifedTeams.map(division => {
-                storeTeamsToMongoDB(selectedLeague, division)}
-            )
-        }
-      }
-      const storeGamesToMongoDB = async ( league, division) => {
+            ///Update teams object. Write the teams data from GQL into MongoDB
+            if(modifedTeams.length != 0){
+                modifedTeams.map(division => {
+                    storeTeamsToMongoDB(selectedLeague, division)}
+                )
+            }
+    }
+    const storeGamesToMongoDB = async ( league, division) => {
          ///stores games data of specific division from GQL to MongoDB
          const result = await fetch('/api/storegames', {
              method: 'POST',
@@ -155,7 +167,7 @@ const Admin = () => {
               }   
            );
         }
-        const storeTeamsToMongoDB = async ( league, division) => {
+    const storeTeamsToMongoDB = async ( league, division) => {
             ///stores games data of specific division from GQL to MongoDB
             const result = await fetch('/api/storeteams', {
                 method: 'POST',
@@ -177,7 +189,7 @@ const Admin = () => {
                  }
               );
            }
-        const storeStandingsToMongoDB = async (league, division, standings) => {
+    const storeStandingsToMongoDB = async (league, division, standings) => {
             ///store computed "standings" data of specific division from to MongoDB, from GQL
             const result = await fetch('/api/storestandings', {
                 method: 'POST',
@@ -195,10 +207,9 @@ const Admin = () => {
                    }
                    else console.log(data.message);
                  }
-              );
-         
+              );         
         }
-        const storeStatsToMongoDB = async( league, division, stats) => {
+    const storeStatsToMongoDB = async( league, division, stats) => {
                 ///stores games data of specific division from GQL to MongoDB
             const result = await fetch('/api/storestats', {
                 method: 'POST',
@@ -219,22 +230,23 @@ const Admin = () => {
               );
          
             }
-      function updateModifiedFields(){
+    function updateModifiedFields(){
         let teams = [], games = [];
-        if(!ArraysEqual(gamesd1mGQL, gamesd1mMongo, "games")) games.push("D1M");
-        if(!ArraysEqual(gamesd1fGQL, gamesd1fMongo, "games")) games.push("D1F");
-        if(!ArraysEqual(gamesd2mGQL, gamesd2mMongo, "games")) games.push("D2M");
-        if(!ArraysEqual(teamsd1mGQL, teamsd1mMongo, "teams")) teams.push("D1M");
-        if(!ArraysEqual(teamsd1fGQL, teamsd1fMongo, "teams")) teams.push("D1F");
-        if(!ArraysEqual(teamsd2mGQL, teamsd2mMongo, "teams")) teams.push("D2M");
+        if(!ArraysEqual(gamesd1mGQL, gamesd1mMongo)) games.push("D1M");
+        if(!ArraysEqual(gamesd1fGQL, gamesd1fMongo)) games.push("D1F");
+        if(!ArraysEqual(gamesd2mGQL, gamesd2mMongo)) games.push("D2M");
+        if(!ArraysEqual(teamsd1mGQL, teamsd1mMongo)) teams.push("D1M");
+        if(!ArraysEqual(teamsd1fGQL, teamsd1fMongo)) teams.push("D1F");
+        if(!ArraysEqual(teamsd2mGQL, teamsd2mMongo)) teams.push("D2M");
         setModifiedGames(games);
         setModifiedTeams(teams);
       }
-  return (
+      ///updateModifiedFields();
+    return (
         <div className='text-black m-4 bg-white'>
             <div className='flex justify-center flex-wrap'>
                 <select className="block py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
-                    onChange={handleChange} name='league' id='league'>
+                    onChange={handleChange} name='league' id='league' value={selectedLeague}>
                     { Object.keys(supportedLeagues).
                              map((league, index) =>
                                     <option value={league} key={index}>{fullForms[league]}</option>)
@@ -370,11 +382,8 @@ const Admin = () => {
         </div>
   )
 }
-const ArraysEqual = (gqlObject, mongodbObject, entry) => {
-    ///MongoDB has added fields: standings, stats,.... 
-    ///these fields should not be considered while checking for equality
-    return (JSON.stringify(gqlObject[entry]) === JSON.stringify(mongodbObject[entry]));
-
+const ArraysEqual = (gqlObject, mongodbObject) => {
+    return (JSON.stringify(gqlObject) === JSON.stringify(mongodbObject));
 }
     
 
