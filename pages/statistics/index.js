@@ -17,8 +17,10 @@ const Statistics = () => {
   useEffect(() => {
     if (router.isReady){
       // Get the query parameters or use default values
-    const league = router.query.league || 'EUBAGO'
+    if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO'
+    const league = router.query.league;
     const division = router.query.division || 'D1M'
+    
     // Set the state for the selected values
     setSelectedLeague(league)
     setSelectedDivision(division)
@@ -46,6 +48,7 @@ const Statistics = () => {
     if (name === 'league') {
       query.league = value;
       query.division = supportedLeagues[value][0];
+      localStorage.setItem('league', JSON.stringify(value));
     } else if (name === 'division') {
       query.division = value
     }

@@ -15,13 +15,14 @@ const Teams = () => {
   useEffect(() => {
     if (router.isReady){
       // Get the query parameters or use default values
-    const league = router.query.league || 'EUBAGO'
-    const division = router.query.division || 'D1M'
-    // Set the state for the selected values
-    setSelectedLeague(league)
-    setSelectedDivision(division)
-    // Fetch the data from a backend API or a local file
-    fetchTeams(league, division);
+      if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO';
+      const league = router.query.league;
+      const division = router.query.division || 'D1M';
+      // Set the state for the selected values
+      setSelectedLeague(league)
+      setSelectedDivision(division)
+      // Fetch the data from a backend API or a local file
+      fetchTeams(league, division);
     }
   }, [router]);
   const fetchTeams = async (league, division) => {
@@ -44,6 +45,7 @@ const Teams = () => {
     if (name === 'league') {
       query.league = value;
       query.division = supportedLeagues[value][0];
+      localStorage.setItem('league', JSON.stringify(value));
     } else if (name === 'division') {
       query.division = value
     }
@@ -65,13 +67,13 @@ const Teams = () => {
              <span className='block'><span className='text-red-800 pr-2'>{teams.length}</span>Equipes</span>
           </div>
            <div className='m-2'>
-            <select className=" py-2 px-4 mx-4 bg-gray-200 rounded-md"
+            <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                   onChange={handleChange} name='league' id='league' value={selectedLeague}>
                   { Object.keys(supportedLeagues).
                            map((league, index) =><option value={league} key={index}>{fullForms[league]}</option>)
                     }
             </select>
-            <select className="py-2 px-4 mx-4 bg-gray-200 rounded-md"
+            <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                 onChange={handleChange} name='division' id='division' value={selectedDivision}>
                 {supportedLeagues[selectedLeague].
                 map((division, index)=><option value={division} key={index}>{fullForms[division]}</option>)}

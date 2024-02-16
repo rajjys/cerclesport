@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { fullForms, supportedLeagues } from '@/constants';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import NoData from '@/components/NoData';
 
 
 const Standings = () => {
@@ -13,8 +14,9 @@ const Standings = () => {
   useEffect(() => {
     if (router.isReady){
       // Get the query parameters or use default values
-    const league = router.query.league || 'EUBAGO'
-    const division = router.query.division || 'D1M'
+    if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO';
+    const league = router.query.league;
+    const division = router.query.division || 'D1M';
     // Set the state for the selected values
     setSelectedLeague(league)
     setSelectedDivision(division)
@@ -37,10 +39,10 @@ const Standings = () => {
   const handleChange = (e) => {
     const { name, value } = e.target
     const query = { ...router.query }
-  
     if (name === 'league') {
       query.league = value;
       query.division = supportedLeagues[value][0];
+      localStorage.setItem('league', JSON.stringify(value));
     } else if (name === 'division') {
       query.division = value
     }
@@ -77,6 +79,7 @@ const Standings = () => {
         </div>
       <div className='grid place-items-center overflow-auto mb-4'>
           {(standings.length != 0) && <StandingsTable standingsArray={standings} league={selectedLeague} division={selectedDivision}/>}
+          {(standings.length == 0) && <NoData/>} 
       </div>
       <div className='text-xs text-black flex flex-wrap justify-between mb-4 pb-4 border-b border-gray-300'>
         <span className='px-2 whitespace-nowrap'><b>MJ</b>: Matchs Joués</span>

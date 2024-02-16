@@ -6,7 +6,6 @@ export const fetchGamesFromGQL = async ( league, division ) => {
    const graphqlAPI = league == "EUBAGO"? eubagoGraphqlAPI :
                      (league == "EUBABUK"? eubabukGraphqlAPI: null);
    const result = await request(graphqlAPI, query);
-   console.log(result);
       return result["games" + division];
 }
 
@@ -15,7 +14,6 @@ export const fetchTeamsFromGQL = async ( league, division ) => {
   const graphqlAPI = league == "EUBAGO"? eubagoGraphqlAPI :
                      (league == "EUBABUK"? eubabukGraphqlAPI: null);
   const result = await request(graphqlAPI, query);
-  console.log(result);
      return result["teams" + division];
 }
 export const fetchStadiumsFromGQL = async (league)=>{
