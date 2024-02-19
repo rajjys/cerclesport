@@ -7,5 +7,5 @@ export const fullForms = {
    }
 export const supportedLeagues = {
     "EUBAGO": ["D1M", "D1F", "D2M"],
-    "EUBABUK": ["D1M", "D1F"]
+    "EUBABUK": ["D1M", "D1F", "D2M"]
 }
