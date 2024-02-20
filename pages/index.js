@@ -25,20 +25,17 @@ export default function Home() {
         .then(response => response.json())
         .then(data => data.map(game => ({...game, league, division})))
         .then(data => { 
-          switch(league){
-            case "EUBAGO":
               switch(division){
                 case "D1M": setGamesd1m(data);break;
                 case "D1F": setGamesd1f(data);break;
                 case "D2M": setGamesd2m(data);break;
-              }; break;
-          }
-
+              }
         });
       }
-      fetchGames("EUBAGO", "D1M");
-      fetchGames("EUBAGO", "D1F");
-      fetchGames("EUBAGO", "D2M");
+      const prefLeague = JSON.parse(localStorage.getItem("league"))|| "EUBAGO";
+      fetchGames(prefLeague, "D1M");
+      fetchGames(prefLeague, "D1F");
+      fetchGames(prefLeague, "D2M");
       fetchBlogPosts().then((data) => setBlogPosts(data.slice(0, 10)))
     }, []);
 
