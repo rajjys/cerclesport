@@ -29,7 +29,7 @@ const Team = ( {profile, games}) => {
       <div>
         <Head>
           <title>{`${profile.name} - ${profile.shortName} - ${fullForms[division]}`}</title>
-          <meta property="og:image" content={resizeImage(230, 130, profile.photo.url, "crop")} />
+          <meta property="og:image" content={resizeImage(230, 130, profile.photo.url, "fit")} />
         </Head>
         <div className='bg-green-700 text-white pt-2'>
             <div className='flex justify-center items-center'>
