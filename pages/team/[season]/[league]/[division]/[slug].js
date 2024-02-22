@@ -6,40 +6,14 @@ import { addTeamStats, addWinLossEntries } from '@/utils/gameFunctions';
 import { resizeImage } from '@/utils/formatting';
 import { fullForms } from '@/constants';
 import Head from 'next/head';
+import getDb from '@/utils/getDB';
 
-const Team = () => {
+const Team = ( {profile, games}) => {
     let router = useRouter()
-    const [games, setGames] = useState([]);///Team games
-    const [profile, setProfile] = useState(); ///Team profile
+    ///const [games, setGames] = useState([]);///Team games
+    ///const [profile, setProfile] = useState(); ///Team profile
     const { slug, division, league, season } = router.query;
-  useEffect(() => {
-    if (router.isReady){
-      const fetchTeamProfile = async () => {
-        await fetch('/api/fetchteam', {
-          body: JSON.stringify({slug, division, league, season}),
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-        })
-        .then(response => response.json())
-        .then(data => setProfile(data));
-      }
-      const fetchGamesByTeam = async () => {
-        await fetch('/api/fetchgamesbyteam', {
-          body: JSON.stringify({slug, division, league, season}),
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-        })
-        .then(response => response.json())
-        .then(data => setGames(data));
-      }
-      fetchTeamProfile();
-      fetchGamesByTeam();
-    }  
-  }, [router.isReady]);
+  
   if(profile == null) return <p>Equipe Introuvable</p>
   if(profile == undefined) return <p>Chargement...</p>
 
@@ -54,7 +28,8 @@ const Team = () => {
   return (
       <div>
         <Head>
-          <title>{`${profile.name} - ${profile.shortName}`}</title>
+          <title>{`${profile.name} - ${profile.shortName} - ${fullForms[division]}`}</title>
+          <meta property="og:image" content={resizeImage(230, 130, profile.photo.url, "crop")} />
         </Head>
         <div className='bg-green-700 text-white pt-2'>
             <div className='flex justify-center items-center'>
@@ -136,5 +111,54 @@ const Team = () => {
         </div>
       </div>   
   )
+}
+export async function getServerSideProps({ query }) {
+  //Get access to the db
+    let db = await getDb();
+    let teamProfile = await getTeamProfile(db, query);
+    let gamesByTeam = await getGamesByTeam(db, query);
+  return {
+    props: {profile: teamProfile, games: gamesByTeam},
+  };
+}
+async function getTeamProfile(db, query){
+  const {slug, division, league, season} = query;
+    //Request the data to Mongodb
+    const fieldString = `${league}.${division}.teams`;
+    let projectionObject = {_id: 0};
+    projectionObject[fieldString] = 1;
+    let doc = await db.collection('24').findOne({}, { projection: projectionObject });
+    let teams = doc[league][division].teams;
+    ///filter to one object
+  let profile;
+  for(let i=0; i < teams.length; i++){
+      profile = teams[i];
+     if(profile.slug == slug) break;
+  }
+return profile;
+}
+async function getGamesByTeam(db, query){
+  const {slug, division, league, season} = query;
+  const fieldString = `${league}.${division}.games`;
+    let projectionObject = {_id: 0};
+    projectionObject[fieldString] = 1;
+    let doc1 = await db.collection('24').findOne({}, { projection: projectionObject });
+    let games = doc1[league][division].games;
+
+        ///filter to one object
+      let gamesByTeam = [];
+      let game;
+      for(let i = 0; i < games.length; i++){
+          game = games[i];
+        if((game.team1.slug == slug) || (game.team2.slug == slug))
+              gamesByTeam.push(game);
+      }
+      ///sort by date
+      gamesByTeam.sort(function(game1, game2){
+          let key1 = new Date(game1.dateAndTime);
+          let key2 = new Date(game2.dateAndTime);
+          return key2 - key1
+      })
+      return gamesByTeam;
 }
 export default Team

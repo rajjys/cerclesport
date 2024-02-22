@@ -18,7 +18,9 @@
     "@nextui-org/react": "^2.2.9",
     "@vercel/analytics": "^1.2.1",
     "autoprefixer": "10.4.15",
+    "buffer": "^6.0.3",
     "fs-extra": "^11.1.1",
+    "graceful-fs": "^4.2.11",
     "graphql": "^16.8.0",
     "graphql-request": "^6.1.0",
     "html-react-parser": "^4.2.7",
@@ -26,11 +28,14 @@
     "mongodb": "^6.1.0",
     "next": "^13.4.16",
     "next-connect": "^0.12.1",
+    "node-fetch": "^3.3.2",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-multi-carousel": "^2.8.4",
-    "tailwindcss": "3.3.3"
+    "stream-browserify": "^3.0.0",
+    "tailwindcss": "3.3.3",
+    "url": "^0.11.3"
   },
   "devDependencies": {
     "file-loader": "^6.2.0"
