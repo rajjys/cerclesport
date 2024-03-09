@@ -6,7 +6,7 @@ const blogGraphqlAPI = process.env.NEXT_PUBLIC_BLOG_ENDPOINT;
 export const fetchBlogPosts = async () => {
   const query = gql`
   query MyQuery {
-    posts(first: 11, orderBy: publishedAt_DESC) {
+    posts(first: 11, orderBy: createdAt_DESC) {
       author {
         name
         photo {

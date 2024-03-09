@@ -11,7 +11,7 @@ const BlogPost = ({ blog, recents }) => {
         <div className='mx-2 my-2 p-2 md:mx-6 md:my-6 md:px-6 text-black bg-white'>
           <Head>
             <title>{blog.title}</title>
-            <meta property="og:image" content={resizeImage(230, 130, blog.featuredImage.url, "crop")} />
+            <meta property="og:image" content={resizeImage(360, 190, blog.featuredImage.url, "crop")} />
           </Head>
           <div className='grid grid-cols-1 lg:grid-cols-12 gap-6 place-content-stretch'>
               <div className='col-span-1 lg:col-span-8'>
@@ -25,7 +25,7 @@ const BlogPost = ({ blog, recents }) => {
                         <div className='border-b border-gray-300 m-2 p-2' key={index}>
                           <Link  href={`/blog/${recentPost.slug}`}>
                             <span className='text-sm font-bold block'>{recentPost.title}</span>
-                            <span className='text-xs text-gray-500 block'>{recentPost.excerpt.substring(0, 100) + "..."}</span>
+                            <span className='text-xs text-gray-500 block'>{recentPost.excerpt.substring(0, 150) + "..."}</span>
                           </Link>
                         </div>
                           
