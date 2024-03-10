@@ -60,12 +60,26 @@ const PostDetail = ({ post }) => {
         return <blockquote key={index}>{modifiedText}</blockquote>;
       case 'code':
         return <code key={index}>{modifiedText}</code>;
-      case 'unnumbered-list':
-        return <div className='block'><ul key={index}>{modifiedText.map((item, i) => <li key={i}>{item}</li>)}</ul></div>;
+      case 'bulleted-list':
+        { 
+          return <ul className="p-2 pl-6 text-black list-disc" key={index}>
+                    {obj.children.map((objListItem, i) => 
+                      <li key={i}>
+                          {objListItem.children[0].children[0].bold ? 
+                            <b>{objListItem.children[0].children[0].text}</b>:
+                            objListItem.children[0].children[0].text}
+                      </li>)}
+                 </ul>;
+        }
       case 'numbered-list':
-        return <ol key={index}>{modifiedText}</ol>;
-      case 'list-item':
-        return <li>{modifiedText}</li>;
+        
+        return <ol className="list-decimal p-2 pl-6" key={index}>
+                  {obj.children.map((objListItem, i) => 
+                  <li key={i}>
+                    {objListItem.children[0].children[0].bold ? 
+                    <b>{objListItem.children[0].children[0].text}</b>:objListItem.children[0].children[0].text}
+                    </li>)}
+              </ol>;
       case 'code-block':
         return <pre key={index}><code>{modifiedText}</code></pre>;
       case 'table':
@@ -98,7 +112,7 @@ const PostDetail = ({ post }) => {
         return (
  
           <Link href={obj.href} className='font-bold text-green-900 lg:hover:text-green-500 transition duration-300 
-          ease-in-out'>{obj.children["0"].text}</Link>
+          ease-in-out' key={index}>{obj.children["0"].text}</Link>
         );
       default:
         return modifiedText;
