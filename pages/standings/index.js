@@ -15,6 +15,7 @@ const Standings = () => {
     if (router.isReady){
       // Get the query parameters or use default values
     if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO';
+    if(!router.query.division) router.query.division = JSON.parse(localStorage.getItem('division')) || 'D1M';
     const league = router.query.league;
     const division = router.query.division || 'D1M';
     // Set the state for the selected values
@@ -43,8 +44,10 @@ const Standings = () => {
       query.league = value;
       query.division = supportedLeagues[value][0];
       localStorage.setItem('league', JSON.stringify(value));
+      localStorage.setItem('division', JSON.stringify(supportedLeagues[value][0]));///Reset division preference when league changes
     } else if (name === 'division') {
       query.division = value
+      localStorage.setItem('division', JSON.stringify(value));
     }
   
     router.push({
