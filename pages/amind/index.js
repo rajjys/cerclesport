@@ -121,6 +121,7 @@ const Admin = () => {
                 let gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
                 let gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
                 let standings = sortTeamsByAStat(gamesWithTeamStats, "points"); ///Returns the equivalent array, sorted by points, wins or points scored difference 
+                if(division == "D2M") console.log(standings);
                 ///Generate stats
                 let statsByPPG = sortTeamsByAStat(gamesWithTeamStats, "ppg");/// points per game
                 let statsByDPPG = sortTeamsByAStat(gamesWithTeamStats, "dppg").reverse(); ///points conceided per game

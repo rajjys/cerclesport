@@ -20,7 +20,7 @@ const Statistics = () => {
     if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO'
     if(!router.query.division) router.query.division = JSON.parse(localStorage.getItem('division')) || 'D1M';
     const league = router.query.league;
-    const division = router.query.division || 'D1M'
+    const division = router.query.division
     
     // Set the state for the selected values
     setSelectedLeague(league)

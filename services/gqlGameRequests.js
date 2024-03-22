@@ -185,6 +185,7 @@ const gamesQueries = {
         }
         shortName
         slug
+        group
       }
       team2 {
         biography
@@ -194,6 +195,7 @@ const gamesQueries = {
         }
         shortName
         slug
+        group
       }
       gameType
       gameState
@@ -235,6 +237,7 @@ const teamsQueries = {
       }
       shortName
       slug
+      group
     }
   }
   `

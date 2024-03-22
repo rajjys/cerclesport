@@ -43,6 +43,7 @@ export function getGamesByTeams( games ){
         let teamLogo = "";
         let ppg = 0; ///points per game
         let dppg = 0; ///points conceided per game
+        let group = gamesByTeam[0].team1.group || 10;
         team === gamesByTeam[0].team1.name ? 
                       (teamLogo = gamesByTeam[0].team1.photo.url,
                         teamSlug = gamesByTeam[0].team1.slug):
@@ -70,7 +71,7 @@ export function getGamesByTeams( games ){
             return game;
         }), {points, wins, losses, forfeits, ppg, 
             dppg, last5Streak: [...last5Streak].reverse(), 
-            pointsScored, pointsConceided, teamLogo, teamSlug}]];
+            pointsScored, pointsConceided, teamLogo, teamSlug, group}]];
       })
     );
     return games;

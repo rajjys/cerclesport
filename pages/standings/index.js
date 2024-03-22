@@ -11,13 +11,15 @@ const Standings = () => {
   const [standings, setStandings] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState("EUBAGO");
   const [selectedDivision, setSelectedDivision] = useState("D1M");
+   ///There's one particular case for EUBAGO 202-24 D2 where there are 2 divisions instead of one
+   let standingsA = [], standingsB = [];
   useEffect(() => {
     if (router.isReady){
       // Get the query parameters or use default values
     if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO';
     if(!router.query.division) router.query.division = JSON.parse(localStorage.getItem('division')) || 'D1M';
     const league = router.query.league;
-    const division = router.query.division || 'D1M';
+    const division = router.query.division;
     // Set the state for the selected values
     setSelectedLeague(league)
     setSelectedDivision(division)
@@ -34,7 +36,17 @@ const Standings = () => {
       body: JSON.stringify({ league, division })
     })
     .then(response => response.json())
-    .then(data => setStandings(data));
+    .then(data => setStandings(data)).then(() => {
+      console.log("League: " + league);
+      console.log("Division: " + division);
+      if(league == "EUBAGO" && division == "D2M"){
+        ///separate the standing into two separate ones by the group entry
+        for(let i = 0; i < standings.length; i++){
+          console.log(standings[i][0]);
+          console.log(standings[i][1][1].group);
+        }
+      }
+    });
   }
   // Update the query parameters when the selected values change
   const handleChange = (e) => {
@@ -55,7 +67,6 @@ const Standings = () => {
       query: query
     }, undefined, { shallow: true });
   }
-
   return (
     <div className='text-black'>
       <Head>
@@ -81,7 +92,11 @@ const Standings = () => {
            </div>
         </div>
       <div className='grid place-items-center overflow-auto mb-4'>
-          {(standings.length != 0) && <StandingsTable standingsArray={standings} league={selectedLeague} division={selectedDivision}/>}
+        { (selectedLeague == "EUBAGO" && selectedDivision == "D2M")?
+          (standingsA.length != 0) && <StandingsTable standingsArray={standingsA} league={selectedLeague} division={selectedDivision}/>
+          :
+          (standings.length != 0) && <StandingsTable standingsArray={standings} league={selectedLeague} division={selectedDivision}/>
+      }
           {(standings.length == 0) && <NoData/>} 
       </div>
       <div className='text-xs text-black flex flex-wrap justify-between mb-4 pb-4 border-b border-gray-300'>
