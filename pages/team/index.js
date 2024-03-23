@@ -11,6 +11,9 @@ const Teams = () => {
   const [teams, setTeams] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState("EUBAGO");
   const [selectedDivision, setSelectedDivision] = useState("D1M");
+  ///There's one particular case for EUBAGO 202-24 D2 where there are 2 divisions instead of one
+  const [teamsPool1, setTeamsPool1] = useState([]);
+  const [teamsPool2, setTeamsPool2] = useState([]);
   const router = useRouter();
   useEffect(() => {
     if (router.isReady){
@@ -35,7 +38,23 @@ const Teams = () => {
       body: JSON.stringify({ league, division })
     })
     .then(response => response.json())
-    .then(data => setTeams(data));
+    .then(data =>{ setTeams(data);
+                    return data}).then((data)=>{
+                      if(league == "EUBAGO" && division == "D2M"){
+                        ///separate the teams into two separate ones by the group entry
+        let teamsPoolA = [];
+        let teamsPoolB = [];
+        for(let i = 0; i < data.length; i++){
+          //console.log(data[i][0]);
+          ///console.log(data[i][1][1].group);
+          if(data[i].group == 1) teamsPoolA.push(data[i]);
+          else teamsPoolB.push(data[i]);
+        }
+        
+        setTeamsPool1(teamsPoolA);
+        setTeamsPool2(teamsPoolB);
+                      }
+                    });
   }
 
   // Update the query parameters when the selected values change
@@ -83,8 +102,12 @@ const Teams = () => {
             </select>
            </div>
         </div>
-        <div className='grid grid-cols-4 p-4'>
-            {teams.length !=0 && teams.map((team, index) => 
+        <div className=''>
+          {(selectedLeague == "EUBAGO" && selectedDivision == "D2M")?
+        <>
+          <span className='mt-2 pl-4 block text-lg font-bold text-indigo-900'>POOL A</span>
+          <div className='grid grid-cols-4 p-4'>
+            {teamsPool1.length !=0 && teamsPool1.map((team, index) => 
                             (<Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
                                 <Image
                                       alt={team.shortName}
@@ -97,6 +120,39 @@ const Teams = () => {
                                     <span className='px-2 overflow-hidden whitespace-nowrap font-bold'>{team.name}</span>
                                     <span className='text-gray-400 font-medium'>{`(${team.shortName})`}</span>
                             </Link>))}
+          </div>
+          <span className='mt-2 pl-4 block text-lg font-bold text-indigo-900'>POOL B</span>
+          <div className='grid grid-cols-4 p-4'>
+              {teamsPool2.length !=0 && teamsPool2.map((team, index) => 
+                                (<Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
+                                    <Image
+                                          alt={team.shortName}
+                                          unoptimized
+                                          width="30"
+                                          height="30"
+                                          className='align-middle rounded-full'
+                                          src={resizeImage(60, 60, team.photo.url)}
+                                        />
+                                        <span className='px-2 overflow-hidden whitespace-nowrap font-bold'>{team.name}</span>
+                                        <span className='text-gray-400 font-medium'>{`(${team.shortName})`}</span>
+                                </Link>))}
+          </div>
+            
+        </>:  
+        <div className='grid grid-cols-4 p-4'>{teams.length !=0 && teams.map((team, index) => 
+          (<Link href={`/team/24/${selectedLeague}/${selectedDivision}/${team.slug}`} className='col-span-4 md:col-span-2 lg:col-span-1 flex items-center rounded-md m-2 p-2 text-indigo-950 hover:bg-gray-200 transition duration-300 ease-in-out ' key={index}>
+              <Image
+                    alt={team.shortName}
+                    unoptimized
+                    width="30"
+                    height="30"
+                    className='align-middle rounded-full'
+                    src={resizeImage(60, 60, team.photo.url)}
+                  />
+                  <span className='px-2 overflow-hidden whitespace-nowrap font-bold'>{team.name}</span>
+                  <span className='text-gray-400 font-medium'>{`(${team.shortName})`}</span>
+          </Link>))}</div>
+              }
       </div>
     </div>
   )

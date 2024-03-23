@@ -12,7 +12,8 @@ const Standings = () => {
   const [selectedLeague, setSelectedLeague] = useState("EUBAGO");
   const [selectedDivision, setSelectedDivision] = useState("D1M");
    ///There's one particular case for EUBAGO 202-24 D2 where there are 2 divisions instead of one
-   let standingsA = [], standingsB = [];
+   const [standingsPool1, setStandingsPool1] = useState([]);
+   const [standingsPool2, setstandingsPool2] = useState([]);
   useEffect(() => {
     if (router.isReady){
       // Get the query parameters or use default values
@@ -36,15 +37,19 @@ const Standings = () => {
       body: JSON.stringify({ league, division })
     })
     .then(response => response.json())
-    .then(data => setStandings(data)).then(() => {
-      console.log("League: " + league);
-      console.log("Division: " + division);
+    .then(data => {setStandings(data);
+                    return data}).then((data) => {
       if(league == "EUBAGO" && division == "D2M"){
         ///separate the standing into two separate ones by the group entry
-        for(let i = 0; i < standings.length; i++){
-          console.log(standings[i][0]);
-          console.log(standings[i][1][1].group);
+        let standingsA = [];
+        let standingsB = [];
+        for(let i = 0; i < data.length; i++){
+          
+          if(data[i][1][1].group == 1) standingsA.push(data[i]);
+          else standingsB.push(data[i]);
         }
+        setStandingsPool1(standingsA);
+        setstandingsPool2(standingsB);
       }
     });
   }
@@ -91,9 +96,16 @@ const Standings = () => {
             </select>
            </div>
         </div>
-      <div className='grid place-items-center overflow-auto mb-4'>
+      <div className='flex justify-center flex-wrap overflow-auto mb-4'>
         { (selectedLeague == "EUBAGO" && selectedDivision == "D2M")?
-          (standingsA.length != 0) && <StandingsTable standingsArray={standingsA} league={selectedLeague} division={selectedDivision}/>
+          <>
+            <div className='m-3 border border-gray-300'>
+              <span className='text-xl font-bold text-indigo-900 p-2 block text-center border-y bg-white border-gray-300'>Pool A</span>
+              {(standingsPool1.length != 0) && <StandingsTable standingsArray={standingsPool1} league={selectedLeague} division={selectedDivision}/>}</div>
+            <div className='m-3 border border-gray-300'>
+              <span className='text-xl font-bold text-indigo-900 p-2 block text-center border-y bg-white border-gray-300'>Pool B</span>
+              {(standingsPool2.length != 0) && <StandingsTable standingsArray={standingsPool2} league={selectedLeague} division={selectedDivision}/>}</div>
+          </>
           :
           (standings.length != 0) && <StandingsTable standingsArray={standings} league={selectedLeague} division={selectedDivision}/>
       }
