@@ -96,16 +96,16 @@ const Standings = () => {
             </select>
            </div>
         </div>
-      <div className='flex justify-center flex-wrap overflow-auto mb-4'>
+      <div className='grid place-items-center overflow-auto mb-4'>
         { (selectedLeague == "EUBAGO" && selectedDivision == "D2M")?
-          <>
+          <div className='flex justify-center flex-wrap'>
             <div className='m-3 border border-gray-300'>
-              <span className='text-xl font-bold text-indigo-900 p-2 block text-center border-y bg-white border-gray-300'>Pool A</span>
+              <span className='text-xl font-bold text-gray-500 p-2 block text-center border-y bg-white border-gray-300'>Pool A</span>
               {(standingsPool1.length != 0) && <StandingsTable standingsArray={standingsPool1} league={selectedLeague} division={selectedDivision}/>}</div>
             <div className='m-3 border border-gray-300'>
-              <span className='text-xl font-bold text-indigo-900 p-2 block text-center border-y bg-white border-gray-300'>Pool B</span>
+              <span className='text-xl font-bold text-gray-500 p-2 block text-center border-y bg-white border-gray-300'>Pool B</span>
               {(standingsPool2.length != 0) && <StandingsTable standingsArray={standingsPool2} league={selectedLeague} division={selectedDivision}/>}</div>
-          </>
+          </div>
           :
           (standings.length != 0) && <StandingsTable standingsArray={standings} league={selectedLeague} division={selectedDivision}/>
       }
