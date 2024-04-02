@@ -92,7 +92,8 @@ const Teams = () => {
             <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"
                   onChange={handleChange} name='league' id='league' value={selectedLeague}>
                   { Object.keys(supportedLeagues).
-                           map((league, index) =><option value={league} key={index}>{fullForms[league]}</option>)
+                           map((league, index) =>
+                                  <option value={league} key={index}>{fullForms[league]}</option>)
                     }
             </select>
             <select className="py-2 px-4 mx-4 my-1 bg-gray-200 rounded-md"

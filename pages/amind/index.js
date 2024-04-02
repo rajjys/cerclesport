@@ -28,35 +28,53 @@ const Admin = () => {
     const [teamsd2mMongo, setTeamsd2mMongo] = useState([]);
 
     useEffect(() => {
-        const league = router.query.league || 'EUBAGO';
-        setSelectedLeague(league);
-        setProcessState([]);
-        setModifiedGames([]);
-        setModifiedTeams([]);
-        ///Fetching games from MongoDB
-        fetchGames(league, "D1M");
-        fetchGames(league, "D1F");
-        fetchGames(league, "D2M");
-        ///Fetching teams from MongoDB
-        fetchTeams(league, "D1M");
-        fetchTeams(league, "D1F");
-        fetchTeams(league, "D2M");
-        ///Fetching Games from Hygraph
-        fetchGamesFromGQL(league, "D1M").then(data => setGamesd1mGQL(data));
-        fetchGamesFromGQL(league, "D1F").then(data => setGamesd1fGQL(data));
-        fetchGamesFromGQL(league, "D2M").then(data => setGamesd2mGQL(data));
-        ///Fetching Games from Hygraph
-        fetchTeamsFromGQL(league, "D1M").then(data => setTeamsd1mGQL(data));
-        fetchTeamsFromGQL(league, "D1F").then(data => setTeamsd1fGQL(data));
-        fetchTeamsFromGQL(league, "D2M").then(data => setTeamsd2mGQL(data));
+        if(router.isReady)
+        {   
+            if(!router.query.league) router.query.league = JSON.parse(localStorage.getItem('league')) || 'EUBAGO';;
+            const league = router.query.league;
+            setSelectedLeague(league);
+            ///Initialize every state array
+            setProcessState([]);
+            setModifiedGames([]);
+            setModifiedTeams([]);
+            setGamesd1fMongo([]);
+            setGamesd1mMongo([]);
+            setGamesd2mMongo([]);
+            setTeamsd1fMongo([]);
+            setTeamsd1mMongo([]);
+            setTeamsd2mMongo([]);
+            setGamesd1fGQL([]);
+            setGamesd1mGQL([]);
+            setGamesd2mGQL([]);
+            setTeamsd1fGQL([]);
+            setTeamsd1mGQL([]);
+            setTeamsd2mGQL([]);
+            ///Fetching data from MongoDB synchrounously
+                      fetchGamesFromMongo(league, "D1M")
+            .then(()=>fetchGamesFromMongo(league, "D1F"))
+            .then(()=>fetchGamesFromMongo(league, "D2M"))
+            .then(()=>fetchTeamsFromMongo(league, "D1M"))
+            .then(()=>fetchTeamsFromMongo(league, "D1F"))
+            .then(()=>fetchTeamsFromMongo(league, "D2M"))
+            .then(()=>
+            ///Fetching Games from Hygraph synchronously to avoid TooManyRequests Exception/Error
+                    fetchGamesFromGQL(league, "D1M").then(data => setGamesd1mGQL(data)))
+                .then(()=> 
+                    fetchGamesFromGQL(league, "D1F").then(data => setGamesd1fGQL(data)))
+                .then(()=>
+                    fetchGamesFromGQL(league, "D2M").then(data => setGamesd2mGQL(data)))
+                .then(()=>    ////Fetching Teams from GQL
+                    fetchTeamsFromGQL(league, "D1M").then(data =>setTeamsd1mGQL(data)))
+                .then(()=>
+                    fetchTeamsFromGQL(league, "D1F").then(data => setTeamsd1fGQL(data)))
+                .then(()=>
+                    fetchTeamsFromGQL(league, "D2M").then(data => setTeamsd2mGQL(data)));
+        }
     }, [router]);
-    
-    useEffect(() => {
-        updateModifiedFields();
-    }, [gamesd1mGQL, gamesd1fGQL, gamesd2mGQL, gamesd1mMongo, gamesd1fMongo, gamesd2mMongo, 
-        teamsd1mGQL, teamsd1fGQL, teamsd2mGQL, teamsd1mMongo, teamsd1fMongo, teamsd1mMongo])
-
-    const fetchGames = async (league, division) => {
+    useEffect(() => updateModifiedFields(), 
+    [gamesd1fGQL, gamesd1fMongo, gamesd1mGQL,gamesd1mMongo,gamesd2mGQL,gamesd2mMongo, 
+    teamsd1fMongo, teamsd1fGQL, teamsd1mGQL, teamsd1mMongo, teamsd2mGQL, teamsd2mMongo])
+    const fetchGamesFromMongo = async (league, division) => {
         await fetch('/api/fetchallgames', {
           method: 'POST',
           headers: {
@@ -74,7 +92,7 @@ const Admin = () => {
           }
         );
       }
-    const fetchTeams = async (league, division) => {
+    const fetchTeamsFromMongo = async (league, division) => {
         await fetch('/api/fetchallteams', {
           method: 'POST',
           headers: {
@@ -98,6 +116,7 @@ const Admin = () => {
         const query = { ...router.query }
         if (name === 'league') {
         query.league = value;
+        localStorage.setItem('league', JSON.stringify(value));
         }
         router.push({
             pathname: '/amind',
@@ -105,7 +124,7 @@ const Admin = () => {
           }, undefined, { shallow: true });
       }
     const handleClick = async() => {
-        setProcessState([])
+        setProcessState([]);
         setShowProcessModal(true);
         ///Update games object. Write the games data from GQL into MongoDB
         if(modifedGames.length != 0){
@@ -121,26 +140,30 @@ const Admin = () => {
                 let gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
                 let gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
                 let standings = sortTeamsByAStat(gamesWithTeamStats, "points"); ///Returns the equivalent array, sorted by points, wins or points scored difference 
-                if(division == "D2M") console.log(standings);
-                ///Generate stats
+                ///Generate team stats
                 let statsByPPG = sortTeamsByAStat(gamesWithTeamStats, "ppg");/// points per game
                 let statsByDPPG = sortTeamsByAStat(gamesWithTeamStats, "dppg").reverse(); ///points conceided per game
                 let statsByDiff = sortTeamsByDiff(gamesWithTeamStats); ///Differential
                 let blowoutGames = getBlowoutGames(games); ///Games with the biggest margins the whole season
+                ///Generate player stats
+                ///We have 3 sets: Top volume scorer, Best PPG,  
+                ///Most 3PT Made, Most 2PT made, Most Free throws made 
+                ////Best volume Shooter
+                ///This will only be evaluated  for D1M
                 let stats = {
                         ppg: statsByPPG,
                         dppg : statsByDPPG,
                         diffppg : statsByDiff,
                         blowouts: blowoutGames
                     }
-                storeGamesToMongoDB(selectedLeague, division);
-                storeStandingsToMongoDB(selectedLeague, division, standings);
-                storeStatsToMongoDB(selectedLeague, division, stats);
+                          storeGamesToMongoDB(selectedLeague, division)
+                .then(()=>storeStandingsToMongoDB(selectedLeague, division, standings))
+                .then(()=>storeStatsToMongoDB(selectedLeague, division, stats));
             });
                 
         }
             ///Update teams object. Write the teams data from GQL into MongoDB
-            if(modifedTeams.length != 0){
+        if(modifedTeams.length != 0){
                 modifedTeams.map(division => {
                     storeTeamsToMongoDB(selectedLeague, division)}
                 )
@@ -164,7 +187,7 @@ const Admin = () => {
                 if(data.message == "ok"){
                     setProcessState([...processState, "Updated Games for: " + fullForms[division]]);
                 }
-                else console.log(data.message);
+                else setProcessState([...processState, "Failed to update Games for: " + fullForms[division]]);
               }   
            );
         }
@@ -186,7 +209,7 @@ const Admin = () => {
                    if(data.message == "ok"){
                     setProcessState([...processState, "Updated Teams for: " + fullForms[division]]);
                    }
-                   else console.log(data.message);
+                   else setProcessState([...processState, "Failed to Update Teams for: " + fullForms[division]]);
                  }
               );
            }
@@ -206,7 +229,7 @@ const Admin = () => {
                    if(data.message == "ok"){
                     setProcessState([...processState, "Updated Standings for: " + fullForms[division]]);
                    }
-                   else console.log(data.message);
+                   else setProcessState([...processState, "Failed to Update Standings for: " + fullForms[division]]);
                  }
               );         
         }
@@ -224,9 +247,9 @@ const Admin = () => {
                 })
               }).then(result => result.json()).then((data)=>{
                    if(data.message == "ok"){
-                    setProcessState([...processState, "Updated Statistics for: " + fullForms[division]]);
+                    setProcessState([...processState, "Updated Stats for: " + fullForms[division]]);
                    }
-                   else console.log(data.message);
+                   else setProcessState([...processState, "Fail to Update Stats for: " + fullForms[division]]);
                  }
               );
          
@@ -242,7 +265,6 @@ const Admin = () => {
         setModifiedGames(games);
         setModifiedTeams(teams);
       }
-      ///updateModifiedFields();
     return (
         <div className='text-black m-4 bg-white'>
             <div className='flex justify-center flex-wrap'>
@@ -281,8 +303,9 @@ const Admin = () => {
                                     <td className='text-center border-r border-gray-300'>{gamesd1mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd1mMongo.length}</td>
                                     <td className='text-center'>
-                                        {ArraysEqual(gamesd1mGQL, gamesd1mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
-                                        {!ArraysEqual(gamesd1mGQL, gamesd1mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                        {ArraysEqual(gamesd1mGQL, gamesd1mMongo)? 
+                                            <span className='text-green-700 font-bold'>Up To Date</span> : 
+                                            <span className='text-red-700 font-bold'>Modified</span>}
                                     </td>
                                 </tr>
                                 <tr className=' border border-gray-300'>
@@ -290,8 +313,9 @@ const Admin = () => {
                                     <td className='text-center border-r border-gray-300'>{gamesd1fGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd1fMongo.length}</td>
                                     <td className='text-center'>
-                                        {ArraysEqual(gamesd1fGQL, gamesd1fMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
-                                        {!ArraysEqual(gamesd1fGQL, gamesd1fMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                        {ArraysEqual(gamesd1fGQL, gamesd1fMongo)? 
+                                                <span className='text-green-700 font-bold'>Up To Date</span> :
+                                                <span className='text-red-700 font-bold'>Modified</span>}
                                     </td>
                                 </tr>
                                 <tr className='border border-gray-300'>
@@ -299,8 +323,9 @@ const Admin = () => {
                                     <td className='text-center border-r border-gray-300'>{gamesd2mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{gamesd2mMongo.length}</td>
                                     <td className='text-center'>
-                                        {ArraysEqual(gamesd2mGQL, gamesd2mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
-                                        {!ArraysEqual(gamesd2mGQL, gamesd2mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                        {ArraysEqual(gamesd2mGQL, gamesd2mMongo)? 
+                                                <span className='text-green-700 font-bold'>Up To Date</span>:
+                                                <span className='text-red-700 font-bold'>Modified</span>}
                                     </td>
                                 </tr>
                             </tbody>
@@ -323,8 +348,9 @@ const Admin = () => {
                                     <td className='text-center border-r border-gray-300'>{teamsd1mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd1mMongo.length}</td>
                                     <td className='text-center'>
-                                        {ArraysEqual(teamsd1mGQL, teamsd1mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
-                                        {!ArraysEqual(teamsd1mGQL, teamsd1mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                        {ArraysEqual(teamsd1mGQL, teamsd1mMongo) ? 
+                                            <span className='text-green-700 font-bold'>Up To Date</span> :  
+                                            <span className='text-red-700 font-bold'>Modified</span>}
                                     </td>
                                 </tr>
                                 <tr className=' border border-gray-300'>
@@ -332,8 +358,9 @@ const Admin = () => {
                                     <td className='text-center border-r border-gray-300'>{teamsd1fGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd1fMongo.length}</td>
                                     <td className='text-center'>
-                                        {ArraysEqual(teamsd1fGQL, teamsd1fMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
-                                        {!ArraysEqual(teamsd1fGQL, teamsd1fMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                        {ArraysEqual(teamsd1fGQL, teamsd1fMongo)?
+                                             <span className='text-green-700 font-bold'>Up To Date</span>:
+                                             <span className='text-red-700 font-bold'>Modified</span>}
                                     </td>
                                 </tr>
                                 <tr className='border border-gray-300'>
@@ -341,8 +368,9 @@ const Admin = () => {
                                     <td className='text-center border-r border-gray-300'>{teamsd2mGQL.length}</td>
                                     <td className='text-center border-r border-gray-300'>{teamsd2mMongo.length}</td>
                                     <td className='text-center'>
-                                        {ArraysEqual(teamsd2mGQL, teamsd2mMongo) && <span className='text-green-700 font-bold'>Up To Date</span>}
-                                        {!ArraysEqual(teamsd2mGQL, teamsd2mMongo) && <span className='text-red-700 font-bold'>Modified</span>}
+                                        {ArraysEqual(teamsd2mGQL, teamsd2mMongo)?
+                                        <span className='text-green-700 font-bold'>Up To Date</span>:
+                                        <span className='text-red-700 font-bold'>Modified</span>}
                                     </td>
                                 </tr>
                             </tbody>

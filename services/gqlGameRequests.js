@@ -16,6 +16,7 @@ export const fetchTeamsFromGQL = async ( league, division ) => {
   const result = await request(graphqlAPI, query);
      return result["teams" + division];
 }
+
 export const fetchStadiumsFromGQL = async (league)=>{
   const query = gql`
       query StadiumsQuery {
