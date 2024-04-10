@@ -7,6 +7,7 @@ import { resizeImage } from '@/utils/formatting';
 import { fullForms } from '@/constants';
 import Head from 'next/head';
 import getDb from '@/utils/getDB';
+import ScheduledGameCard from '@/components/ScheduledGameCard';
 
 const Team = ( {profile, games}) => {
     let router = useRouter()
@@ -16,7 +17,12 @@ const Team = ( {profile, games}) => {
   
   if(profile == null) return <p>Equipe Introuvable</p>
   if(profile == undefined) return <p>Chargement...</p>
-
+///Since we're receiving both played and upcoming games we have to separate them into two arrays
+let played = [], scheduled = [];
+for(let i = 0; i < games.length; i++){
+  if(games[i].gameState == "Ended" || games[i].gameState == "Forfeited") played.push(games[i])
+  else if(games[i].gameState == "Scheduled") scheduled.push(games[i]);
+}
   const gameObj = {}
   gameObj[profile.name] = games;
   let gamesWithStats = {};
@@ -33,7 +39,7 @@ const Team = ( {profile, games}) => {
         </Head>
         <div className='bg-green-700 text-white pt-2'>
             <div className='flex justify-center items-center'>
-                <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {fullForms[division]}</span>
+              <span className='font-bold text-gray-100 border border-gray-400 rounded-full p-2 text-xs md:text-sm'>{league} 2024 - {fullForms[division]}</span>
             </div>
             <div className='flex p-4 items-center'>
                 <Image
@@ -98,16 +104,28 @@ const Team = ( {profile, games}) => {
           </table>
         </div>
         <div>
-        <div className='font-bold text-xl py-4 flex flex-wrap justify-center items-center'>
-              <span className='text-center text-indigo-900 block'>MATCHS: </span>
+          <div className='font-bold text-xl py-4 flex flex-wrap justify-center items-center'>
+              <span className='text-center text-indigo-900 block'>RESULTATS: </span>
               <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-center text-indigo-800 rounded-full'>{profile.name}</span>
           </div>
-            <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                {games.map((game, index) => {
-                    return <GameCard game={game} key={index} showDeficit={false} league={league} division={division}/>
-                  })
-                }
-            </div>
+          <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            {played.map((game, index) => {
+                return <GameCard game={game} key={index} showDeficit={false} league={league} division={division}/>
+              })
+            }
+          </div>
+        </div>
+        <div>
+          <div className='font-bold text-xl py-4 flex flex-wrap justify-center items-center'>
+              <span className='text-center text-indigo-900 block'>PROGRAMME: </span>
+              <span className='py-1 px-3 ml-2 border border-gray-300 bg-green-300/20 text-center text-indigo-800 rounded-full'>{profile.name}</span>
+          </div>
+          <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            {scheduled.map((game, index) => {
+                return <ScheduledGameCard game={game} key={index} showDeficit={false} league={league} division={division}/>
+              })
+            }
+          </div>
         </div>
       </div>   
   )

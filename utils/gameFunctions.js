@@ -1,6 +1,10 @@
 export function getGamesByTeams( games ){
     ///create object to hold games by team
-    return games.reduce((acc, curr) => {
+    ///Each team should only have games that have already been played
+    ///So only acceptable states would be Ended and Forfeited
+    let playedGames = games.filter(game => game.gameState == "Ended" || game.gameState == "Forfeited");
+    console.log(playedGames);
+    return playedGames.reduce((acc, curr) => {
       const {team1, team2} = curr;
       const team1Name = team1.name;
       const team2Name = team2.name;

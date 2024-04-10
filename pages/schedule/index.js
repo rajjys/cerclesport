@@ -4,10 +4,12 @@ import { fullForms, supportedLeagues } from '@/constants';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import NoData from '@/components/NoData';
+import ScheduledGameCard from '@/components/ScheduledGameCard';
 
 const Games = () => {
     const router = useRouter();
     const [games, setGames] = useState([]);
+    const [scheduledGames, setScheduledGames] = useState([]);
     const [selectedLeague, setSelectedLeague] = useState("EUBAGO");
     const [selectedDivision, setSelectedDivision] = useState("D1M");
     useEffect(() => {
@@ -34,7 +36,17 @@ const Games = () => {
         body: JSON.stringify({ league, division })
       })
       .then(response => response.json())
-      .then(data => setGames(data));
+      .then(data => {
+        ///We need to separate played games from Upcoming games
+        let played = [], scheduled = [];
+        for(let i = 0; i < data.length; i++){
+          if(data[i].gameState == "Ended" || data[i].gameState == "Forfeited") played.push(data[i])
+          else if(data[i].gameState == "Scheduled") scheduled.push(data[i]);
+        }
+        setGames(played);
+        setScheduledGames(scheduled);
+        console.log(scheduled);
+      });
     }
     // Update the query parameters when the selected values change
     const handleChange = (e) => {
@@ -81,17 +93,27 @@ const Games = () => {
             </select>
            </div>
         </div>
+        <div>
+          <span className='font-bold text-lg text-indigo-950 p-2 block text-center'>PROGRAMME</span>
+          <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            { (scheduledGames.length != 0) && scheduledGames.map((game, index) => {
+                  return <ScheduledGameCard game={game} key={index} league={selectedLeague} division={selectedDivision}/>
+                })
+            }
+          </div>
+          {(scheduledGames.length == 0) && <NoData/>}
+        </div>
+        <div>
+          <span className='font-bold text-lg text-indigo-950 p-2 block text-center'>RESULTATS</span>
+          <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            { (games.length != 0) && games.map((game, index) => {
+                  return <GameCard game={game} key={index} showDeficit={false} league={selectedLeague} division={selectedDivision}/>
+                })
+            }
+          </div>
+          {(games.length == 0) && <NoData/>}  
+        </div>
         
-        <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-        { (games.length != 0) && games.map((game, index) => {
-               return <GameCard game={game} key={index} showDeficit={false} 
-                                league={selectedLeague} division={selectedDivision}/>
-             })
-        }
-          {
-              (games.length == 0) && <NoData/>
-          }  
-      </div>
     </div>
     )
 }

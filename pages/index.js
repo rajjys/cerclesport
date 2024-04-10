@@ -12,6 +12,7 @@ export default function Home() {
   const [gamesd1m, setGamesd1m] = useState([]);
   const [gamesd1f, setGamesd1f] = useState([]);
   const [gamesd2m, setGamesd2m] = useState([]);
+  const [scheduledGames, setScheduledGames] = useState([]);
   const [blogPosts, setBlogPosts] = useState([]);
     useEffect(() => {
       const fetchGames = async (league, division) => {
@@ -25,10 +26,16 @@ export default function Home() {
         .then(response => response.json())
         .then(data => data.map(game => ({...game, league, division})))
         .then(data => { 
+              let played = [], scheduled = [];
+              for(let i = 0; i < data.length; i++){
+                if(data[i].gameState == "Ended" || data[i].gameState == "Forfeited") played.push(data[i])
+                else if(data[i].gameState == "Scheduled") scheduled.push(data[i]);
+              }
+              setScheduledGames(...scheduledGames, scheduled);
               switch(division){
-                case "D1M": setGamesd1m(data);break;
-                case "D1F": setGamesd1f(data);break;
-                case "D2M": setGamesd2m(data);break;
+                case "D1M": setGamesd1m(played);break;
+                case "D1F": setGamesd1f(played);break;
+                case "D2M": setGamesd2m(played);break;
               }
         });
       }
@@ -54,8 +61,8 @@ export default function Home() {
           <div className='col-span-12 xl:col-span-9 p-4'>
             <PostCard blogPost={blogPosts[0]} index={0}/>
                 <Carousel responsive={responsive}
-                ssr={true} showDots={false} itemClass="mr-2 lg:mr-3" 
-                className='pt-8 px-2'>
+                  ssr={true} showDots={false} itemClass="mr-2 lg:mr-3" 
+                  className='pt-8 px-2'>
                     {blogPosts.slice(1).map((blogPost, index) => 
                 (<PostCard blogPost={blogPost} key={index} index={index + 1}/>))}
                 </Carousel>
