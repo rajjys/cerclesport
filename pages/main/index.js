@@ -119,7 +119,7 @@ const Admin = () => {
         localStorage.setItem('league', JSON.stringify(value));
         }
         router.push({
-            pathname: '/amind',
+            pathname: '/main',
             query: query
           }, undefined, { shallow: true });
       }
