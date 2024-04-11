@@ -40,8 +40,12 @@ const Games = () => {
         ///We need to separate played games from Upcoming games
         let played = [], scheduled = [];
         for(let i = 0; i < data.length; i++){
-          if(data[i].gameState == "Ended" || data[i].gameState == "Forfeited") played.push(data[i])
-          else if(data[i].gameState == "Scheduled") scheduled.push(data[i]);
+          if(data[i].gameState == "Ended" || data[i].gameState == "Forfeited") played.push(data[i]);
+          ///else if game is scheduled and date is later than now, push it to scheduled games
+          else if(data[i].gameState == "Scheduled") {
+            let dateAndTime = new Date(data[i].dateAndTime);
+            if(dateAndTime > new Date()) ///add game to schedule only if it's in the future
+              scheduled.unshift(data[i]);} ////Inserting at the beginning of the array
         }
         setGames(played);
         setScheduledGames(scheduled);
@@ -106,7 +110,7 @@ const Games = () => {
         <div>
           <span className='font-bold text-lg text-indigo-950 p-2 block text-center'>RESULTATS</span>
           <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-            { (games.length != 0) && games.map((game, index) => {
+            { (games.length != 0) && games.slice(0, 14).map((game, index) => {
                   return <GameCard game={game} key={index} showDeficit={false} league={selectedLeague} division={selectedDivision}/>
                 })
             }

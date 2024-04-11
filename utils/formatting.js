@@ -20,13 +20,17 @@ export const getNumericDate = (dateString) => {
     } else if (isSameDay(date, new Date(today.getTime() + 24 * 60 * 60 * 1000))) {
         return "Demain";
     } else {
-        // For other dates, return the numeric format
+        // Get the abbreviated weekday in French
+        const weekdays = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+        const weekday = weekdays[date.getDay()];
+
+        // Return the numeric format with the abbreviated weekday
         const day = date.getDate();
         const month = date.getMonth() + 1;
         const year = date.getFullYear().toString();
-        return `${day}/${month}/${year}`;
+        return `${weekday}, ${day}/${month}/${year}`;
     }
-};
+}
 
 // Helper function to check if two dates are the same day
 function isSameDay(date1, date2) {

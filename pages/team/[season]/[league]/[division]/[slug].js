@@ -8,6 +8,7 @@ import { fullForms } from '@/constants';
 import Head from 'next/head';
 import getDb from '@/utils/getDB';
 import ScheduledGameCard from '@/components/ScheduledGameCard';
+import NoData from '@/components/NoData';
 
 const Team = ( {profile, games}) => {
     let router = useRouter()
@@ -21,7 +22,11 @@ const Team = ( {profile, games}) => {
 let played = [], scheduled = [];
 for(let i = 0; i < games.length; i++){
   if(games[i].gameState == "Ended" || games[i].gameState == "Forfeited") played.push(games[i])
-  else if(games[i].gameState == "Scheduled") scheduled.push(games[i]);
+  ///else if game is scheduled and date is later than now, push it to scheduled games
+  else if(games[i].gameState == "Scheduled") {
+    let dateAndTime = new Date(games[i].dateAndTime);
+    if(dateAndTime > new Date()) ///add game to schedule only if it's in the future
+      scheduled.unshift(games[i]);} ////Inserting at the beginning of the array
 }
   const gameObj = {}
   gameObj[profile.name] = games;
@@ -126,6 +131,7 @@ for(let i = 0; i < games.length; i++){
               })
             }
           </div>
+          {(scheduled.length == 0) && <NoData/>}  
         </div>
       </div>   
   )

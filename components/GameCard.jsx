@@ -16,7 +16,6 @@ const GameCard = ({ game , showDeficit, league, division}) => {
                                   <span className={`whitespace-nowrap text-center text-red-800 font-bold pl-4`}>{getHumanReadableTime(game.dateAndTime)}</span>
                               </div>
                               <div className='flex items-center justify-around p-2 my-2 border-y border-gray-300 font-bold'>
-                                <span>{game.team1.shortName}</span>
                                 <Image
                                     alt={game.team1.shortName}
                                     unoptimized
@@ -25,9 +24,11 @@ const GameCard = ({ game , showDeficit, league, division}) => {
                                     className='inline rounded-full'
                                     src={resizeImage(60, 60,game.team1.photo.url)}
                                   />
+                                <span>{game.team1.shortName}</span>
                                 <span className={`${textColor1}`}>{game.scoreTeam1}</span>
                                 <span>-</span>
                                 <span  className={`${textColor2}`}>{game.scoreTeam2}</span>
+                                <span>{game.team2.shortName}</span>
                                 <Image
                                     alt={game.team2.shortName}
                                     unoptimized
@@ -36,7 +37,7 @@ const GameCard = ({ game , showDeficit, league, division}) => {
                                     className='inline rounded-full'
                                     src={resizeImage(60, 60, game.team2.photo.url)}
                                   />
-                                <span>{game.team2.shortName}</span>
+                                
                               </div>
                               {showDeficit && <span className={`whitespace-nowrap text-center block`}>{diff} Points d'ecart</span>}
                               {league && <span className='text-center block text-xs font-bold'>{league} - {division}</span>}
