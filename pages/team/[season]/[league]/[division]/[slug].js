@@ -29,10 +29,10 @@ for(let i = 0; i < games.length; i++){
       scheduled.unshift(games[i]);} ////Inserting at the beginning of the array
 }
   const gameObj = {}
-  gameObj[profile.name] = games;
+  gameObj[profile.name] = played;
   let gamesWithStats = {};
   let stats = {};
-  if(games.length != 0) {
+  if(played.length != 0) {
     gamesWithStats = addTeamStats(addWinLossEntries(gameObj));///Get stats for this team
     stats = gamesWithStats[profile.name][1];
   }

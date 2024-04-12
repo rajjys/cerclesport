@@ -100,7 +100,7 @@ const Games = () => {
         <div>
           <span className='font-bold text-lg text-indigo-950 p-2 block text-center'>PROGRAMME</span>
           <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-            { (scheduledGames.length != 0) && scheduledGames.slice(0, 15).map((game, index) => {
+            { (scheduledGames.length != 0) && scheduledGames.slice(0, 12).map((game, index) => {
                   return <ScheduledGameCard game={game} key={index} league={selectedLeague} division={selectedDivision}/>
                 })
             }
@@ -110,7 +110,7 @@ const Games = () => {
         <div>
           <span className='font-bold text-lg text-indigo-950 p-2 block text-center'>RESULTATS</span>
           <div className='m-2 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-            { (games.length != 0) && games.slice(0, 15).map((game, index) => {
+            { (games.length != 0) && games.slice(0, 12).map((game, index) => {
                   return <GameCard game={game} key={index} showDeficit={false} league={selectedLeague} division={selectedDivision}/>
                 })
             }

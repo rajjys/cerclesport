@@ -115,8 +115,8 @@ const Admin = () => {
         const { name, value } = e.target;
         const query = { ...router.query }
         if (name === 'league') {
-        query.league = value;
-        localStorage.setItem('league', JSON.stringify(value));
+            query.league = value;
+            localStorage.setItem('league', JSON.stringify(value));
         }
         router.push({
             pathname: '/main',
