@@ -2,12 +2,32 @@ import { request, gql } from 'graphql-request';
 
 ///Retrieve games
 export const fetchGamesFromGQL = async ( league, division ) => {
-   const query = gamesQueries[division];
-   const graphqlAPI = league == "EUBAGO"? eubagoGraphqlAPI :
-                     (league == "EUBABUK"? eubabukGraphqlAPI: null);
-   const result = await request(graphqlAPI, query);
-      return result["games" + division];
+  const batchSize = 100; // Number of games per batch. Cannot return more than a 100 in one request
+  let skip = 0;
+  let allGames = [];
+
+  while (true) {
+    const batch = await fetchGamesBatch(league, division, skip);
+    if (!batch || batch.length === 0) {
+      break; // No more games to fetch
+    }
+
+    allGames.push(...batch);
+    skip += batchSize;
+  }
+
+  // Sort the combined array by dateAndTime (you can customize the sorting logic)
+  allGames.sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
+
+  return allGames;
 }
+const fetchGamesBatch = async (league, division, skip) => {
+  const query = gamesQueries[division]
+  const graphqlAPI = league == "EUBAGO"? eubagoGraphqlAPI :
+                     (league == "EUBABUK"? eubabukGraphqlAPI: null);
+  const result = await request(graphqlAPI, query, { skip });
+  return result["games" + division];
+};
 
 export const fetchTeamsFromGQL = async ( league, division ) => {
   const query = teamsQueries[division];
@@ -33,8 +53,8 @@ export const fetchStadiumsFromGQL = async (league)=>{
 const eubagoGraphqlAPI = process.env.NEXT_PUBLIC_EUBAGO_ENDPOINT;
 const eubabukGraphqlAPI = process.env.NEXT_PUBLIC_EUBABUK_ENDPOINT;
 const gamesQueries = {
-  "D1M" : gql`query Assets {
-    gamesD1M(orderBy: dateAndTime_DESC, last: 150){
+  "D1M" : gql`query Assets($skip: Int!) {
+    gamesD1M(orderBy: dateAndTime_DESC, first: 100, skip: $skip){
       coachTeam1
       coachTeam2
       dateAndTime
@@ -89,8 +109,8 @@ const gamesQueries = {
     }
   }
   `,
-  "D1F" : gql`query Assets {
-    gamesD1F(orderBy: dateAndTime_DESC, last: 150) {
+  "D1F" : gql`query Assets($skip: Int!) {
+    gamesD1F(orderBy: dateAndTime_DESC, first: 100, skip: $skip) {
       coachTeam1
       coachTeam2
       dateAndTime
@@ -145,8 +165,8 @@ const gamesQueries = {
     }
   }
   `,
-  "D2M" : gql`query Assets {
-    gamesD2M(orderBy: dateAndTime_DESC, last: 150) {
+  "D2M" : gql`query Assets($skip: Int!) {
+    gamesD2M(orderBy: dateAndTime_DESC, first: 100, skip: $skip) {
       coachTeam1
       coachTeam2
       dateAndTime
