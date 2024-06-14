@@ -138,12 +138,12 @@ const Admin = () => {
                 ///Generate standings for this division
                 let gamesByTeams = getGamesByTeams(games); ///Assigning games by each team
                 let gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
-                let gamesWithTeamStats = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
-                let standings = sortTeamsByAStat(gamesWithTeamStats, "points"); ///Returns the equivalent array, sorted by points, wins or points scored difference 
+                let gamesbyTeamsWithStats = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
+                let standings = sortTeamsByAStat(gamesbyTeamsWithStats, "points", selectedLeague); ///Returns the equivalent array, sorted by points, wins or points scored difference 
                 ///Generate team stats
-                let statsByPPG = sortTeamsByAStat(gamesWithTeamStats, "ppg");/// points per game
-                let statsByDPPG = sortTeamsByAStat(gamesWithTeamStats, "dppg").reverse(); ///points conceided per game
-                let statsByDiff = sortTeamsByDiff(gamesWithTeamStats); ///Differential
+                let statsByPPG = sortTeamsByAStat(gamesbyTeamsWithStats, "ppg");/// points per game
+                let statsByDPPG = sortTeamsByAStat(gamesbyTeamsWithStats, "dppg").reverse(); ///points conceided per game
+                let statsByDiff = sortTeamsByDiff(gamesbyTeamsWithStats); ///Differential
                 let blowoutGames = getBlowoutGames(games); ///Games with the biggest margins the whole season
                 ///Generate player stats
                 ///We have 3 sets: Top volume scorer, Best PPG,  

@@ -3,7 +3,7 @@ export function getGamesByTeams( games ){
     ///Each team should only have games that have already been played
     ///So only acceptable states would be Ended and Forfeited
     let playedGames = games.filter(game => game.gameState == "Ended" || game.gameState == "Forfeited");
-    console.log(playedGames);
+    ////console.log(playedGames);
     return playedGames.reduce((acc, curr) => {
       const {team1, team2} = curr;
       const team1Name = team1.name;
@@ -22,9 +22,10 @@ export function getGamesByTeams( games ){
     const games = Object.fromEntries(
       Object.entries(gamesByTeams).map(([team, gamesByTeam]) => {
         return [team, gamesByTeam.map((game) => {
-          const winOrLoss = parseInt(game.scoreTeam1) > parseInt(game.scoreTeam2) ? 
-            (game.team1.name === team ? "win" : "loss") : 
-            (game.team2.name === team ? "win" : "loss");
+          const winOrLoss = parseInt(game.scoreTeam1) == parseInt(game.scoreTeam2) ? "loss":   ////Forfait Bilateral
+              parseInt(game.scoreTeam1) > parseInt(game.scoreTeam2) ? 
+                (game.team1.name === team ? "win" : "loss") : 
+                (game.team2.name === team ? "win" : "loss");
           return {...game, winOrLoss,
             points : (winOrLoss == "win") ? 2 : (game.gameState === "Forfeited") ? 0 : 1
           };
@@ -80,11 +81,11 @@ export function getGamesByTeams( games ){
     );
     return games;
   }
-  export function sortTeamsByStats(gamesWithTeamStats){
+  export function sortTeamsByStats(gamesbyTeamsWithStats){
     ////return an array of objects with index being the rank
-    return Object.entries(gamesWithTeamStats).sort((teamA, teamB) => {
+    return Object.entries(gamesbyTeamsWithStats).sort((teamA, teamB) => {
       let rank = teamB[1][1].points - teamA[1][1].points;
-      if (rank == 0){ ///if points equal check who has more wins
+      if (rank == 0){ ///if points equal check who has more wins in face
         rank = teamB[1][1].wins - teamA[1][1].wins;
           if(rank == 0){ /// if same wins, check points differentials
             rank = (teamB[1][1].pointsScored - teamB[1][1].pointsConceided) - 
@@ -97,12 +98,26 @@ export function getGamesByTeams( games ){
     });
   }
 
-  export function sortTeamsByAStat(gamesWithTeamStats, stat){
+  export function sortTeamsByAStat(gamesbyTeamsWithStats, stat, selectedLeague){
+    ////console.log(gamesbyTeamsWithStats);
     ////return an array of objects with index being the rank
-    return Object.entries(gamesWithTeamStats).sort((teamA, teamB) => {
+    return Object.entries(gamesbyTeamsWithStats).sort((teamA, teamB) => {
       let rank = teamB[1][1][stat] - teamA[1][1][stat];
-      if (rank == 0){ ///if points equal check who has more wins
-        rank = teamB[1][1].wins - teamA[1][1].wins;
+      if (rank == 0){ ///if points equal check who has more points in face off matchups
+        ////If rank is still same, for some leagues, before checking point differential, 
+        ////check face Off record by each team
+          let faceOffGames = teamA[1][0].filter(game => 
+          game.team1.name === teamB[0] || game.team2.name === teamB[0]);
+          ///use the same process for 2 teams to know who has more points in machup games
+          if(faceOffGames.length > 0 && selectedLeague == "EUBAGO"){ ///Make sure they've already faced off before executing the algo
+            ///Also for our limited user base, only eubago care about matchup record. EUBABUK don't. We'll modify this once we go full SAAS
+            let gamesByTeams = getGamesByTeams(faceOffGames); ///Assigning games by each team
+            let gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
+            let gamesbyTeamsWithStatsAA = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
+            let teamAA = gamesbyTeamsWithStatsAA[teamA[0]];
+            let teamBB = gamesbyTeamsWithStatsAA[teamB[0]];
+            rank = teamBB[1][stat] - teamAA[1][stat];
+          }
           if(rank == 0){ /// if same wins, check points differentials
             rank = (teamB[1][1].pointsScored - teamB[1][1].pointsConceided) - 
                     (teamA[1][1].pointsScored - teamA[1][1].pointsConceided);
