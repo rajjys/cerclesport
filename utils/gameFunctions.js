@@ -110,7 +110,7 @@ export function getGamesByTeams( games ){
           game.team1.name === teamB[0] || game.team2.name === teamB[0]);
           ///use the same process for 2 teams to know who has more points in machup games
           if(faceOffGames.length > 0 && selectedLeague == "EUBAGO"){ ///Make sure they've already faced off before executing the algo
-            ///Also for our limited user base, only eubago care about matchup record. EUBABUK don't. We'll modify this once we go full SAAS
+            ///Also for our limited user base, only eubago care about matchup record. EUBABUK don't. We'll modify this once we go full SAAS 
             let gamesByTeams = getGamesByTeams(faceOffGames); ///Assigning games by each team
             let gamesAndPoints = addWinLossEntries(gamesByTeams); ///Adding winOrLoss and points entries depending if the team owning the game won or lost
             let gamesbyTeamsWithStatsAA = addTeamStats(gamesAndPoints); ///Adding stats per team. Wins, Losses, Last5streak,...
